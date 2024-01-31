@@ -37,10 +37,11 @@ class Hero {
   
     update() {
       // Check for boosts and apply them
-      if (this.strengthBoost) {
-        this.strengthBoost = false; // Reset the boost after applying
+      applyStrengthBoost(duration) {
+        this.strengthBoost = true;
+        this.strengthTimer = duration;
       }
-  
+      
       if (this.swordBoost) {
         this.swordBoost = false; // Reset the boost after applying
       }
