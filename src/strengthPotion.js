@@ -1,8 +1,8 @@
-class strengthPotion extends Boost {
+class StrengthPotion extends Boost {
     constructor(x, y) {
       super(x, y, "purple");
       this.strengthDuration = 20; // Duration of the strength boost in seconds
-      this.strengthTimer = 0; // Timer to track the remaining duration
+      this.strengthTimer = 0; // remaining time
     }
   
     applyBoost(hero) {
@@ -13,12 +13,12 @@ class strengthPotion extends Boost {
     update() {
       super.update();
   
-      // Check if the strength boost duration has expired
+      // Check if boost ran out
       if (this.strengthTimer <= 0) {
         this.active = false;
         this.strengthTimer = 0;
       } else {
-        this.strengthTimer -= 1 / 60; // Assuming a frame rate of 60 frames per second
+        this.strengthTimer -= 1 / 60; // Assuming 60 fps
       }
     }
   }
