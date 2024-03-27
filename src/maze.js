@@ -26,6 +26,10 @@ function Maze(world, row, col, renderCenter) {
     //this.loadImages();
 }
 
+Maze.prototype.getCellWidth = function(){
+    return this.cellWidth
+}
+
 Object.defineProperty(Maze.prototype, "width", {
     get: function () {
 	return this.col;

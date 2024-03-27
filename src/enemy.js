@@ -73,7 +73,7 @@ class Enemy {
             this.seekPlayer();
             return;
         }
-        
+         
         // Seek the random position
         this.target = target;
         this.seekTarget(() => {
