@@ -76,8 +76,11 @@ this.l=1;
         level.maze = new Maze(this, level.rows, level.cols, level.renderCenter);
         level.maze.regenerate();
         level.hero = new BetterHero(this, new JSVector(0, 0));
-        for (let i = 0; i < 2; i++) {
-            level.enemies[i] = new Enemy(this, new JSVector(1, 1));
+        for (let i = 0; i < 4+2*this.currentLevel; i++) {
+            let x=Math.floor(Math.random()*this.canvas.width/level.maze.cellWidth);
+            let y=Math.floor(Math.random()*this.canvas.height/level.maze.cellWidth);
+            console.log(x+"   "+y);
+            level.enemies[i] = new Enemy(this, new JSVector(x, y));
         }
     }
 
@@ -108,5 +111,10 @@ this.l=1;
         let iT=document.getElementsByClassName("infoTile");
         iT.item(2).style.boxShadow="0 0 6px 6px #f50521";
         iT.item(2).style.backgroundImage="linear-gradient(#e00d26,#d4152b,#bf192c)";
+        let rp=document.getElementsByClassName("rPB");
+        rp.item(0).style.boxShadow="none";
+        rp.item(0).style.backgroundImage = "linear-gradient(#35353b,#262629, #161617)";
+        rp.item(1).style.boxShadow="0 0 6px 6px #89a2f5";
+        rp.item(1).style.backgroundImage = "linear-gradient(#80a2ec,#4871f8, #0162f3)";
     }
 }

@@ -46,5 +46,7 @@ function restart(){
         p.innerHTML="Pause";
         r.style.boxShadow="none";
         r.style.backgroundImage = "linear-gradient(#35353b,#262629, #161617)";
+        p.style.boxShadow="0 0 6px 6px #89a2f5";
+        p.style.backgroundImage = "linear-gradient(#80a2ec,#4871f8, #0162f3)";
     }
 }

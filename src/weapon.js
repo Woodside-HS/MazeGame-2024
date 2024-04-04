@@ -12,6 +12,11 @@ class Weapon {
         this.delay = delay;
         this.range = range;
         this.holder=holder;
+        if(holder.distanceToRecognizeHero!==undefined){//damage boost for enemy
+            this.damage*=1.25;
+            this.delay*=2;
+            this.range*=0.25;
+        }
         this.name=name;
         this.delayTime=delay;
         // Load the image
@@ -22,9 +27,17 @@ class Weapon {
         this.image.image.src = imagePath;
     }
     attack(target){//still need to check for walls
-        if(((this.delayTime>=this.delay))&&target.position.distance(this.holder.position)<this.range){
+        // let hp=this.holder.getMazeLocation();
+        // let tp=this.target.getMazeLocation();
+        
+        if(((this.delayTime>=this.delay))&&(target.position.distance(this.holder.position)<this.range)){
+            
+
             this.delayTime=0;
             target.health-=this.damage;
+            if(target.health<0){
+                target.health=0;
+            }
             return true;
         } else {
             return false;
