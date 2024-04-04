@@ -69,8 +69,8 @@ class Enemy {
     wander() {
         // Check if the player is within a certain distance
         const target = this.target ? this.target.copy() : null;
-        this.target = JSVector.random(world.levels[world.currentLevel].maze.col,
-                                      world.levels[world.currentLevel].maze.row);
+        this.target = JSVector.random(world.levels[world.currentLevel].maze.cols,
+                                      world.levels[world.currentLevel].maze.rows);
         this.target.floor();
         this.updatePath();
         if (this.path.length < this.distanceToRecognizeHero)
@@ -199,7 +199,7 @@ class Enemy {
         let topSpear = spearTopCell && (topLeftCell != topRightCell);
         
         let spearBottomCell = null;
-        if (spearBottom.y < maze.row) {
+        if (spearBottom.y < maze.rows) {
             spearBottomCell = maze.grid[spearBottom.y][spearBottom.x];
         }
         let bottomSpear = spearBottomCell && (topLeftCell != topRightCell);
@@ -211,7 +211,7 @@ class Enemy {
         let leftSpear = spearLeftCell && (topLeftCell != bottomLeftCell);
         
         let spearRightCell = null;
-        if (spearRight.x < maze.col) {
+        if (spearRight.x < maze.cols) {
             spearRightCell = maze.grid[spearRight.y][spearRight.x];
         }
         let rightSpear = spearRightCell && (topRightCell != bottomRightCell);

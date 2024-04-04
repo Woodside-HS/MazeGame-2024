@@ -10,10 +10,11 @@ generate hero, and generate enemies methods
 */
 
 class Level {
-    constructor(rows, cols, levelNum, renderCenter) {
+    constructor(rows, cols, mL, levelNum, renderCenter) {
         this.levelNum = levelNum;
         this.rows = rows;
         this.cols = cols;
+        this.mazeLength = mL
         this.renderCenter = renderCenter;
         this.maze;
         this.hero;
@@ -23,6 +24,8 @@ class Level {
     run() {
         this.maze.render(this.renderCenter);
 
+        this.hero.run(this.renderCenter);
+
         for (let i=0;i<this.enemies.length;i++) {
             this.enemies[i].run(this.renderCenter);
             if(this.enemies[i].health<=0){
@@ -30,47 +33,59 @@ class Level {
             }
         }
 
-        this.hero.run(this.renderCenter);
-
-        this.maze.resetLuminances();
+        if(this.renderCenter)
+            this.maze.resetLuminances();
     }
 
-    // baseLevel() {
-    //     //make maze
-    //     this.maze = new Maze(this.world, 15, 15, this.renderCenter);
-    //     this.maze.regenerate(true);
-    //     // this.world.maze = this.maze;
-    //     //make hero and enemies 
-    //     this.hero = new Hero(this.maze);
-    //     // this.world.hero = this.hero;
-    //     this.enemies = [];
-    //     for(let i = 0; i<this.index+1; i++){
-    //         this.enemies[i] = new Enemy(this.world, new JSVector(10, 10));
-    //     }
-    //     //reset html elements 
-    //     this.paused = false;
-    //     this.time = 0;
-    //     this.msTime = 0;
-    //     this.score = 0;
-    // }
+    genLevel() {
+        this.maze = new Maze(world, this, new JSVector(0, 0), this.rows, this.cols, this.renderCenter);
+        let mL = this.mazeLength;
+        for(let r = 0; r<this.rows/mL; r++){
+            for(let c = 0; c<this.cols/mL; c++){
+                this.maze.regenerate(mL*r, mL*c, r*mL+mL, c*mL+mL);
+            }
+        }
+        this.maze.addPaths(15);
+        console.log(this.maze.sloc);
+        this.safeZones();
+        this.hero = new BetterHero(world, new JSVector(0, 0));
+        for (let i = 0; i < 2; i++) {
+            this.enemies[i] = new Enemy(world, new JSVector(1, 1));
+        }
+        
+    }
 
-    // nextLevel() {
-    //     //push a new level into the array 
-    //     levels.push(new Level(world, levels.length));
-    //     levels[levels.length-1].baseLevel();
-    // }
+    safeZones(){
+        let sloc = this.maze.sloc;
+        for(let i = 0; i<sloc.length; i++){
+            let r = sloc[i].row;
+            let c = sloc[i].col;
+            let grid = this.maze.grid;
+            grid[r][c].safeZone = true;//box 1
+            grid[r-1][c].walls[2] = false;//top cell removes bottom wall 
+            grid[r][c-1].walls[1] = false;//left cell removes right wall
+            grid[r][c+1].safeZone = true;//box 2
+            grid[r-1][c+1].walls[2] = false;//top cell removes bottom wall 
+            grid[r][c+2].walls[3] = false;//left cell removes right wall 
+            grid[r+1][c].safeZone = true;//box 3
+            grid[r+2][c].walls[0] = false;//bottom cell removes top wall 
+            grid[r+1][c-1].walls[1] = false;//left cell removes right wall 
+            grid[r+1][c+1].safeZone = true;//box 4 
+            grid[r+2][c+1].walls[0] = false;//bottom cell removes top wall 
+            grid[r+1][c+2].walls[3] = false;//right cell removes left wall 
+            /*
+            r and c are the row and column (respectively) 
+            of box 1 in the safe zone 
+            
+            safe zone: 
+            [box 1] [box 2]
+            [box 3] [box 4]
 
-    // setLevel(){
-    //     //set properties of world to a specific level 
-    //     world.renderCenter = this.renderCenter;
-    //     world.maze = this.maze;
-    //     world.hero = this.hero;
-    //     world.enemies = this.enemies;
-    //     world.paused = this.paused;
-    //     world.time = this.time;
-    //     world.msTime = this.msTime;
-    //     world.score = this.score;
+            all boxes are parts of different sections of the maze, 
+            the safe zones are always at the corner that four mazes share 
 
-    //     world.currentLevel = this.index;
-    // }
+            all walls are removed in the safe zone cells 
+            */
+        }
+    }
 }

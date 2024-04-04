@@ -24,10 +24,9 @@ class World {
         this.time = 0;
         this.msTime = 0;
         this.score = 0;
-this.l=1;
+
         this.currentLevel = 0;
-        this.levels = [new Level(15, 15, 1, true)];//rows, cols, level number, renderCenter 
-        this.genLevel(this.levels[0]);
+        this.levels = [new Level(30, 30, 15, 1, true)];//rows, cols, level number, renderCenter 
     }
 
 
@@ -71,38 +70,25 @@ this.l=1;
         s.innerHTML = this.score;
     }
 
-
-    genLevel(level) {
-        level.maze = new Maze(this, level.rows, level.cols, level.renderCenter);
-        level.maze.regenerate();
-        level.hero = new BetterHero(this, new JSVector(0, 0));
-        for (let i = 0; i < 4+2*this.currentLevel; i++) {
-            let x=Math.floor(Math.random()*this.canvas.width/level.maze.cellWidth);
-            let y=Math.floor(Math.random()*this.canvas.height/level.maze.cellWidth);
-            console.log(x+"   "+y);
-            level.enemies[i] = new Enemy(this, new JSVector(x, y));
-        }
-    }
-
-    nextLevel(row, col, renderCenter){
+    nextLevel(row, col, renderCenter) {
         let ln = this.levels.length;
         this.currentLevel = ln;
         this.levels.push(new Level(row, col, ln, renderCenter));
-        this.genLevel(this.levels[ln]);
+        this.levels[ln].genLevel();
     }
 
-    updateLevel(){
-        let l=document.getElementById("level");
-        l.innerHTML=this.currentLevel+1;
+    updateLevel() {
+        let l = document.getElementById("level");
+        l.innerHTML = this.currentLevel + 1;
     }
-    deathScreen(){
-        let ctx=this.context;
-        let cnv=this.canvas;
-        ctx.rect(0,0,cnv.width,cnv.height);
-        ctx.fillStyle="rgba(56,54,54,0.7)";
+    deathScreen() {
+        let ctx = this.context;
+        let cnv = this.canvas;
+        ctx.rect(0, 0, cnv.width, cnv.height);
+        ctx.fillStyle = "rgba(56,54,54,0.7)";
         ctx.fill();
-        ctx.font="bold 80px copperplate";
-        ctx.fillStyle="rgba(204,35,16)";
+        ctx.font = "bold 80px copperplate";
+        ctx.fillStyle = "rgba(204,35,16)";
         //will be off center but I'm working on fixing it
         ctx.fillText("you died lol",(cnv.width/2)-280,cnv.height/2);
         ctx.strokeStyle="rgb(46,41,40)"

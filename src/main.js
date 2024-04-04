@@ -6,6 +6,7 @@ window.addEventListener("load", init);
 
 function init() {
     world = new World();
+    world.levels[world.currentLevel].genLevel();
     addAllListeners();
     run();
 }

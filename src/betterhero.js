@@ -135,7 +135,7 @@ class BetterHero {
         let topSpear = spearTopCell && (topLeftCell != topRightCell);
         
         let spearBottomCell = null;
-        if (spearBottom.y < maze.row) {
+        if (spearBottom.y < maze.rows) {
             spearBottomCell = maze.grid[spearBottom.y][spearBottom.x];
         }
         let bottomSpear = spearBottomCell && (topLeftCell != topRightCell);
@@ -147,7 +147,7 @@ class BetterHero {
         let leftSpear = spearLeftCell && (topLeftCell != bottomLeftCell);
         
         let spearRightCell = null;
-        if (spearRight.x < maze.col) {
+        if (spearRight.x < maze.cols) {
             spearRightCell = maze.grid[spearRight.y][spearRight.x];
         }
         let rightSpear = spearRightCell && (topRightCell != bottomRightCell);
