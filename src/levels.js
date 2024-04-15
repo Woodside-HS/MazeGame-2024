@@ -45,6 +45,7 @@ class Level {
                 this.maze.regenerate(mL*r, mL*c, r*mL+mL, c*mL+mL);
             }
         }
+        this.maze.exit();
         this.maze.addPaths(15);
         console.log(this.maze.sloc);
         this.safeZones();

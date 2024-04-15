@@ -60,7 +60,6 @@ Maze.prototype.regenerate = function (startRow, startCol, endRow, endCol, exits)
     // begin mazeGen before rendering 
     this.path = [];
     this.explore(startRow, startCol, endRow, endCol, startRow, startCol);
-    //this.entryExit(startRow, startCol, endRow, endCol);
     //creates center safe zone for each group of four mazes 
     let mL = this.world.levels[this.world.currentLevel].mazeLength;
     this.safeZone(startRow / mL, startCol / mL);
@@ -81,13 +80,17 @@ Maze.prototype.safeZone = function (r, c) {
     return this.sloc;
 }
 
-Maze.prototype.entryExit = function (startRow, startCol, endRow, endCol) {
+Maze.prototype.exit = function () {
     // this.entry = this.grid[startRow][startCol];
     // //always start at top left, remove left and top wall to signify entrance 
     // this.entry.walls[0] = false;
     // this.entry.walls[3] = false;
 
     this.exit;
+
+    //pick a section of the maze that the hero is not in 
+    let s;
+    console.log(s);
     //make a random exit on the right or bottom of the maze 
     // if (Math.random() * 2 > 1) {//right exit 
     //     let r = Math.floor(Math.random() * this.grid.length);
