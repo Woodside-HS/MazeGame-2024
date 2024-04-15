@@ -30,6 +30,7 @@ class Level {
             this.enemies[i].run(this.renderCenter);
             if(this.enemies[i].health<=0){
                 this.enemies.splice(i, 1);
+                console.log(`Enemy killed at ${Date.now()}`);
             }
         }
 

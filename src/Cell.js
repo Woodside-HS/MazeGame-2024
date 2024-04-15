@@ -92,17 +92,20 @@ Cell.prototype.renderCenter = function () {
 
             context.drawImage(bubble.image, sourceX, sourceY, sourceWidth, sourceHeight, destinationX, destinationY, destinationWidth, destinationHeight);
         }
-        if (this.weapon) {//can't get weapons to draw
-            destinationHeight = cellWidth / 20;
-            destinationWidth = cellWidth / 20;
+
+        if(this.weapon && this.weapon.image && this.weapon.image.loaded) {
+            const weapon = this.weapon.image;
+            destinationHeight = cellWidth * 0.75;
+            destinationWidth = cellWidth * 0.75;
             destinationY = y + 0.5 * (cellWidth - destinationHeight);
             destinationX = x + 0.5 * (cellWidth - destinationWidth);
-            sourceHeight = this.weapon.image.image.height;
-            sourceWidth = this.weapon.image.image.width;
+            sourceHeight = weapon.image.height;
+            sourceWidth = weapon.image.width;
             sourceY = 0;
             sourceX = 0;
-            context.drawImage(this.weapon.image.image, sourceX, sourceY, sourceWidth, sourceHeight, destinationX, destinationY, destinationWidth, destinationHeight);
+            context.drawImage(weapon.image, sourceX, sourceY, sourceWidth, sourceHeight, destinationX, destinationY, destinationWidth, destinationHeight);
         }
+        
         context.restore();
     } else if (this.luminance <= 0) {
         context.stroke();

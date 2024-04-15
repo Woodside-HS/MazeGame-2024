@@ -38,6 +38,7 @@ class Weapon {
             if(target.health<0){
                 target.health=0;
             }
+            console.log(`${this.holder.constructor.name} hit ${target.constructor.name} at ${Date.now()}`);
             return true;
         } else {
             return false;

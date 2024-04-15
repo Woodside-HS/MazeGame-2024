@@ -11,10 +11,10 @@ function Maze(world, level, loc, row, col, renderCenter) {
     this.renderCenter = renderCenter;
     if (renderCenter) {
         this.cellWidth = this.world.canvas.width / 10; // For center rendering
-        this.wallWidth = this.cellWidth * 4 / 50;
+        this.wallWidth = this.cellWidth * 8 / 100;
     } else {
         this.cellWidth = 20;
-        this.wallWidth = 1;
+        this.wallWidth = 4;
     }
     //array for all the cells 
     this.grid = [];
@@ -373,8 +373,8 @@ Maze.prototype.resetLuminances = function () {
 
 Maze.prototype.oxygenBubbles = function () {
     let mL = this.world.levels[this.world.currentLevel].mazeLength;
-    for (let row = 0; row < 1; row++) {
-        for (let col = 0; col < this.cols / mL; col++) {
+    for (let row = 0; row < this.rows/mL; row++) {
+        for (let col = 0; col < this.cols/mL; col++) {
             let done = false;
             while (!done) {
                 //count how many oxygen bubbles there are 
@@ -388,8 +388,8 @@ Maze.prototype.oxygenBubbles = function () {
                 }
                 //oxygen bubbles on random tiles if 
                 if (count < 10) {
-                    let ranR = Math.floor(Math.random() * (row * mL + mL - row + 1) + row);
-                    let ranC = Math.floor(Math.random() * (col * mL + mL - col + 1) + col);
+                    let ranR = Math.floor(Math.random() * ((row * mL + mL-1) - (row*mL) + 1) + (row*mL));
+                    let ranC = Math.floor(Math.random() * ((col * mL + mL-1) - (col*mL) + 1) + (col*mL));
                     while (this.grid[ranR][ranC].safeZone) {
                         ranR = Math.floor(Math.random() * (row * mL + mL - row + 1) + row);
                         ranC = Math.floor(Math.random() * (col * mL + mL - col + 1) + col);

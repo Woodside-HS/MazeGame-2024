@@ -16,9 +16,9 @@ class BetterHero {
         this.speed = 0.03;
         this.health = 100;
         this.oxygen = 100;
-        this.weapon=new Sword(this);
-        this.target=null;
-        this.killCount=0;
+        this.weapon = new Sword(this);
+        this.target = null;
+        this.killCount = 0;
 
         /* @type {JSVector} */
         this.position = initialPosition.copy();
@@ -32,7 +32,7 @@ class BetterHero {
             "w": {pressed: false},
             "a": {pressed: false},
             "d": {pressed: false},
-            "e":{pressed:false}
+            "e": {pressed: false}
         };
 
         window.addEventListener("keydown", (event) => {
@@ -215,7 +215,7 @@ class BetterHero {
         }else if(this.health<50){
             iT.item(1).style.boxShadow="0 0 6px 6px #c7f705";
             iT.item(1).style.backgroundImage="linear-gradient(#c8f70a,#bbe809,#b1d911)";
-    }
+        }
     }
     updateWeaponStatus(){
         let w=document.getElementById("weapon");
@@ -252,7 +252,7 @@ class BetterHero {
     pickUpWeapon(){
         let calvin = world.levels[world.currentLevel].hero.getMazeLocation().weapon;
         //need to add a delay still
-        if(calvin!==null&&this.keys["e"].pressed){
+        if (calvin!==null&&this.keys["e"].pressed) {
             let diego=world.levels[world.currentLevel].hero.weapon;
             calvin.holder=this;
             diego.holder=this.getMazeLocation();
@@ -260,24 +260,24 @@ class BetterHero {
             world.levels[world.currentLevel].hero.getMazeLocation().weapon=diego;
         }
     }
-    updateWeapon(){ 
+    updateWeapon() { 
         let enemies=world.levels[world.currentLevel].enemies;
         let closeEnemy=enemies[0];
         if(enemies.length>0){
-        for(let i=0;i<enemies.length;i++){
-            if(enemies[i].path.length<closeEnemy.path.length){
-                closeEnemy=enemies[i];
+            for(let i=0;i<enemies.length;i++){
+                if(enemies[i].path.length<closeEnemy.path.length){
+                    closeEnemy=enemies[i];
+                }
             }
-        }
-        this.target=closeEnemy;
-        if(this.weapon.attack(this.target)){
-            world.score+=150;
-            if(closeEnemy.health<=0){
-                world.score+=100;
-                this.killCount++;
+            this.target=closeEnemy;
+            if(this.weapon.attack(this.target)){
+                world.score+=150;
+                if(closeEnemy.health<=0){
+                    world.score+=100;
+                    this.killCount++;
+                }
             }
-        }
-        this.weapon.delayTime++;
+            this.weapon.delayTime++;
         }
     }
     /* Render the enemy */
