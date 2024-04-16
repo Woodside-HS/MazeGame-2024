@@ -1,10 +1,11 @@
 "use strict";
 /* A maze */
-function Maze(world, level, loc, row, col, renderCenter) {
+function Maze(world, level, loc, row, col, mL, renderCenter) {
     this.world = world;
     this.level = level;
     this.rows = row;//num of rows in the maze 
     this.cols = col;//num of cols in the maze 
+    this.mazeLength = mL;//size of maze sections 
     this.context = world.context;
     //width of the square cells 
     //width of the walls
@@ -88,9 +89,49 @@ Maze.prototype.exit = function () {
 
     this.exit;
 
-    //pick a section of the maze that the hero is not in 
-    let s;
-    console.log(s);
+    let rr, rc;
+    let side = Math.random() * 4;
+    if (side > 3) {//left wall 
+        rc = 0;
+        rr = Math.floor(Math.random() * this.rows);
+        while (rr < this.mazeLength) {
+            rr = Math.floor(Math.random() * this.rows);
+        }
+    }
+    else if (side > 2) {//bottom wall
+        rr = this.rows - 1;
+        rc = Math.floor(Math.random() * this.cols);
+        while (rc < this.mazeLength) {
+            rc = Math.floor(Math.random() * this.cols);
+        }
+    }
+    else if (side > 1) {//right wall 
+        rc = this.cols - 1;
+        rr = Math.floor(Math.random() * this.rows);
+        while (rr < this.mazeLength) {
+            rr = Math.floor(Math.random() * this.rows);
+        }
+    }
+    else {//top wall 
+        rr = 0;
+        rc = Math.floor(Math.random() * this.cols);
+        while (rc < this.mazeLength) {
+            rc = Math.floor(Math.random() * this.cols);
+        }
+    }
+    this.exit = this.grid[rr][rc];
+    if (rr === 0) {
+        this.exit.walls[0] = false;
+    }
+    if (rr === this.rows - 1) {
+        this.exit.walls[2] = false;
+    }
+    if (rc === 0) {
+        this.exit.walls[3] = false;
+    }
+    if (rc = this.cols - 1) {
+        this.exit.walls[1] = false;
+    }
     //make a random exit on the right or bottom of the maze 
     // if (Math.random() * 2 > 1) {//right exit 
     //     let r = Math.floor(Math.random() * this.grid.length);
@@ -105,7 +146,7 @@ Maze.prototype.exit = function () {
     //     this.exit.walls[2] = false;
     // }
 
-    if (startRow !== this.level.rows && this.startRow) { }
+    //if (startRow !== this.level.rows && this.startRow) { }
 }
 
 Maze.prototype.explore = function (startRow, startCol, endRow, endCol, r, c) {
@@ -376,8 +417,8 @@ Maze.prototype.resetLuminances = function () {
 
 Maze.prototype.oxygenBubbles = function () {
     let mL = this.world.levels[this.world.currentLevel].mazeLength;
-    for (let row = 0; row < this.rows/mL; row++) {
-        for (let col = 0; col < this.cols/mL; col++) {
+    for (let row = 0; row < this.rows / mL; row++) {
+        for (let col = 0; col < this.cols / mL; col++) {
             let done = false;
             while (!done) {
                 //count how many oxygen bubbles there are 
@@ -391,8 +432,8 @@ Maze.prototype.oxygenBubbles = function () {
                 }
                 //oxygen bubbles on random tiles if 
                 if (count < 10) {
-                    let ranR = Math.floor(Math.random() * ((row * mL + mL-1) - (row*mL) + 1) + (row*mL));
-                    let ranC = Math.floor(Math.random() * ((col * mL + mL-1) - (col*mL) + 1) + (col*mL));
+                    let ranR = Math.floor(Math.random() * ((row * mL + mL - 1) - (row * mL) + 1) + (row * mL));
+                    let ranC = Math.floor(Math.random() * ((col * mL + mL - 1) - (col * mL) + 1) + (col * mL));
                     while (this.grid[ranR][ranC].safeZone) {
                         ranR = Math.floor(Math.random() * (row * mL + mL - row + 1) + row);
                         ranC = Math.floor(Math.random() * (col * mL + mL - col + 1) + col);

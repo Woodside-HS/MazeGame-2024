@@ -226,7 +226,12 @@ class BetterHero {
         let o = document.getElementById("oxygen");
         let iT=document.getElementsByClassName("infoTile");
         let oP = 0;
-        this.oxygen -= 0.005;
+        //increase oxygen when in a safe zone 
+        if(this.getMazeLocation().safeZone && this.oxygen < 100){
+            this.oxygen += 1;
+        }else{
+            this.oxygen -= 0.005;
+        }
         iT.item(2).style.boxShadow="0 0 6px 6px #1df505";
         iT.item(2).style.backgroundImage="linear-gradient(#30db58,#3cc75c,#1e8a37)"
         if (this.oxygen <= 0 && this.health > 0) {
