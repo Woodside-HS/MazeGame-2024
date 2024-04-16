@@ -82,13 +82,7 @@ Maze.prototype.safeZone = function (r, c) {
 }
 
 Maze.prototype.exit = function () {
-    // this.entry = this.grid[startRow][startCol];
-    // //always start at top left, remove left and top wall to signify entrance 
-    // this.entry.walls[0] = false;
-    // this.entry.walls[3] = false;
-
     this.exit;
-
     let rr, rc;
     let side = Math.random() * 4;
     if (side > 3) {//left wall 
@@ -132,21 +126,6 @@ Maze.prototype.exit = function () {
     if (rc = this.cols - 1) {
         this.exit.walls[1] = false;
     }
-    //make a random exit on the right or bottom of the maze 
-    // if (Math.random() * 2 > 1) {//right exit 
-    //     let r = Math.floor(Math.random() * this.grid.length);
-    //     this.exit = this.grid[r][this.grid[0].length - 1];
-    //     //remove right wall 
-    //     this.exit.walls[1] = false;
-    // }
-    // else {//bottom exit 
-    //     let c = Math.floor(Math.random() * this.grid[0].length);
-    //     this.exit = this.grid[this.grid.length - 1][c];
-    //     //remove bottom wall 
-    //     this.exit.walls[2] = false;
-    // }
-
-    //if (startRow !== this.level.rows && this.startRow) { }
 }
 
 Maze.prototype.explore = function (startRow, startCol, endRow, endCol, r, c) {
