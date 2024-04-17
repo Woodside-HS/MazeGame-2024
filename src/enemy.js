@@ -192,25 +192,25 @@ class Enemy {
         if (spearTop.y >= 0) {
             spearTopCell = maze.grid[spearTop.y][spearTop.x];
         }
-        let topSpear = spearTopCell && (topLeftCell != topRightCell);
+        let topSpear = spearTopCell && (topLeftCell != topRightCell) && spearTopCell.rightWall();
         
         let spearBottomCell = null;
         if (spearBottom.y < maze.rows) {
             spearBottomCell = maze.grid[spearBottom.y][spearBottom.x];
         }
-        let bottomSpear = spearBottomCell && (topLeftCell != topRightCell);
+        let bottomSpear = spearBottomCell && (topLeftCell != topRightCell) && spearBottomCell.rightWall();
         
         let spearLeftCell = null;
         if (spearLeft.x >= 0) {
             spearLeftCell = maze.grid[spearLeft.y][spearLeft.x];
         }
-        let leftSpear = spearLeftCell && (topLeftCell != bottomLeftCell);
+        let leftSpear = spearLeftCell && (topLeftCell != bottomLeftCell) && spearLeftCell.topWall();
         
         let spearRightCell = null;
         if (spearRight.x < maze.cols) {
             spearRightCell = maze.grid[spearRight.y][spearRight.x];
         }
-        let rightSpear = spearRightCell && (topRightCell != bottomRightCell);
+        let rightSpear = spearRightCell && (topRightCell != bottomRightCell) && spearRightCell.topWall();
 
         // These are in pixels for rendering, but converted to sizes
         // relative to the virtual cell width
