@@ -26,7 +26,7 @@ class World {
         this.score = 0;
 
         this.currentLevel = 0;
-        this.levels = [new Level(30, 30, 15, 1, false)];//rows, cols, level number, renderCenter 
+        this.levels = [new Level(30, 30, 15, 1, true)];//rows, cols, level number, renderCenter 
     }
 
 
@@ -56,7 +56,7 @@ class World {
             this.score += 100;
         }
         //detects contact with oxygen
-        let sanjan = this.levels[world.currentLevel].hero.getMazeLocation().oxygen;
+        let sanjan = this.levels[this.currentLevel].hero.getMazeLocation().oxygen;
         if (sanjan != null && sanjan.air > 0) {
             if (this.levels[world.currentLevel].hero.oxygen < 99.9) {
                 this.levels[world.currentLevel].hero.oxygen += 0.1;

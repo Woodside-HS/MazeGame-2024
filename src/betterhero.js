@@ -15,7 +15,7 @@ class BetterHero {
         this.width = 0.25;
         this.speed = 0.03;
         this.health = 100;
-        this.oxygen = 100;
+        this.oxygen = 10;
         this.weapon = new Sword(this);
         this.target = null;
         this.killCount = 0;
@@ -189,8 +189,8 @@ class BetterHero {
     }
 
     updateStatusBar() {
-        this.updateHealth();
         this.updateOxygen();
+        this.updateHealth();
         this.updateWeaponStatus();
     }
     
@@ -227,6 +227,9 @@ class BetterHero {
         let o = document.getElementById("oxygen");
         let iT=document.getElementsByClassName("infoTile");
         let oP = 0;
+        if(this.oxygen<0){
+            this.oxygen=0;
+        }
         this.oxygen -= 0.005;
         iT.item(2).style.boxShadow="0 0 6px 6px #1df505";
         iT.item(2).style.backgroundImage="linear-gradient(#30db58,#3cc75c,#1e8a37)"

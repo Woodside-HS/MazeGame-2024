@@ -47,14 +47,12 @@ class Level {
             }
         }
         this.maze.addPaths(15);
-        console.log(this.maze.sloc);
         this.safeZones();
         this.hero = new BetterHero(world, new JSVector(0, 0));
-        for (let i = 0; i < 4+2*this.currentLevel; i++) {
-            let x=Math.floor(Math.random()*this.canvas.width/level.maze.cellWidth);
-            let y=Math.floor(Math.random()*this.canvas.height/level.maze.cellWidth);
-            console.log(x+"   "+y);
-            level.enemies[i] = new Enemy(this, new JSVector(x, y));
+        for (let i = 0; i < 4+2*world.currentLevel; i++) {
+            let x=Math.floor(Math.random()*world.canvas.width/this.maze.cellWidth);
+            let y=Math.floor(Math.random()*world.canvas.height/this.maze.cellWidth);
+            this.enemies[i] = new Enemy(world, new JSVector(x, y));
         }
         
     }
