@@ -83,6 +83,7 @@ Maze.prototype.safeZone = function (r, c) {
 
 Maze.prototype.exit = function () {
     this.exit;
+    //pick a random exit in the maze 
     let rr, rc;
     let side = Math.random() * 4;
     if (side > 3) {//left wall 
@@ -114,18 +115,40 @@ Maze.prototype.exit = function () {
         }
     }
     this.exit = this.grid[rr][rc];
-    if (rr === 0) {
+    //make cell by exit & remove wall by exit 
+    if (rr === 0) {//top wall 
         this.exit.walls[0] = false;
+        this.grid[rr-1] = [];
+        this.grid[rr-1][rc] = new Cell(this.world, this, rr-1, rc, this.cellWidth, this.wallWidth);
+        for(let i = 0; i<4; i++){
+            this.grid[rr-1][rc].walls[i] = false;
+        }
     }
-    if (rr === this.rows - 1) {
+    if (rr === this.rows - 1) {//bottom wall 
         this.exit.walls[2] = false;
+        this.grid[rr+1] = [];
+        this.grid[rr+1][rc] = new Cell(this.world, this, rr+1, rc, this.cellWidth, this.wallWidth);
+        for(let i = 0; i<4; i++){
+            this.grid[rr+1][rc].walls[i] = false;
+        }
     }
-    if (rc === 0) {
+    if (rc === 0) {//left wall 
         this.exit.walls[3] = false;
+        this.grid[rr][rc-1] = new Cell(this.world, this, rr, rc-1, this.cellWidth, this.wallWidth);
+        for(let i = 0; i<4; i++){
+            this.grid[rr][rc-1].walls[i] = false;
+        }
     }
-    if (rc = this.cols - 1) {
+    if (rc === this.cols - 1) {//right wall 
         this.exit.walls[1] = false;
+        this.grid[rr][rc+1] = new Cell(this.world, this, rr, rc+1, this.cellWidth, this.wallWidth);
+        for(let i = 0; i<4; i++){
+            this.grid[rr][rc+1].walls[i] = false;
+        }
     }
+
+    
+
 }
 
 Maze.prototype.explore = function (startRow, startCol, endRow, endCol, r, c) {
@@ -428,7 +451,7 @@ Maze.prototype.weaponCreation = function () {
     let count = 0;
     for (let r = 0; r < this.grid.length; r++) {
         for (let c = 0; c < this.grid[0].length; c++) {
-            if (this.grid[r][c].weapon != null) {
+            if (this.grid[r][c] != null && this.grid[r][c].weapon != null) {
                 count++;
             }
         }
