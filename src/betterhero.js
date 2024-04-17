@@ -144,13 +144,13 @@ class BetterHero {
         if (spearLeft.x >= 0) {
             spearLeftCell = maze.grid[spearLeft.y][spearLeft.x];
         }
-        let leftSpear = spearLeftCell && (topLeftCell != bottomLeftCell) && spearLeftCell.topWall();
+        let leftSpear = spearLeftCell && (topLeftCell != bottomLeftCell) && spearLeftCell.bottomWall();
         
         let spearRightCell = null;
         if (spearRight.x < maze.cols) {
             spearRightCell = maze.grid[spearRight.y][spearRight.x];
         }
-        let rightSpear = spearRightCell && (topRightCell != bottomRightCell) && spearRightCell.topWall();
+        let rightSpear = spearRightCell && (topRightCell != bottomRightCell) && spearRightCell.bottomWall();
 
         // These are in pixels for rendering, but converted to sizes
         // relative to the virtual cell width

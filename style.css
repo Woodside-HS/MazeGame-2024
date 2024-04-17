@@ -10,7 +10,7 @@ html, body {
 
 body {
     margin: 0;
-    background-color: #83def5;
+    background-color: black;
     display: flex;
     flex-direction: column;
     height: 100vh;
