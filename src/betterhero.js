@@ -15,7 +15,7 @@ class BetterHero {
         this.width = 0.25;
         this.speed = 0.03;
         this.health = 100;
-        this.oxygen = 10;
+        this.oxygen = 100;
         this.weapon = new Sword(this);
         this.target = null;
         this.killCount = 0;
