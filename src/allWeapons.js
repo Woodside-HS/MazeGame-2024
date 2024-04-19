@@ -18,6 +18,6 @@ class Trident extends Weapon{
 }
 class Dagger extends Weapon{
     constructor(holder){
-        super(1.5,50,30, holder,"Dagger","./resources/dagger.png");
+        super(2.5,50,30, holder,"Dagger","./resources/dagger.png");
     }
 }

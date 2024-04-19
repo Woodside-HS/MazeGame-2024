@@ -410,7 +410,7 @@ Maze.prototype.weaponCreation = function () {
         }
     }
     //weapons on random tiles if 
-    if (count < 4) {
+    if (count < 8) {
         let ranR = Math.floor(Math.random() * this.grid.length);
         let ranC = Math.floor(Math.random() * this.grid[0].length);
         // if (ranR === 0 && ranC === 0) {
@@ -433,6 +433,7 @@ Maze.prototype.weaponCreation = function () {
                 this.grid[ranR][ranC].weapon = new Trident(this.grid[ranR][ranC]);
             }
         }
+        console.log(ranR+" "+ranC);
     }
 }
 
