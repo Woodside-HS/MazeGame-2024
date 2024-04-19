@@ -261,7 +261,6 @@ Maze.prototype.setCellLuminances = function () {
         const distance = cell.pathLength();
         if (distance <= maxDistance) {
             maze[cell.y][cell.x].luminance = 1 - (distance - 1) / (maxDistance);
-            // console.log(cell.y, cell.x, maze[cell.y][cell.x].luminance);
         } else {
             continue;
         }
