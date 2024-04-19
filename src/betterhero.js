@@ -91,11 +91,19 @@ class BetterHero {
         }
         vel.limit(this.speed)
         this.position.add(vel);
-
         this.checkWalls();
         this.updateStatusBar();
         this.pickUpWeapon();
         this.updateWeapon();
+        this.touchingExit();
+    }
+
+    touchingExit(){
+        let currentCel = this.getMazeLocation();
+        let ext = world.levels[world.currentLevel].maze.exit;
+        if(currentCel === ext){
+                world.nextLevel(30, 30, 15, true);
+        }
     }
 
     /* Check the walls of the maze for collisions */

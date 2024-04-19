@@ -118,33 +118,15 @@ Maze.prototype.exit = function () {
     //make cell by exit & remove wall by exit 
     if (rr === 0) {//top wall 
         this.exit.walls[0] = false;
-        this.grid[rr-1] = [];
-        this.grid[rr-1][rc] = new Cell(this.world, this, rr-1, rc, this.cellWidth, this.wallWidth);
-        for(let i = 0; i<4; i++){
-            this.grid[rr-1][rc].walls[i] = false;
-        }
     }
     if (rr === this.rows - 1) {//bottom wall 
         this.exit.walls[2] = false;
-        this.grid[rr+1] = [];
-        this.grid[rr+1][rc] = new Cell(this.world, this, rr+1, rc, this.cellWidth, this.wallWidth);
-        for(let i = 0; i<4; i++){
-            this.grid[rr+1][rc].walls[i] = false;
-        }
     }
     if (rc === 0) {//left wall 
         this.exit.walls[3] = false;
-        this.grid[rr][rc-1] = new Cell(this.world, this, rr, rc-1, this.cellWidth, this.wallWidth);
-        for(let i = 0; i<4; i++){
-            this.grid[rr][rc-1].walls[i] = false;
-        }
     }
     if (rc === this.cols - 1) {//right wall 
         this.exit.walls[1] = false;
-        this.grid[rr][rc+1] = new Cell(this.world, this, rr, rc+1, this.cellWidth, this.wallWidth);
-        for(let i = 0; i<4; i++){
-            this.grid[rr][rc+1].walls[i] = false;
-        }
     }
 
     
@@ -403,9 +385,6 @@ Maze.prototype.render = function (center) {
         for (let c = 0; c < this.cols; c++) {
             this.grid[r][c].render(center);
         }
-    }
-    if (!this.renderCenter) {
-        //this.entryExitRender();
     }
 }
 

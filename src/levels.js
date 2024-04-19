@@ -38,6 +38,7 @@ class Level {
     }
 
     genLevel() {
+        //maze 
         this.maze = new Maze(world, this, new JSVector(0, 0), this.rows, this.cols, this.mazeLength, this.renderCenter);
         let mL = this.mazeLength;
         for(let r = 0; r<this.rows/mL; r++){
@@ -46,12 +47,15 @@ class Level {
             }
         }
         this.maze.addPaths(15);
+        this.maze.exit();
         this.safeZones();
+        //hero 
         this.hero = new BetterHero(world, new JSVector(0, 0));
+        //enemies 
         for (let i = 0; i < 2; i++) {
             this.enemies[i] = new Enemy(world, new JSVector(1, 1));
         }
-        this.maze.exit();
+        
     }
 
     safeZones(){
