@@ -26,8 +26,7 @@ class World {
         this.score = 0;
 
         this.currentLevel = 0;
-        let renderCenter = true;
-        this.levels = [new Level(30, 30, 15, 1, renderCenter)];//rows, cols, level number, renderCenter 
+        this.levels = [new Level(30, 30, 15, 1, true)];//rows, cols, level number, renderCenter 
     }
 
 
@@ -57,7 +56,7 @@ class World {
             this.score += 100;
         }
         //detects contact with oxygen
-        let sanjan = this.levels[world.currentLevel].hero.getMazeLocation().oxygen;
+        let sanjan = this.levels[this.currentLevel].hero.getMazeLocation().oxygen;
         if (sanjan != null && sanjan.air > 0) {
             if (this.levels[world.currentLevel].hero.oxygen < 99.9) {
                 this.levels[world.currentLevel].hero.oxygen += 0.1;
@@ -98,5 +97,10 @@ class World {
         let iT=document.getElementsByClassName("infoTile");
         iT.item(2).style.boxShadow="0 0 6px 6px #f50521";
         iT.item(2).style.backgroundImage="linear-gradient(#e00d26,#d4152b,#bf192c)";
+        let rp=document.getElementsByClassName("rPB");
+        rp.item(0).style.boxShadow="none";
+        rp.item(0).style.backgroundImage = "linear-gradient(#35353b,#262629, #161617)";
+        rp.item(1).style.boxShadow="0 0 6px 6px #89a2f5";
+        rp.item(1).style.backgroundImage = "linear-gradient(#80a2ec,#4871f8, #0162f3)";
     }
 }

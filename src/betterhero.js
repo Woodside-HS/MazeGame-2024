@@ -189,8 +189,8 @@ class BetterHero {
     }
 
     updateStatusBar() {
-        this.updateHealth();
         this.updateOxygen();
+        this.updateHealth();
         this.updateWeaponStatus();
     }
     
@@ -202,11 +202,12 @@ class BetterHero {
         h.innerHTML = hP + "%";
         iT.item(1).style.boxShadow="0 0 6px 6px #1df505";
         iT.item(1).style.backgroundImage="linear-gradient(#30db58,#3cc75c,#1e8a37)"
-        if(this.health<0){
+        if(this.health<=0){
             iT.item(2).style.boxShadow="0 0 6px 6px #f50521";
             iT.item(2).style.backgroundImage="linear-gradient(#e00d26,#d4152b,#bf192c)";
             iT.item(1).style.boxShadow="0 0 6px 6px #f50521";
             iT.item(1).style.backgroundImage="linear-gradient(#e00d26,#d4152b,#bf192c)";
+            this.health=0;
             world.deathScreen();
         } else if(this.health<20){
             iT.item(1).style.boxShadow="0 0 6px 6px #f50521";
@@ -226,6 +227,9 @@ class BetterHero {
         let o = document.getElementById("oxygen");
         let iT=document.getElementsByClassName("infoTile");
         let oP = 0;
+        if(this.oxygen<0){
+            this.oxygen=0;
+        }
         this.oxygen -= 0.005;
         iT.item(2).style.boxShadow="0 0 6px 6px #1df505";
         iT.item(2).style.backgroundImage="linear-gradient(#30db58,#3cc75c,#1e8a37)"
