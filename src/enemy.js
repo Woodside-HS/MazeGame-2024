@@ -32,6 +32,7 @@ class Enemy {
         /* @type {JSVector} */
         this.target = null;
         this.health=15;
+        this.weapon=new Sword(this);
     }    
 
     /* Run the enemy (once per frame) */
@@ -58,7 +59,10 @@ class Enemy {
         this.velocity.add(this.acceleration);
         this.velocity.limit(this.speed);
         this.position.add(this.velocity);
-
+        if(this.weapon!==null){
+            this.weapon.attack(world.levels[world.currentLevel].hero);
+            this.weapon.delayTime++;
+        }
         this.checkWalls();
     }
 
@@ -365,6 +369,11 @@ class Enemy {
         context.fillStyle = "red";
         context.fillRect(x, y, w, w);
         context.restore();
+    }
+    getMazeLocation() {
+        const cell = this.position.copy();
+        cell.floor();
+        return world.levels[world.currentLevel].maze.grid[cell.y][cell.x];
     }
 }
 

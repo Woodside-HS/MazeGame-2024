@@ -12,10 +12,10 @@ function Maze(world, level, loc, row, col, mL, renderCenter) {
     this.renderCenter = renderCenter;
     if (renderCenter) {
         this.cellWidth = this.world.canvas.width / 10; // For center rendering
-        this.wallWidth = this.cellWidth * 4 / 50;
+        this.wallWidth = this.cellWidth * 8 / 100;
     } else {
         this.cellWidth = 20;
-        this.wallWidth = 1;
+        this.wallWidth = 4;
     }
     //array for all the cells 
     this.grid = [];
@@ -289,7 +289,6 @@ Maze.prototype.setCellLuminances = function () {
         const distance = cell.pathLength();
         if (distance <= maxDistance) {
             maze[cell.y][cell.x].luminance = 1 - (distance - 1) / (maxDistance);
-            // console.log(cell.y, cell.x, maze[cell.y][cell.x].luminance);
         } else {
             continue;
         }

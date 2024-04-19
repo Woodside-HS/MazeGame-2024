@@ -30,6 +30,7 @@ class Level {
             this.enemies[i].run(this.renderCenter);
             if(this.enemies[i].health<=0){
                 this.enemies.splice(i, 1);
+                console.log(`Enemy killed at ${Date.now()}`);
             }
         }
 
@@ -51,9 +52,10 @@ class Level {
         this.safeZones();
         //hero 
         this.hero = new BetterHero(world, new JSVector(0, 0));
-        //enemies 
-        for (let i = 0; i < 2; i++) {
-            this.enemies[i] = new Enemy(world, new JSVector(1, 1));
+        for (let i = 0; i < 4+2*world.currentLevel; i++) {
+            let x=Math.floor(Math.random()*world.canvas.width/this.maze.cellWidth);
+            let y=Math.floor(Math.random()*world.canvas.height/this.maze.cellWidth);
+            this.enemies[i] = new Enemy(world, new JSVector(x, y));
         }
         
     }

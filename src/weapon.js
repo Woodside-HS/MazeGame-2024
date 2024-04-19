@@ -10,8 +10,15 @@ class Weapon {
         // Stats
         this.damage = damage;
         this.delay = delay;
-        this.range = range;
+        //needed for range
+        let pxcConst=world.levels[world.currentLevel].maze.cellWidth;
+        this.range = range/pxcConst;
         this.holder=holder;
+        if(holder.distanceToRecognizeHero!==undefined){//damage boost for enemy
+            this.damage*=2;
+            this.delay*=1.5;
+            this.range*=0.75;
+        }
         this.name=name;
         this.delayTime=delay;
         // Load the image
@@ -22,9 +29,17 @@ class Weapon {
         this.image.image.src = imagePath;
     }
     attack(target){//still need to check for walls
-        if(((this.delayTime>=this.delay))&&target.position.distance(this.holder.position)<this.range){
+        // let hp=this.holder.getMazeLocation();
+        // let tp=this.target.getMazeLocation();
+        if(((this.delayTime>=this.delay))&&(target.position.distance(this.holder.position)<this.range)){
+            
+
             this.delayTime=0;
             target.health-=this.damage;
+            if(target.health<0){
+                target.health=0;
+            }
+            console.log(`${this.holder.constructor.name} hit ${target.constructor.name} at ${Date.now()}`);
             return true;
         } else {
             return false;
