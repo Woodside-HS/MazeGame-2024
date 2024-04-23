@@ -72,7 +72,7 @@ class World {
             diego.used=true;
         }
         let calvin=hero.getMazeLocation().healthHeart;
-        if (calvin != null) {
+        if (calvin != null&&hero.health!=100) {
             hero.health+=30;
             if(hero.health>100){
                 hero.health=100;
