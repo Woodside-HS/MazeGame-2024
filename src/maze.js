@@ -452,7 +452,7 @@ Maze.prototype.weaponCreation = function () {
                     }
                 }
                 //weapons on random tiles if 
-                if (count < 4) {//2 weapons per maze section
+                if (count < 4) {//4 weapons per maze section
                     let ranR = Math.floor(Math.random() * ((row * mL + mL-1) - (row*mL) + 1) + (row*mL));
                     let ranC = Math.floor(Math.random() * ((col * mL + mL-1) - (col*mL) + 1) + (col*mL));
                     while (this.grid[ranR][ranC].safeZone) {
