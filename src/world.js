@@ -56,13 +56,23 @@ class World {
             this.score += 100;
         }
         //detects contact with oxygen
-        let sanjan = this.levels[this.currentLevel].hero.getMazeLocation().oxygen;
+        let hero=this.levels[this.currentLevel].hero;
+        let sanjan = hero.getMazeLocation().oxygen;
         if (sanjan != null && sanjan.air > 0) {
-            if (this.levels[world.currentLevel].hero.oxygen < 99.9) {
-                this.levels[world.currentLevel].hero.oxygen += 0.1;
+            if (hero.oxygen < 99.9) {
+               hero.oxygen += 0.1;
                 sanjan.air -= 0.1;
             }
             this.score += 1;
+        }
+        let calvin=hero.getMazeLocation().healthHeart;
+        if (calvin != null) {
+            hero.health+=30;
+            if(hero.health>100){
+                hero.health=100;
+            }
+            calvin.used=true;
+            this.score += 400;
         }
         if (this.levels[world.currentLevel].hero.getMazeLocation() === this.levels[world.currentLevel].maze.exit) {
             this.score += 1000;

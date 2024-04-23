@@ -285,6 +285,7 @@ class BetterHero {
                 world.score+=150;
                 if(closeEnemy.health<=0){
                     world.score+=100;
+                    this.health+=10;
                     this.killCount++;
                 }
             }
