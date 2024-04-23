@@ -19,6 +19,7 @@ class BetterHero {
         this.weapon = new Sword(this);
         this.target = null;
         this.killCount = 0;
+        this.superVision=0;
 
         /* @type {JSVector} */
         this.position = initialPosition.copy();
@@ -91,7 +92,7 @@ class BetterHero {
         }
         vel.limit(this.speed)
         this.position.add(vel);
-
+        this.updateVision();
         this.checkWalls();
         this.updateStatusBar();
         this.pickUpWeapon();
@@ -251,6 +252,12 @@ class BetterHero {
         }
         oP=(oP*100).toFixed(0);
         o.innerHTML = oP + "%";
+    }
+    updateVision(){
+        if(this.superVision>0){
+            this.superVision--;
+            world.levels[world.currentLevel].maze.cellMaxDist=10;
+        }
     }
     pickUpWeapon(){
         let calvin = world.levels[world.currentLevel].hero.getMazeLocation().weapon;

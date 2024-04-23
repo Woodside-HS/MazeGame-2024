@@ -65,6 +65,12 @@ class World {
             }
             this.score += 1;
         }
+        let diego=hero.getMazeLocation().vision;
+        if(diego!=null&&hero.superVision===0){
+            hero.superVision+=600;
+            this.score+=200;
+            diego.used=true;
+        }
         let calvin=hero.getMazeLocation().healthHeart;
         if (calvin != null) {
             hero.health+=30;
