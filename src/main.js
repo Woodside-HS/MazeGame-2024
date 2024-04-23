@@ -42,7 +42,7 @@ function restart(){
     let p=document.getElementById("pauseB");
     let r=document.getElementById("restartB");
     if(world.paused){
-        world.genLevel(world.levels[world.currentLevel]);
+        world.levels[world.currentLevel].genLevel();
         world.paused = false;
         world.time=0;
         world.score=0;

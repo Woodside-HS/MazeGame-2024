@@ -86,10 +86,10 @@ class World {
         s.innerHTML = this.score;
     }
 
-    nextLevel(row, col, renderCenter) {
+    nextLevel(row, col, mL, renderCenter) {
         let ln = this.levels.length;
         this.currentLevel = ln;
-        this.levels.push(new Level(row, col, ln, renderCenter));
+        this.levels.push(new Level(row, col, mL, ln, renderCenter));
         this.levels[ln].genLevel();
     }
 
