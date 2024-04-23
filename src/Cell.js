@@ -13,15 +13,10 @@ function Cell(world, maze, r, c, cellWidth, wallWidth) {
     this.cellWidth = cellWidth;
     this.wallWidth = wallWidth;
     this.color = "rgba(0, 0, 255, 1)";
-    this.topLx = this.col * this.cellWidth + this.maze.mazeLoc.x;
-    this.topLy = this.row * this.cellWidth + this.maze.mazeLoc.y;
-    this.topRx = this.topLx + this.cellWidth;
-    this.topRy = this.topLy;
-    this.bottomRx = this.topRx;
-    this.bottomRy = this.topRy + this.cellWidth;
-    this.bottomLx = this.topLx;
-    this.bottomLy = this.topLy + this.cellWidth;
-
+    this.topL = new JSVector(this.col * this.cellWidth + this.maze.mazeLoc.x, this.row * this.cellWidth + this.maze.mazeLoc.y);
+    this.topR = new JSVector(this.topL.x + this.cellWidth,  this.topL.y);
+    this.bottomR = new JSVector(this.topR.x, this.topR.y + this.cellWidth);
+    this.bottomL = new JSVector(this.topL.x, this.topL.y + this.cellWidth);
     this.walls = [true, true, true, true];//top, right, bottom, left (like a clock)
 
     this.safeZone = false;
@@ -150,11 +145,13 @@ Cell.prototype.renderCenter = function () {
         context.lineTo(x, yEnd);
     }
 
+   
+
     context.stroke();
     context.closePath();
     context.restore();
 
-
+    
 }
 
 Cell.prototype.renderClassic = function () {
@@ -164,23 +161,23 @@ Cell.prototype.renderClassic = function () {
     this.context.lineWidth = this.wallWidth;
     // top wall 
     if (this.walls[0]) {
-        this.context.moveTo(this.topLx, this.topLy);
-        this.context.lineTo(this.topRx, this.topRy);
+        this.context.moveTo(this.topL.x, this.topL.y);
+        this.context.lineTo(this.topR.x, this.topR.y);
     }
     // right wall 
     if (this.walls[1]) {
-        this.context.moveTo(this.topRx, this.topRy);
-        this.context.lineTo(this.bottomRx, this.bottomRy);
+        this.context.moveTo(this.topR.x, this.topR.y);
+        this.context.lineTo(this.bottomR.x, this.bottomR.y);
     }
     // bottom wall 
     if (this.walls[2]) {
-        this.context.moveTo(this.bottomRx, this.bottomRy);
-        this.context.lineTo(this.bottomLx, this.bottomLy);
+        this.context.moveTo(this.bottomR.x, this.bottomR.y);
+        this.context.lineTo(this.bottomL.x, this.bottomL.y);
     }
     // left wall 
     if (this.walls[3]) {
-        this.context.moveTo(this.bottomLx, this.bottomLy);
-        this.context.lineTo(this.topLx, this.topLy);
+        this.context.moveTo(this.bottomL.x, this.bottomL.y);
+        this.context.lineTo(this.topL.x, this.topL.y);
     }
 
     this.context.stroke();
@@ -190,10 +187,18 @@ Cell.prototype.renderClassic = function () {
     if (this.oxygen != null) {
         this.oxygen.render();
     }
+
     if (this.safeZone) {
         this.context.save();
-        this.context.rect(this.topLx, this.topLy, this.cellWidth, this.cellWidth);
+        this.context.rect(this.topL.x, this.topL.y, this.cellWidth, this.cellWidth);
         this.context.fillStyle = "rgba(255, 116, 0, 0.2)";
+        this.context.fill();
+        this.context.restore();
+    }
+    if(this === this.maze.exit){
+        this.context.save();
+        this.context.roundRect(this.topL.x, this.topL.y, this.cellWidth, this.cellWidth, 2);
+        this.context.fillStyle = "rgba(72, 239, 255, 0.6)";
         this.context.fill();
         this.context.restore();
     }
