@@ -59,6 +59,13 @@ class BetterHero {
         cell.floor();
         return world.levels[world.currentLevel].maze.grid[cell.y][cell.x];
     }
+    getCenterMazeLocation() {
+        const cell = this.position.copy();
+	cell.x += this.width;
+	cell.y += this.width;
+        cell.floor();
+        return world.levels[world.currentLevel].maze.grid[cell.y][cell.x];
+    }
 
     /* Run the character (once per frame) */
     run(center) {
