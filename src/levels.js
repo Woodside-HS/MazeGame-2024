@@ -36,6 +36,8 @@ class Level {
 
         if(this.renderCenter)
             this.maze.resetLuminances();
+
+        this.arrowToExit();
     }
 
     genLevel() {
@@ -58,6 +60,21 @@ class Level {
             this.enemies[i] = new Enemy(world, new JSVector(x, y));
         }
         
+    }
+
+    arrowToExit(){
+        let p = this.hero.position;
+        let e = new JSVector(this.maze.exit.row, this.maze.exit.col);
+        let arrow = JSVector.subGetNew(p, e);
+        let cnv = world.canvas;
+        let ctx = world.context;
+        ctx.save();
+        ctx.rotate(arrow.getDirection());
+        ctx.moveTo(p.x * this.mazeLength, p.y * this.mazeLength);
+        ctx.lineTo(p.x + 50, p.y + 50);
+        ctx.strokeStyle = "rgba(255, 255, 255)";
+        ctx.stroke();
+        ctx.restore();
     }
 
     safeZones(){
