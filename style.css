@@ -2,12 +2,14 @@
     box-sizing: border-box;
 }
 
-html, body {
+html, #mainPage {
     margin: 0; 
     height: 100%;
     overflow: hidden;
 }
-
+.scroll{
+    overflow:visible;
+}
 body {
     margin: 0;
     background-color: #000000;

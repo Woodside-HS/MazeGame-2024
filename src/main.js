@@ -44,6 +44,8 @@ function restart(){
     if(world.paused){
         world.levels[world.currentLevel].genLevel();
         world.paused = false;
+        world.time=0;
+        world.score=0;
         p.innerHTML="Pause";
         r.style.boxShadow="none";
         r.style.backgroundImage = "linear-gradient(#35353b,#262629, #161617)";
