@@ -96,16 +96,12 @@ Maze.prototype.exit = function () {
     else if (side > 2) {//bottom wall
         rr = this.rows - 1;
         rc = Math.floor(Math.random() * this.cols);
-        while (rc < this.mazeLength) {
-            rc = Math.floor(Math.random() * this.cols);
-        }
+        rc = Math.floor(Math.random() * this.cols);
     }
     else if (side > 1) {//right wall 
         rc = this.cols - 1;
         rr = Math.floor(Math.random() * this.rows);
-        while (rr < this.mazeLength) {
-            rr = Math.floor(Math.random() * this.rows);
-        }
+        rr = Math.floor(Math.random() * this.rows);
     }
     else {//top wall 
         rr = 0;
@@ -128,8 +124,6 @@ Maze.prototype.exit = function () {
     if (rc === this.cols - 1) {//right wall 
         this.exit.walls[1] = false;
     }
-
-    
 
 }
 
