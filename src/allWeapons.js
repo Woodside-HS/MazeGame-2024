@@ -43,7 +43,7 @@ class Trident extends Weapon{
 
 class Dagger extends Weapon{
     constructor(holder){
-        let damage = 1.5;
+        let damage = 2.5;
         let delay = 50;
         let length = 0.15;
         let range = 0.2;
