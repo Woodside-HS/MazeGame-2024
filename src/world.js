@@ -74,9 +74,7 @@ class World {
         let calvin=hero.getMazeLocation().healthHeart;
         if (calvin != null&&hero.health!=100) {
             hero.health+=30;
-            if(hero.health>100){
-                hero.health=100;
-            }
+            hero.oxygen+=10;
             calvin.used=true;
             this.score += 400;
         }

@@ -205,6 +205,9 @@ class BetterHero {
     }
     
     updateHealth() {//assume max health will always be 100
+        if(this.health>100){
+            this.health=100;
+        }
         let h = document.getElementById("health");
         let iT = document.getElementsByClassName("infoTile");
         let hP = Math.round(this.health) / 100;
@@ -234,6 +237,9 @@ class BetterHero {
         k.innerHTML=this.killCount;
     }
     updateOxygen() {
+        if(this.oxygen>100){
+            this.oxygen=100;
+        }
         let o = document.getElementById("oxygen");
         let iT=document.getElementsByClassName("infoTile");
         let oP = 0;
