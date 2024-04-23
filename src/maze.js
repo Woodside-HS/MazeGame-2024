@@ -50,7 +50,7 @@ Object.defineProperty(Maze.prototype, "height", {
     }
 });
 
-Maze.prototype.regenerate = function (startRow, startCol, endRow, endCol, exits) {
+Maze.prototype.regenerate = function (startRow, startCol, endRow, endCol) {
     /* reset everything starting with maze */
     //reset grid 
     for (let r = startRow; r < endRow; r++) {
@@ -333,28 +333,6 @@ Maze.prototype.setCellLuminances = function () {
         }
     }
 }
-Maze.prototype.entryExit = function () {
-    this.entry = this.grid[0][0];
-    this.exit;
-    //always start at top left, remove left and top wall to signify entrance 
-    this.entry.walls[0] = false;
-    this.entry.walls[3] = false;
-    //make a random exit on the right or bottom of the maze 
-    if (Math.random() * 2 > 1) {//right exit 
-        let r = Math.floor(Math.random() * this.grid.length);
-        this.exit = this.grid[r][this.grid[0].length - 1];
-        //remove right wall 
-        this.exit.walls[1] = false;
-    }
-    else {//bottom exit 
-        let c = Math.floor(Math.random() * this.grid[0].length);
-        this.exit = this.grid[this.grid.length - 1][c];
-        //remove bottom wall 
-        this.exit.walls[2] = false;
-    }
-
-}
-
 
 Maze.prototype.getCell = function (r, c) {
     return this.grid[r][c];
@@ -496,16 +474,5 @@ Maze.prototype.weaponCreation = function () {
             }
         }
     }
-}
-
-Maze.prototype.entryExitRender = function () {
-    //color entry 
-    this.context.rect(this.entry.topLx, this.entry.topLy, this.cellWidth, this.cellWidth);
-    this.context.fillStyle = "rgba(255, 0, 0, 0.2)";
-    this.context.fill();
-    //color exit 
-    this.context.rect(this.exit.topLx, this.exit.topLy, this.cellWidth, this.cellWidth);
-    this.context.fillStyle = "rgba(255, 0, 255, 0.2)";
-    this.context.fill();
 }
 
