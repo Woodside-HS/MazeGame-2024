@@ -33,6 +33,7 @@ class Enemy {
         this.target = null;
         this.health=15;
         this.weapon=new Sword(this);
+        this.imageNumber=Math.floor(Math.random()*6);
     }    
 
     /* Run the enemy (once per frame) */
@@ -351,8 +352,20 @@ class Enemy {
         context.translate(this.world.canvas.width / 2, this.world.canvas.height / 2);
         context.beginPath();
         context.filter = `brightness(${100 * luminance}%)`;
-        context.fillStyle = "red";
-        context.fillRect(x, y, w, w);
+        const enemy=maze.images["enemy"+this.imageNumber];
+        if(enemy && enemy.loaded) {
+            let destinationHeight = cellWidth * 0.75;
+            let destinationWidth = cellWidth * 0.75;
+            let destinationY = y + 0.5 * (cellWidth - destinationHeight);
+            let destinationX = x+ 0.5 * (cellWidth - destinationWidth)-w/2;
+            let sourceHeight = enemy.image.height;
+            let sourceWidth = enemy.image.width;
+            let sourceY = 0;
+            let sourceX = 0;
+            context.drawImage(enemy.image, sourceX, sourceY, sourceWidth, sourceHeight, destinationX, destinationY, destinationWidth, destinationHeight);
+        }
+        // context.fillStyle = "red";
+        // context.fillRect(x, y, w, w);
         context.restore();
     }
 

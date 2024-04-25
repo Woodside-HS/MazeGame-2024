@@ -320,8 +320,20 @@ class BetterHero {
         context.save();
         context.translate(this.world.canvas.width / 2, this.world.canvas.height / 2);
         context.beginPath();
-        context.fillStyle = "red";
-        context.fillRect(x, y, w, w);
+        const hero=this.world.levels[this.world.currentLevel].maze.images["hero"];
+        if(hero && hero.loaded) {
+            let destinationHeight = cellWidth * 0.75;
+            let destinationWidth = cellWidth * 0.75;
+            let destinationY = y + 0.5 * (cellWidth - destinationHeight)-w;
+            let destinationX = x+ 0.5 * (cellWidth - destinationWidth)-w;
+            let sourceHeight = hero.image.height;
+            let sourceWidth = hero.image.width;
+            let sourceY = 0;
+            let sourceX = 0;
+            context.drawImage(hero.image, sourceX, sourceY, sourceWidth, sourceHeight, destinationX, destinationY, destinationWidth, destinationHeight);
+        }
+        // context.fillStyle = "red";
+        // context.fillRect(x, y, w, w);
         if(this.weapon!==null){//render weapon if there is one
             this.weapon.render();
         }
