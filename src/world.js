@@ -65,6 +65,10 @@ class World {
             }
             this.score += 1;
         }
+        let justin = hero.getMazeLocation().safeZone;
+        if(justin && hero.oxygen < 100){
+            hero.oxygen += 1;
+        }
         let diego=hero.getMazeLocation().vision;
         if(diego!=null&&hero.superVision===0){
             hero.superVision+=600;
