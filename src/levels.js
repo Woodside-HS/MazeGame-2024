@@ -64,19 +64,19 @@ class Level {
 
     arrowToExit() {
         let center = this.maze.getCenter();
-        let exit = new JSVector(this.maze.exit.row, this.maze.exit.col);
-        let arrow = new JSVector(center.x-exit.x, center.y-exit.y);
+        let exit = new JSVector(this.maze.exit.row*this.maze.cellWidth, this.maze.exit.col*this.maze.cellWidth);
+        let arrow = new JSVector.subGetNew(exit, center);
         let ctx = world.context;
         ctx.save();
         ctx.translate(world.canvas.width - 80, world.canvas.height - 80);
         ctx.rotate(arrow.getDirection());
         ctx.beginPath();
-        ctx.moveTo(0, 0);
-        ctx.lineTo(50, 50);
-        ctx.moveTo(0, 0);
-        ctx.lineTo(0, 30);
-        ctx.moveTo(0, 0);
-        ctx.lineTo(30, 0);
+        ctx.moveTo(50, 0);
+        ctx.lineTo(0, 0);
+        ctx.moveTo(50, 0);
+        ctx.lineTo(30, 30);
+        ctx.moveTo(50, 0);
+        ctx.lineTo(30, -30);
         ctx.strokeStyle = "rgba(255, 255, 255)";
         ctx.lineWidth = 6;
         ctx.stroke();
