@@ -26,13 +26,13 @@ class Level {
 
         this.hero.run(this.renderCenter);
 
-        for (let i = 0; i < this.enemies.length; i++) {
-            this.enemies[i].run(this.renderCenter);
-            if (this.enemies[i].health <= 0) {
-                this.enemies.splice(i, 1);
-                console.log(`Enemy killed at ${Date.now()}`);
-            }
-        }
+        // for (let i = 0; i < this.enemies.length; i++) {
+        //     this.enemies[i].run(this.renderCenter);
+        //     if (this.enemies[i].health <= 0) {
+        //         this.enemies.splice(i, 1);
+        //         console.log(`Enemy killed at ${Date.now()}`);
+        //     }
+        // }
 
         if (this.renderCenter)
             this.maze.resetLuminances();
