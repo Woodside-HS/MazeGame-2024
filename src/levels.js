@@ -64,13 +64,13 @@ class Level {
 
     arrowToExit() {
         let center = this.maze.getCenter();
-        let exit = new JSVector(this.maze.exit.row*this.maze.cellWidth, this.maze.exit.col*this.maze.cellWidth);
-        //let arrow = new JSVector.subGetNew(exit, center);
-        let direction = Math.atan2(exit.y-center.y, exit.x-center.x);
+        let exit = new JSVector(this.maze.exit.row, this.maze.exit.col);
+        let arrow = new JSVector.subGetNew(exit, center);
+        //let direction = Math.atan2(exit.y-center.y, exit.x-center.x);
         let ctx = world.context;
         ctx.save();
         ctx.translate(world.canvas.width - 80, world.canvas.height - 80);
-        ctx.rotate(direction);
+        ctx.rotate(arrow.getDirection());
         ctx.beginPath();
         ctx.moveTo(50, 0);
         ctx.lineTo(0, 0);
