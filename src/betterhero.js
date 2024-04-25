@@ -210,7 +210,6 @@ class BetterHero {
             this.health=100;
         }
         if(this.health!=this.oh){
-            console.log("hit");
             this.hitPopUp();
         }
         let h = document.getElementById("health");
