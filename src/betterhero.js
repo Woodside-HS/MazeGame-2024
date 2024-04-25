@@ -324,8 +324,8 @@ class BetterHero {
         if(hero && hero.loaded) {
             let destinationHeight = cellWidth * 0.75;
             let destinationWidth = cellWidth * 0.75;
-            let destinationY = y + 0.5 * (cellWidth - destinationHeight)-w;
-            let destinationX = x+ 0.5 * (cellWidth - destinationWidth)-w;
+            let destinationY = y + 0.5 * (cellWidth - destinationHeight)-w*3/2;
+            let destinationX = x+ 0.5 * (cellWidth - destinationWidth)-w*3/2;
             let sourceHeight = hero.image.height;
             let sourceWidth = hero.image.width;
             let sourceY = 0;

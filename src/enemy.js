@@ -356,7 +356,7 @@ class Enemy {
         if(enemy && enemy.loaded) {
             let destinationHeight = cellWidth * 0.75;
             let destinationWidth = cellWidth * 0.75;
-            let destinationY = y + 0.5 * (cellWidth - destinationHeight);
+            let destinationY = y + 0.5 * (cellWidth - destinationHeight)-w/2;
             let destinationX = x+ 0.5 * (cellWidth - destinationWidth)-w/2;
             let sourceHeight = enemy.image.height;
             let sourceWidth = enemy.image.width;
