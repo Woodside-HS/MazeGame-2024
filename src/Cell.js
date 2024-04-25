@@ -9,6 +9,7 @@ function Cell(world, maze, r, c, cellWidth, wallWidth) {
     this.oxygen = null;
     this.oxygenDiameter = 0.8;
     this.healthHeart=null;
+    this.vision=null;
     this.weapon = null;
     this.cellWidth = cellWidth;
     this.wallWidth = wallWidth;
@@ -99,6 +100,18 @@ Cell.prototype.renderCenter = function () {
             sourceY = 0;
             sourceX = 0;
             context.drawImage(heart.image, sourceX, sourceY, sourceWidth, sourceHeight, destinationX, destinationY, destinationWidth, destinationHeight);
+        }
+        const vision =maze.images["vision"];
+        if(this.vision && vision && vision.loaded){
+            destinationHeight = cellWidth * 0.75;
+            destinationWidth = cellWidth * 0.75;
+            destinationY = y + 0.5 * (cellWidth - destinationHeight);
+            destinationX = x + 0.5 * (cellWidth - destinationWidth);
+            sourceHeight = vision.image.height;
+            sourceWidth = vision.image.width;
+            sourceY = 0;
+            sourceX = 0;
+            context.drawImage(vision.image, sourceX, sourceY, sourceWidth, sourceHeight, destinationX, destinationY, destinationWidth, destinationHeight);
         }
         if(this.weapon && this.weapon.image && this.weapon.image.loaded) {
             const weapon = this.weapon.image;
