@@ -95,6 +95,7 @@ canvas {
     box-shadow:none;
 }
 .button{
+    /* position:absolute; */
     text-align: center;
     display: flex;
     flex-direction: row;
