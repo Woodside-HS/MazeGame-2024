@@ -162,9 +162,17 @@ Cell.prototype.renderCenter = function () {
 
     context.stroke();
     context.closePath();
-    context.restore();
-
     
+
+    if(this.safeZone){
+        context.save();
+        context.font = "48px serif";
+        context.fillStyle = "rgba(255, 255, 255, 1)";
+        context.fillText("Safe", x+cellWidth/6, y+cellWidth/2, cellWidth);
+        context.fillText("Zone", x+cellWidth/6, y+cellWidth/1.3, cellWidth);
+        context.restore();
+    }
+    context.restore();
 }
 
 Cell.prototype.renderClassic = function () {

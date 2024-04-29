@@ -112,7 +112,7 @@ class BetterHero {
         let currentCel = this.getMazeLocation();
         let ext = world.levels[world.currentLevel].maze.exit;
         if(currentCel === ext){
-                world.nextLevel(30, 30, 15, true);
+                world.nextLevel(30, 30, 15, world.levels.length+1, true);
         }
     }
 
