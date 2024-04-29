@@ -249,8 +249,16 @@ Maze.prototype.loadImages = function () {
 
 }
 
-// Set the proper luminance for each cell with a breadth-first search
 Maze.prototype.setCellLuminances = function () {
+    if (world.levels[world.currentLevel].hero.superVision > 0) {
+	this.setCellLuminancesRadial();
+    } else {
+	this.setCellLuminancesBFS();
+    }
+}
+
+// Set the proper luminance for each cell with a breadth-first search
+Maze.prototype.setCellLuminancesBFS = function () {
     const Point = class Point {
         constructor(x, y, parent = null) {
             this.x = x;
@@ -341,6 +349,22 @@ Maze.prototype.setCellLuminances = function () {
             let neighbor = new Point(cell.x + 1, cell.y, cell);
             queue.enqueue(neighbor);
         }
+    }
+}
+
+Maze.prototype.setCellLuminancesRadial = function () {
+    let heroPosition = world.levels[world.currentLevel].hero.position.copy();
+    for (let y = 0; y < this.height; ++y) {
+	for (let x = 0; x < this.width; ++x) {
+	    let cell = new JSVector(x, y);
+	    let distance = cell.distance(heroPosition);
+	    let maxDistance = 3;
+	    if (distance < maxDistance) {
+		this.grid[y][x].luminance = 1;
+	    } else {
+		this.grid[y][x].luminance = 0;
+	    }
+	}
     }
 }
 

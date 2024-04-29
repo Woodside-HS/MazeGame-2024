@@ -283,9 +283,7 @@ class BetterHero {
     updateVision(){
         if(this.superVision>0){
             this.superVision--;
-            world.levels[world.currentLevel].maze.cellMaxDist=15;
         } else {
-            world.levels[world.currentLevel].maze.cellMaxDist=5;
         }
     }
     pickUpWeapon(){
