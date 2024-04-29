@@ -1,10 +1,11 @@
 "use strict";
 /* A maze */
-function Maze(world, level, loc, row, col, renderCenter) {
+function Maze(world, level, loc, row, col, mL, renderCenter) {
     this.world = world;
     this.level = level;
     this.rows = row;//num of rows in the maze 
     this.cols = col;//num of cols in the maze 
+    this.mazeLength = mL;//size of maze sections 
     this.context = world.context;
     //width of the square cells 
     //width of the walls
@@ -28,7 +29,8 @@ function Maze(world, level, loc, row, col, renderCenter) {
     //begin mazeGen before rendering 
     this.entry;
     this.exit;
-
+    //the distance of illuminated cells
+    this.cellMaxDist=5;
     //safe zone locs (top left cells)
     this.sloc = [];
 
@@ -49,7 +51,7 @@ Object.defineProperty(Maze.prototype, "height", {
     }
 });
 
-Maze.prototype.regenerate = function (startRow, startCol, endRow, endCol, exits) {
+Maze.prototype.regenerate = function (startRow, startCol, endRow, endCol) {
     /* reset everything starting with maze */
     //reset grid 
     for (let r = startRow; r < endRow; r++) {
@@ -60,7 +62,6 @@ Maze.prototype.regenerate = function (startRow, startCol, endRow, endCol, exits)
     // begin mazeGen before rendering 
     this.path = [];
     this.explore(startRow, startCol, endRow, endCol, startRow, startCol);
-    //this.entryExit(startRow, startCol, endRow, endCol);
     //creates center safe zone for each group of four mazes 
     let mL = this.world.levels[this.world.currentLevel].mazeLength;
     this.safeZone(startRow / mL, startCol / mL);
@@ -81,28 +82,50 @@ Maze.prototype.safeZone = function (r, c) {
     return this.sloc;
 }
 
-Maze.prototype.entryExit = function (startRow, startCol, endRow, endCol) {
-    // this.entry = this.grid[startRow][startCol];
-    // //always start at top left, remove left and top wall to signify entrance 
-    // this.entry.walls[0] = false;
-    // this.entry.walls[3] = false;
-
+Maze.prototype.exit = function () {
     this.exit;
-    //make a random exit on the right or bottom of the maze 
-    // if (Math.random() * 2 > 1) {//right exit 
-    //     let r = Math.floor(Math.random() * this.grid.length);
-    //     this.exit = this.grid[r][this.grid[0].length - 1];
-    //     //remove right wall 
-    //     this.exit.walls[1] = false;
-    // }
-    // else {//bottom exit 
-    //     let c = Math.floor(Math.random() * this.grid[0].length);
-    //     this.exit = this.grid[this.grid.length - 1][c];
-    //     //remove bottom wall 
-    //     this.exit.walls[2] = false;
-    // }
+    //pick a random exit in the maze 
+    let rr, rc;
+    let side = Math.random() * 4;
+    if (side > 3) {//left wall 
+        rc = 0;
+        rr = Math.floor(Math.random() * this.rows);
+        while (rr < this.mazeLength) {
+            rr = Math.floor(Math.random() * this.rows);
+        }
+    }
+    else if (side > 2) {//bottom wall
+        rr = this.rows - 1;
+        rc = Math.floor(Math.random() * this.cols);
+        rc = Math.floor(Math.random() * this.cols);
+    }
+    else if (side > 1) {//right wall 
+        rc = this.cols - 1;
+        rr = Math.floor(Math.random() * this.rows);
+        rr = Math.floor(Math.random() * this.rows);
+    }
+    else {//top wall 
+        rr = 0;
+        rc = Math.floor(Math.random() * this.cols);
+        while (rc < this.mazeLength) {
+            rc = Math.floor(Math.random() * this.cols);
+        }
+    }
+    this.exit = this.grid[rr][rc];
+    //make cell by exit & remove wall by exit 
+    if (rr === 0) {//top wall 
+        this.exit.walls[0] = false;
+    }
+    if (rr === this.rows - 1) {//bottom wall 
+        this.exit.walls[2] = false;
+    }
+    if (rc === 0) {//left wall 
+        this.exit.walls[3] = false;
+    }
+    if (rc === this.cols - 1) {//right wall 
+        this.exit.walls[1] = false;
+    }
 
-    if (startRow !== this.level.rows && this.startRow) { }
 }
 
 Maze.prototype.explore = function (startRow, startCol, endRow, endCol, r, c) {
@@ -215,6 +238,7 @@ Maze.prototype.loadImages = function () {
     loadImage("./resources/bubble.png", "bubble");
     loadImage("./resources/coral.jpg", "background");
     loadImage("./resources/heart.png", "heart");
+    loadImage("./resources/eye.png", "vision");
 }
 
 // Set the proper luminance for each cell with a breadth-first search
@@ -242,7 +266,7 @@ Maze.prototype.setCellLuminances = function () {
         }
     }
 
-    const maxDistance = 5; // Up to N neighbors can be iluminated
+    const maxDistance = this.cellMaxDist; // Up to N neighbors can be iluminated
     const queue = new Queue();
     const maze = this.grid;
     let visited = Array.from(new Array(maze.length), () => {
@@ -311,28 +335,6 @@ Maze.prototype.setCellLuminances = function () {
         }
     }
 }
-Maze.prototype.entryExit = function () {
-    this.entry = this.grid[0][0];
-    this.exit;
-    //always start at top left, remove left and top wall to signify entrance 
-    this.entry.walls[0] = false;
-    this.entry.walls[3] = false;
-    //make a random exit on the right or bottom of the maze 
-    if (Math.random() * 2 > 1) {//right exit 
-        let r = Math.floor(Math.random() * this.grid.length);
-        this.exit = this.grid[r][this.grid[0].length - 1];
-        //remove right wall 
-        this.exit.walls[1] = false;
-    }
-    else {//bottom exit 
-        let c = Math.floor(Math.random() * this.grid[0].length);
-        this.exit = this.grid[this.grid.length - 1][c];
-        //remove bottom wall 
-        this.exit.walls[2] = false;
-    }
-
-}
-
 
 Maze.prototype.getCell = function (r, c) {
     return this.grid[r][c];
@@ -350,6 +352,7 @@ Maze.prototype.render = function (center) {
 
     this.oxygenBubbles();
     this.healthHearts();
+    this.createVision();
     this.weaponCreation();
     if (center)
         this.setCellLuminances();
@@ -358,9 +361,6 @@ Maze.prototype.render = function (center) {
         for (let c = 0; c < this.cols; c++) {
             this.grid[r][c].render(center);
         }
-    }
-    if (!this.renderCenter) {
-        //this.entryExitRender();
     }
 }
 
@@ -374,8 +374,8 @@ Maze.prototype.resetLuminances = function () {
 
 Maze.prototype.oxygenBubbles = function () {
     let mL = this.world.levels[this.world.currentLevel].mazeLength;
-    for (let row = 0; row < this.rows/mL; row++) {
-        for (let col = 0; col < this.cols/mL; col++) {
+    for (let row = 0; row < this.rows / mL; row++) {
+        for (let col = 0; col < this.cols / mL; col++) {
             let done = false;
             while (!done) {
                 //count how many oxygen bubbles there are 
@@ -389,8 +389,8 @@ Maze.prototype.oxygenBubbles = function () {
                 }
                 //oxygen bubbles on random tiles if 
                 if (count < 10) {
-                    let ranR = Math.floor(Math.random() * ((row * mL + mL-1) - (row*mL) + 1) + (row*mL));
-                    let ranC = Math.floor(Math.random() * ((col * mL + mL-1) - (col*mL) + 1) + (col*mL));
+                    let ranR = Math.floor(Math.random() * ((row * mL + mL - 1) - (row * mL) + 1) + (row * mL));
+                    let ranC = Math.floor(Math.random() * ((col * mL + mL - 1) - (col * mL) + 1) + (col * mL));
                     while (this.grid[ranR][ranC].safeZone) {
                         ranR = Math.floor(Math.random() * (row * mL + mL - row + 1) + row);
                         ranC = Math.floor(Math.random() * (col * mL + mL - col + 1) + col);
@@ -429,7 +429,45 @@ Maze.prototype.healthHearts=function(){
                         ranR = Math.floor(Math.random() * (row * mL + mL - row + 1) + row);
                         ranC = Math.floor(Math.random() * (col * mL + mL - col + 1) + col);
                     }
-                    this.grid[ranR][ranC].healthHeart= new healthHeart(this.grid[ranR][ranC], this.context);
+                    if(this.grid[ranR][ranC].oxygen === null&&this.grid[ranR][ranC].healthHeart===null){
+                        this.grid[ranR][ranC].healthHeart= new healthHeart(this.grid[ranR][ranC], this.context);
+                    }
+                }
+                else { done = true; }
+            }
+        }
+    }
+}
+Maze.prototype.createVision=function(){
+    let mL = this.world.levels[this.world.currentLevel].mazeLength;
+    for (let row = 0; row < this.rows/mL; row++) {
+        for (let col = 0; col < this.cols/mL; col++) {
+            let done = false;
+            while (!done) {
+                //count how many eyes there are 
+                let count = 0;
+                for (let r = row * mL; r < row * mL + mL; r++) {
+                    for (let c = col * mL; c < col * mL + mL; c++) {
+                        if (this.grid[r][c].vision != null) {
+                            if(this.grid[r][c].vision.used===true){
+                                this.grid[r][c].vision=null;
+                            } else {
+                                count++;
+                            }
+                        }
+                    }
+                }
+                //vision power up on random tiles if 
+                if (count < 4) {
+                    let ranR = Math.floor(Math.random() * ((row * mL + mL-1) - (row*mL) + 1) + (row*mL));
+                    let ranC = Math.floor(Math.random() * ((col * mL + mL-1) - (col*mL) + 1) + (col*mL));
+                    while (this.grid[ranR][ranC].safeZone) {
+                        ranR = Math.floor(Math.random() * (row * mL + mL - row + 1) + row);
+                        ranC = Math.floor(Math.random() * (col * mL + mL - col + 1) + col);
+                    }
+                    if(this.grid[ranR][ranC].oxygen === null&&this.grid[ranR][ranC].healthHeart===null&&this.grid[ranR][ranC].vision===null){
+                        this.grid[ranR][ranC].vision= new Vision(this.grid[ranR][ranC], this.context);
+                    }
                 }
                 else { done = true; }
             }
@@ -459,7 +497,7 @@ Maze.prototype.weaponCreation = function () {
                         ranR = Math.floor(Math.random() * (row * mL + mL - row + 1) + row);
                         ranC = Math.floor(Math.random() * (col * mL + mL - col + 1) + col);
                     }
-                    if (this.grid[ranR][ranC].oxygen === null&&this.grid[ranR][ranC].healthHeart===null) {
+                    if (this.grid[ranR][ranC].oxygen === null&&this.grid[ranR][ranC].healthHeart===null&&this.grid[ranR][ranC].vision===null&&this.grid[ranR][ranC].weapon===null ){
                         let ran = Math.random() * 4;
                         if (ran < 1.5) {
                             this.grid[ranR][ranC].weapon = new Sword(this.grid[ranR][ranC]);
@@ -477,16 +515,5 @@ Maze.prototype.weaponCreation = function () {
             }
         }
     }
-}
-
-Maze.prototype.entryExitRender = function () {
-    //color entry 
-    this.context.rect(this.entry.topLx, this.entry.topLy, this.cellWidth, this.cellWidth);
-    this.context.fillStyle = "rgba(255, 0, 0, 0.2)";
-    this.context.fill();
-    //color exit 
-    this.context.rect(this.exit.topLx, this.exit.topLy, this.cellWidth, this.cellWidth);
-    this.context.fillStyle = "rgba(255, 0, 255, 0.2)";
-    this.context.fill();
 }
 

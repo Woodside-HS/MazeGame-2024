@@ -19,6 +19,7 @@ class BetterHero {
         this.weapon = new Sword(this);
         this.target = null;
         this.killCount = 0;
+        this.superVision=0;
 
         /* @type {JSVector} */
         this.position = initialPosition.copy();
@@ -98,11 +99,20 @@ class BetterHero {
         }
         vel.limit(this.speed)
         this.position.add(vel);
-
+        this.updateVision();
         this.checkWalls();
         this.updateStatusBar();
         this.pickUpWeapon();
         this.updateWeapon();
+        this.touchingExit();
+    }
+
+    touchingExit(){
+        let currentCel = this.getMazeLocation();
+        let ext = world.levels[world.currentLevel].maze.exit;
+        if(currentCel === ext){
+                world.nextLevel(30, 30, 15, true);
+        }
     }
 
     /* Check the walls of the maze for collisions */
@@ -202,6 +212,9 @@ class BetterHero {
     }
     
     updateHealth() {//assume max health will always be 100
+        if(this.health>100){
+            this.health=100;
+        }
         let h = document.getElementById("health");
         let iT = document.getElementsByClassName("infoTile");
         let hP = Math.round(this.health) / 100;
@@ -231,6 +244,9 @@ class BetterHero {
         k.innerHTML=this.killCount;
     }
     updateOxygen() {
+        if(this.oxygen>100){
+            this.oxygen=100;
+        }
         let o = document.getElementById("oxygen");
         let iT=document.getElementsByClassName("infoTile");
         let oP = 0;
@@ -258,6 +274,14 @@ class BetterHero {
         }
         oP=(oP*100).toFixed(0);
         o.innerHTML = oP + "%";
+    }
+    updateVision(){
+        if(this.superVision>0){
+            this.superVision--;
+            world.levels[world.currentLevel].maze.cellMaxDist=15;
+        } else {
+            world.levels[world.currentLevel].maze.cellMaxDist=5;
+        }
     }
     pickUpWeapon(){
         let calvin = world.levels[world.currentLevel].hero.getMazeLocation().weapon;
