@@ -34,6 +34,7 @@ class Enemy {
 	this.setNewRandonTarget();
         this.health = 15;
         this.weapon = new Sword(this);
+	this.imageNumber=Math.floor(Math.random()*6);
     }    
 
     /* Run the enemy (once per frame) */
@@ -49,7 +50,6 @@ class Enemy {
     /* Update the enemy's position */
     update() {
 	if (this.getCenterMazeLocation().safeZone) {
-	    console.log("safe zone");
 	    const maze = world.levels[world.currentLevel].maze;
 	    if (this.position.x < maze.width / 2) {
 		this.position.x = Math.floor(maze.width * 0.25);
@@ -76,9 +76,6 @@ class Enemy {
             throw new Error(`pathType has an invalid value: ${this.pathType}`);
         }
 
-	console.log(this.pathType);
-	console.log(this.target);
-	console.log(Date.now());
 
         // Update the enemy's position
         this.velocity.add(this.acceleration);
@@ -92,7 +89,6 @@ class Enemy {
     }
 
     wander() {
-	console.log(`wander1: target: ${this.target.x}, ${this.target.y}`);
         // Check if the player is within a certain distance
         const target = this.target ? this.target.copy() : null;
         this.target = world.levels[world.currentLevel].hero.position.copy();
@@ -101,7 +97,6 @@ class Enemy {
         if (this.path.length < this.distanceToRecognizeHero
 	    && !world.levels[world.currentLevel].hero.getCenterMazeLocation().safeZone)
         {
-	    console.log("switching to seek");
             this.pathType = PathType.SEEK;
             this.seekPlayer();
             return;
@@ -110,17 +105,14 @@ class Enemy {
         // Seek the random position
         this.target = target;
 	this.updatePath();
-	console.log(`wander2: target: ${this.target.x}, ${this.target.y}`);
         this.seekTarget(() => {
             if (!this.target) {
-		console.log("no target");
 		this.setNewRandonTarget();
                 this.target.floor();
 		this.updatePath();
 		return true;
             }
             if (this.path.empty()) {
-		console.log("no path");
 		if (this.position.distance(this.target) <= 2) {
 		    this.setNewRandonTarget();
 		    this.updatePath();
@@ -128,7 +120,6 @@ class Enemy {
                 this.updatePath();
                 return true;
             }
-	    console.log(`wanderhook: target: ${this.target.x}, ${this.target.y}`);
             return false;
         });
     }
@@ -314,9 +305,6 @@ v
 
         const target = this.target.copy();
         target.floor();
-	console.log(target);
-	// throw new Error("bfs");
-	debugger;
         const goal = new Point(target.x, target.y);
         queue.enqueue(new Point(position.x, position.y));
         
@@ -390,8 +378,20 @@ v
         context.translate(this.world.canvas.width / 2, this.world.canvas.height / 2);
         context.beginPath();
         context.filter = `brightness(${100 * luminance}%)`;
-        context.fillStyle = "red";
-        context.fillRect(x, y, w, w);
+        const enemy=maze.images["enemy"+this.imageNumber];
+        if(enemy && enemy.loaded) {
+            let destinationHeight = cellWidth * 0.75;
+            let destinationWidth = cellWidth * 0.75;
+            let destinationY = y + 0.5 * (cellWidth - destinationHeight)-w/2;
+            let destinationX = x+ 0.5 * (cellWidth - destinationWidth)-w/2;
+            let sourceHeight = enemy.image.height;
+            let sourceWidth = enemy.image.width;
+            let sourceY = 0;
+            let sourceX = 0;
+            context.drawImage(enemy.image, sourceX, sourceY, sourceWidth, sourceHeight, destinationX, destinationY, destinationWidth, destinationHeight);
+        }
+        // context.fillStyle = "red";
+        // context.fillRect(x, y, w, w);
         context.restore();
     }
 
