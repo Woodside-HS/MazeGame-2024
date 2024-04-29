@@ -15,6 +15,7 @@ class BetterHero {
         this.width = 0.25;
         this.speed = 0.03;
         this.health = 100;
+        this.oh=this.health;
         this.oxygen = 100;
         this.weapon = new Sword(this);
         this.target = null;
@@ -57,6 +58,13 @@ class BetterHero {
      */
     getMazeLocation() {
         const cell = this.position.copy();
+        cell.floor();
+        return world.levels[world.currentLevel].maze.grid[cell.y][cell.x];
+    }
+    getCenterMazeLocation() {
+        const cell = this.position.copy();
+	cell.x += this.width / 2;
+	cell.y += this.width / 2;
         cell.floor();
         return world.levels[world.currentLevel].maze.grid[cell.y][cell.x];
     }
@@ -142,25 +150,25 @@ class BetterHero {
         if (spearTop.y >= 0) {
             spearTopCell = maze.grid[spearTop.y][spearTop.x];
         }
-        let topSpear = spearTopCell && (topLeftCell != topRightCell);
+        let topSpear = spearTopCell && (topLeftCell != topRightCell) && spearTopCell.rightWall();
         
         let spearBottomCell = null;
         if (spearBottom.y < maze.rows) {
             spearBottomCell = maze.grid[spearBottom.y][spearBottom.x];
         }
-        let bottomSpear = spearBottomCell && (topLeftCell != topRightCell);
+        let bottomSpear = spearBottomCell && (topLeftCell != topRightCell) && spearBottomCell.rightWall();
         
         let spearLeftCell = null;
         if (spearLeft.x >= 0) {
             spearLeftCell = maze.grid[spearLeft.y][spearLeft.x];
         }
-        let leftSpear = spearLeftCell && (topLeftCell != bottomLeftCell);
+        let leftSpear = spearLeftCell && (topLeftCell != bottomLeftCell) && spearLeftCell.bottomWall();
         
         let spearRightCell = null;
         if (spearRight.x < maze.cols) {
             spearRightCell = maze.grid[spearRight.y][spearRight.x];
         }
-        let rightSpear = spearRightCell && (topRightCell != bottomRightCell);
+        let rightSpear = spearRightCell && (topRightCell != bottomRightCell) && spearRightCell.bottomWall();
 
         // These are in pixels for rendering, but converted to sizes
         // relative to the virtual cell width
@@ -208,6 +216,9 @@ class BetterHero {
         if(this.health>100){
             this.health=100;
         }
+        if(this.health!=this.oh){
+            this.hitPopUp();
+        }
         let h = document.getElementById("health");
         let iT = document.getElementsByClassName("infoTile");
         let hP = Math.round(this.health) / 100;
@@ -229,6 +240,7 @@ class BetterHero {
             iT.item(1).style.boxShadow="0 0 6px 6px #c7f705";
             iT.item(1).style.backgroundImage="linear-gradient(#c8f70a,#bbe809,#b1d911)";
         }
+        this.oh=this.health;
     }
     updateWeaponStatus(){
         let w=document.getElementById("weapon");
@@ -308,7 +320,15 @@ class BetterHero {
             this.weapon.delayTime++;
         }
     }
-    /* Render the enemy */
+    hitPopUp(){
+        let ctx=this.world.context;
+        ctx.strokeStyle="rgb(255,0,0)";
+        ctx.fillStyle="rgb(255,0,0)";
+        ctx.rect(0,0,this.world.canvas.width,this.world.canvas.height);
+        ctx.stroke();
+        ctx.fill();
+    }
+    /* Render the hero */
     renderCenter() {
         const cellWidth = world.levels[world.currentLevel].maze.cellWidth;
         const center = world.levels[world.currentLevel].maze.getCenter();
@@ -320,8 +340,20 @@ class BetterHero {
         context.save();
         context.translate(this.world.canvas.width / 2, this.world.canvas.height / 2);
         context.beginPath();
-        context.fillStyle = "red";
-        context.fillRect(x, y, w, w);
+        const hero=this.world.levels[this.world.currentLevel].maze.images["hero"];
+        if(hero && hero.loaded) {
+            let destinationHeight = cellWidth * 0.75;
+            let destinationWidth = cellWidth * 0.75;
+            let destinationY = y + 0.5 * (cellWidth - destinationHeight)-w*3/2;
+            let destinationX = x+ 0.5 * (cellWidth - destinationWidth)-w*3/2;
+            let sourceHeight = hero.image.height;
+            let sourceWidth = hero.image.width;
+            let sourceY = 0;
+            let sourceX = 0;
+            context.drawImage(hero.image, sourceX, sourceY, sourceWidth, sourceHeight, destinationX, destinationY, destinationWidth, destinationHeight);
+        }
+        // context.fillStyle = "red";
+        // context.fillRect(x, y, w, w);
         if(this.weapon!==null){//render weapon if there is one
             this.weapon.render();
         }

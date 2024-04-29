@@ -234,9 +234,17 @@ Maze.prototype.loadImages = function () {
     }
 
     loadImage("./resources/bubble.png", "bubble");
-    loadImage("./resources/coral.jpg", "background");
+    loadImage("./resources/background.jpg", "background");
     loadImage("./resources/heart.png", "heart");
     loadImage("./resources/eye.png", "vision");
+    loadImage("./resources/blueBottle.png","enemy0");
+    loadImage("./resources/redBottle.png","enemy1");
+    loadImage("./resources/greyBag.png","enemy2");
+    loadImage("./resources/redCup.png","enemy3");
+    loadImage("./resources/ringPack.png","enemy4");
+    loadImage("./resources/whiteBag.png","enemy5");
+    loadImage("./resources/turtle.png","hero");
+
 }
 
 // Set the proper luminance for each cell with a breadth-first search
