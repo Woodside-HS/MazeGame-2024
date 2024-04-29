@@ -27,13 +27,14 @@ class Enemy {
         this.path = new Queue();
 
         /* @type {PathType} */
-        this.pathType = PathType.SEEK;
+        this.pathType = PathType.WANDER;
         
         /* @type {JSVector} */
-        this.target = null;
-        this.health=15;
-        this.weapon=new Sword(this);
-        this.imageNumber=Math.floor(Math.random()*6);
+        this.target = new JSVector();
+	this.setNewRandonTarget();
+        this.health = 15;
+        this.weapon = new Sword(this);
+	this.imageNumber=Math.floor(Math.random()*6);
     }    
 
     /* Run the enemy (once per frame) */
@@ -48,13 +49,33 @@ class Enemy {
 
     /* Update the enemy's position */
     update() {
-        if (this.pathType == PathType.WANDER) {
+	if (this.getCenterMazeLocation().safeZone) {
+	    const maze = world.levels[world.currentLevel].maze;
+	    if (this.position.x < maze.width / 2) {
+		this.position.x = Math.floor(maze.width * 0.25);
+	    } else {
+		this.position.x = Math.floor(maze.width * 0.75);
+	    }
+	    if (this.position.y < maze.height / 2) {
+		this.position.y = Math.floor(maze.height * 0.25);
+	    } else {
+		this.position.y = Math.floor(maze.height * 0.75);
+	    }
+	    this.target.floor();
+	    this.pathType = PathType.WANDER;
+	    this.setNewRandonTarget();
+	    this.updatePath();
+	    this.velocity = new JSVector(0, 0);
+	    this.acceleration = new JSVector(0, 0);
+	    this.wander();
+	} else if (this.pathType == PathType.WANDER) {
             this.wander();
         } else if (this.pathType == PathType.SEEK) {
             this.seekPlayer();
         } else {
             throw new Error(`pathType has an invalid value: ${this.pathType}`);
         }
+
 
         // Update the enemy's position
         this.velocity.add(this.acceleration);
@@ -70,11 +91,11 @@ class Enemy {
     wander() {
         // Check if the player is within a certain distance
         const target = this.target ? this.target.copy() : null;
-        this.target = JSVector.random(world.levels[world.currentLevel].maze.cols,
-                                      world.levels[world.currentLevel].maze.rows);
+        this.target = world.levels[world.currentLevel].hero.position.copy();
         this.target.floor();
         this.updatePath();
-        if (this.path.length < this.distanceToRecognizeHero)
+        if (this.path.length < this.distanceToRecognizeHero
+	    && !world.levels[world.currentLevel].hero.getCenterMazeLocation().safeZone)
         {
             this.pathType = PathType.SEEK;
             this.seekPlayer();
@@ -83,16 +104,19 @@ class Enemy {
         
         // Seek the random position
         this.target = target;
+	this.updatePath();
         this.seekTarget(() => {
             if (!this.target) {
-                this.target = JSVector.random(this.world.maze.width,
-                                              this.world.maze.height);
+		this.setNewRandonTarget();
                 this.target.floor();
+		this.updatePath();
+		return true;
             }
             if (this.path.empty()) {
-                this.target = JSVector.random(this.world.maze.width,
-                                              this.world.maze.height);
-                this.target.floor();
+		if (this.position.distance(this.target) <= 2) {
+		    this.setNewRandonTarget();
+		    this.updatePath();
+		}
                 this.updatePath();
                 return true;
             }
@@ -112,6 +136,8 @@ class Enemy {
             
             if (this.path.length > this.distanceToRecognizeHero) {
                 this.pathType = PathType.WANDER;
+		this.setNewRandonTarget();
+		this.updatePath();
                 this.wander();
                 return;
             }
@@ -141,8 +167,8 @@ class Enemy {
         if (pathWasUpdated) {
             nextCell = this.path.peek();
             // if (currentCell.equals(nextCell)) {
-            //     this.path.pop();
-            //     nextCell = this.path.peek();
+                // this.path.pop();
+                // nextCell = this.path.peek();
             // }
         }
         
@@ -197,25 +223,25 @@ class Enemy {
         if (spearTop.y >= 0) {
             spearTopCell = maze.grid[spearTop.y][spearTop.x];
         }
-        let topSpear = spearTopCell && (topLeftCell != topRightCell);
+        let topSpear = spearTopCell && (topLeftCell != topRightCell) && spearTopCell.rightWall();
         
         let spearBottomCell = null;
         if (spearBottom.y < maze.rows) {
             spearBottomCell = maze.grid[spearBottom.y][spearBottom.x];
         }
-        let bottomSpear = spearBottomCell && (topLeftCell != topRightCell);
+        let bottomSpear = spearBottomCell && (topLeftCell != topRightCell) && spearBottomCell.rightWall();
         
         let spearLeftCell = null;
         if (spearLeft.x >= 0) {
             spearLeftCell = maze.grid[spearLeft.y][spearLeft.x];
         }
-        let leftSpear = spearLeftCell && (topLeftCell != bottomLeftCell);
+        let leftSpear = spearLeftCell && (topLeftCell != bottomLeftCell) && spearLeftCell.bottomWall();
         
         let spearRightCell = null;
         if (spearRight.x < maze.cols) {
             spearRightCell = maze.grid[spearRight.y][spearRight.x];
         }
-        let rightSpear = spearRightCell && (topRightCell != bottomRightCell);
+        let rightSpear = spearRightCell && (topRightCell != bottomRightCell) && spearRightCell.bottomWall();
 
         // These are in pixels for rendering, but converted to sizes
         // relative to the virtual cell width
@@ -263,7 +289,7 @@ class Enemy {
             point = point.parent;
         }
     }
-    
+v    
     // https://en.wikipedia.org/wiki/Breadth-first_search#Pseudocode
     breadthFirstSearch() {
         let queue = new Queue();
@@ -387,6 +413,27 @@ class Enemy {
         const cell = this.position.copy();
         cell.floor();
         return world.levels[world.currentLevel].maze.grid[cell.y][cell.x];
+    }
+    getCenterMazeLocation() {
+        const cell = this.position.copy();
+	cell.x += this.width / 2;
+	cell.y += this.width / 2;
+        cell.floor();
+        return world.levels[world.currentLevel].maze.grid[cell.y][cell.x];
+    }
+    setNewRandonTarget() {
+	const maze = world.levels[world.currentLevel].maze;
+	if (this.position.x < maze.width / 2) {
+	    this.target.x = Math.random() * maze.width / 2;
+	} else {
+	    this.target.x = (1 + Math.random()) * maze.width / 2;
+	}
+	if (this.position.y < maze.height / 2) {
+	    this.target.y = Math.random() * maze.height / 2;
+	} else {
+	    this.target.y = (1 + Math.random()) * maze.height / 2;
+	}
+	this.target.floor();
     }
 }
 
