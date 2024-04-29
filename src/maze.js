@@ -90,26 +90,24 @@ Maze.prototype.exit = function () {
     if (side > 3) {//left wall 
         rc = 0;
         rr = Math.floor(Math.random() * this.rows);
-        while (rr < this.mazeLength) {
-            rr = Math.floor(Math.random() * this.rows);
-        }
+        // while (rr < this.mazeLength) {
+        //     rr = Math.floor(Math.random() * this.rows);
+        // }
     }
     else if (side > 2) {//bottom wall
         rr = this.rows - 1;
-        rc = Math.floor(Math.random() * this.cols);
         rc = Math.floor(Math.random() * this.cols);
     }
     else if (side > 1) {//right wall 
         rc = this.cols - 1;
         rr = Math.floor(Math.random() * this.rows);
-        rr = Math.floor(Math.random() * this.rows);
     }
     else {//top wall 
         rr = 0;
         rc = Math.floor(Math.random() * this.cols);
-        while (rc < this.mazeLength) {
-            rc = Math.floor(Math.random() * this.cols);
-        }
+        // while (rc < this.mazeLength) {
+        //     rc = Math.floor(Math.random() * this.cols);
+        // }
     }
     this.exit = this.grid[rr][rc];
     //make cell by exit & remove wall by exit 

@@ -25,7 +25,7 @@ class Level {
         this.maze.render(this.renderCenter);
 
         this.hero.run(this.renderCenter);
-
+        this.hero.speed = 0.2;
         // for (let i = 0; i < this.enemies.length; i++) {
         //     this.enemies[i].run(this.renderCenter);
         //     if (this.enemies[i].health <= 0) {
@@ -64,9 +64,8 @@ class Level {
 
     arrowToExit() {
         let center = this.maze.getCenter();
-        let exit = new JSVector(this.maze.exit.row, this.maze.exit.col);
+        let exit = new JSVector(this.maze.exit.col, this.maze.exit.row);
         let arrow = new JSVector.subGetNew(exit, center);
-        //let direction = Math.atan2(exit.y-center.y, exit.x-center.x);
         let ctx = world.context;
         ctx.save();
         ctx.translate(world.canvas.width - 80, world.canvas.height - 80);
