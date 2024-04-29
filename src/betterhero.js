@@ -61,8 +61,8 @@ class BetterHero {
     }
     getCenterMazeLocation() {
         const cell = this.position.copy();
-	cell.x += this.width;
-	cell.y += this.width;
+	cell.x += this.width / 2;
+	cell.y += this.width / 2;
         cell.floor();
         return world.levels[world.currentLevel].maze.grid[cell.y][cell.x];
     }
