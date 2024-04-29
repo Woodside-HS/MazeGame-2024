@@ -31,10 +31,10 @@ class Enemy {
         
         /* @type {JSVector} */
         this.target = new JSVector();
-	this.setNewRandonTarget();
+	    this.setNewRandonTarget();
         this.health = 15;
         this.weapon = new Sword(this);
-	this.imageNumber=Math.floor(Math.random()*6);
+	    this.imageNumber=Math.floor(Math.random()*6);
     }    
 
     /* Run the enemy (once per frame) */

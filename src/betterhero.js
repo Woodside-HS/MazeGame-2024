@@ -81,7 +81,8 @@ class BetterHero {
 
     /* Update the characters's position */
     update() {
-        const vel = new JSVector(0, 0);
+        let vel = this.velocity;
+        vel.setMagnitude(0.00000000000000000000000000000000000000000000001);//this has a purpose I swear
         if (this.keys["s"].pressed) {
             vel.y += this.speed;
             this.oxygen-=0.02;
@@ -216,9 +217,9 @@ class BetterHero {
         if(this.health>100){
             this.health=100;
         }
-        if(this.health!=this.oh){
-            this.hitPopUp();
-        }
+        // if(this.health<this.oh){
+        //     this.hitPopUp();
+        // }
         let h = document.getElementById("health");
         let iT = document.getElementsByClassName("infoTile");
         let hP = Math.round(this.health) / 100;
@@ -322,12 +323,20 @@ class BetterHero {
     }
     hitPopUp(){
         let ctx=this.world.context;
+        let w=this.world.width;
+        let h=this.world.height;
         ctx.strokeStyle="rgb(255,0,0)";
         ctx.fillStyle="rgb(255,0,0)";
-        ctx.rect(0,0,this.world.canvas.width,this.world.canvas.height);
+        ctx.rect(0,0,w,h);
         ctx.stroke();
         ctx.fill();
+        function clearPopUp(){
+            ctx.clearRect(0,0,world.width,world.height);
+            console.log("hi");
+        }
+        setTimeout(clearPopUp(),1000);
     }
+    
     /* Render the hero */
     renderCenter() {
         const cellWidth = world.levels[world.currentLevel].maze.cellWidth;
@@ -350,6 +359,7 @@ class BetterHero {
             let sourceWidth = hero.image.width;
             let sourceY = 0;
             let sourceX = 0;
+            context.rotate(this.velocity.getDirection()+Math.PI/2);
             context.drawImage(hero.image, sourceX, sourceY, sourceWidth, sourceHeight, destinationX, destinationY, destinationWidth, destinationHeight);
         }
         // context.fillStyle = "red";
