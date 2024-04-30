@@ -217,9 +217,11 @@ class BetterHero {
         if(this.health>100){
             this.health=100;
         }
-        // if(this.health<this.oh){
-        //     this.hitPopUp();
-        // }
+        if(this.health<this.oh){
+            for(let i=0;i<120;i++){
+                this.hitPopUp();
+            }
+        }
         let h = document.getElementById("health");
         let iT = document.getElementsByClassName("infoTile");
         let hP = Math.round(this.health) / 100;
@@ -330,11 +332,10 @@ class BetterHero {
         ctx.rect(0,0,w,h);
         ctx.stroke();
         ctx.fill();
-        function clearPopUp(){
-            ctx.clearRect(0,0,world.width,world.height);
-            console.log("hi");
-        }
-        setTimeout(clearPopUp(),1000);
+        let cnv = this.world.canvas;
+        ctx.font = "bold 80px copperplate";
+        ctx.fillStyle = "rgba(204,35,16)";
+        ctx.fillText("hit!",(cnv.width/2)-280,cnv.height/2);
     }
     
     /* Render the hero */
