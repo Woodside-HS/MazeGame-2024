@@ -21,6 +21,8 @@ class BetterHero {
         this.target = null;
         this.killCount = 0;
         this.superVision=0;
+        this.tslal=0;
+        this.tsleh=0;
 
         /* @type {JSVector} */
         this.position = initialPosition.copy();
@@ -211,16 +213,12 @@ class BetterHero {
         this.updateOxygen();
         this.updateHealth();
         this.updateWeaponStatus();
+        this.updateHitBar();
     }
     
     updateHealth() {//assume max health will always be 100
         if(this.health>100){
             this.health=100;
-        }
-        if(this.health<this.oh){
-            for(let i=0;i<120;i++){
-                this.hitPopUp();
-            }
         }
         let h = document.getElementById("health");
         let iT = document.getElementsByClassName("infoTile");
@@ -243,7 +241,6 @@ class BetterHero {
             iT.item(1).style.boxShadow="0 0 6px 6px #c7f705";
             iT.item(1).style.backgroundImage="linear-gradient(#c8f70a,#bbe809,#b1d911)";
         }
-        this.oh=this.health;
     }
     updateWeaponStatus(){
         let w=document.getElementById("weapon");
@@ -293,6 +290,7 @@ class BetterHero {
     }
     pickUpWeapon(){
         let calvin = world.levels[world.currentLevel].hero.getMazeLocation().weapon;
+        let h=document.getElementById("hAttack");
         //need to add a delay still
         if (calvin!==null&&this.keys["e"].pressed) {
             let diego=world.levels[world.currentLevel].hero.weapon;
@@ -300,11 +298,15 @@ class BetterHero {
             diego.holder=this.getMazeLocation();
             world.levels[world.currentLevel].hero.weapon=calvin;
             world.levels[world.currentLevel].hero.getMazeLocation().weapon=diego;
+            let s="You picked up a "+calvin.name+"!";
+            h.innerHTML=s;
+            this.tslal=0;
         }
     }
     updateWeapon() { 
         let enemies=world.levels[world.currentLevel].enemies;
         let closeEnemy=enemies[0];
+        let h=document.getElementById("hAttack");
         if(enemies.length>0){
             for(let i=0;i<enemies.length;i++){
                 if(enemies[i].path.length<closeEnemy.path.length){
@@ -314,28 +316,36 @@ class BetterHero {
             this.target=closeEnemy;
             if(this.weapon.attack(this.target)){
                 world.score+=150;
+                this.tslal=0;
+                let s="You hit a "+this.target.name+"!";
                 if(closeEnemy.health<=0){
+                    s="You killed a "+this.target.name+"!";
                     world.score+=100;
                     this.health+=10;
                     this.killCount++;
                 }
+                h.innerHTML=s;
             }
             this.weapon.delayTime++;
         }
     }
-    hitPopUp(){
-        let ctx=this.world.context;
-        let w=this.world.width;
-        let h=this.world.height;
-        ctx.strokeStyle="rgb(255,0,0)";
-        ctx.fillStyle="rgb(255,0,0)";
-        ctx.rect(0,0,w,h);
-        ctx.stroke();
-        ctx.fill();
-        let cnv = this.world.canvas;
-        ctx.font = "bold 80px copperplate";
-        ctx.fillStyle = "rgba(204,35,16)";
-        ctx.fillText("hit!",(cnv.width/2)-280,cnv.height/2);
+    updateHitBar(){
+        let h=document.getElementById("hAttack");
+        let e=document.getElementById("eAttack");
+        if(this.oh>this.health){
+            let s="You got hit by a "+this.target.name+" wielding a "+this.target.weapon.name+"!";
+            e.innerHTML=s;
+            this.tsleh=0;
+        }
+        this.oh=this.health;
+        this.tslal++;
+        this.tsleh++;
+        if(this.tslal>180){
+            h.innerHTML="";
+        } 
+        if(this.tsleh>180){
+            e.innerHTML="";
+        }
     }
     
     /* Render the hero */

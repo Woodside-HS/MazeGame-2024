@@ -35,6 +35,20 @@ class Enemy {
         this.health = 15;
         this.weapon = new Sword(this);
 	    this.imageNumber=Math.floor(Math.random()*6);
+        this.name=null;
+        if(this.imageNumber===0){
+            this.name="Blue Bottle";
+        } else if(this.imageNumber===1){
+            this.name="Red Bottle";
+        } else if(this.imageNumber===2){
+            this.name="Grey Bag";
+        } else if(this.imageNumber===3){
+            this.name="Red Cup";
+        } else if(this.imageNumber===4){
+            this.name="Ring Pack";
+        } else if(this.imageNumber===1){
+            this.name="White Bag";
+        }
     }    
 
     /* Run the enemy (once per frame) */
