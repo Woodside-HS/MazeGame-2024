@@ -235,8 +235,13 @@ Maze.prototype.loadImages = function () {
         this.images[name].image.src = path;
     }
 
+    loadImage("./resources/coral.jpg", "section0");
+    loadImage("./resources/background.jpg", "section1");
+    loadImage("./resources/background2.webp", "section2");
+    loadImage("./resources/background3.webp", "section3");
+
+    // loadImage("./resources/background.jpg", "background");
     loadImage("./resources/bubble.png", "bubble");
-    loadImage("./resources/background.jpg", "background");
     loadImage("./resources/heart.png", "heart");
     loadImage("./resources/eye.png", "vision");
     loadImage("./resources/blueBottle.png","enemy0");
