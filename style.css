@@ -3,7 +3,8 @@
 }
 
 html, #mainPage {
-    margin: 0; 
+    margin: 0;
+    padding:0;
     height: 100%;
     overflow: hidden;
 }
@@ -12,6 +13,7 @@ html, #mainPage {
 }
 body {
     margin: 0;
+    padding: 0;
     background-color: #000000;
     display: flex;
     flex-direction: column;
@@ -122,7 +124,7 @@ a, a:link, a:visited, a:hover, a:focus, a:active{
 }
 
 .credInst{
-    color: #144cb6;
+    color: blue;
     font-family: "Protest Revolution", sans-serif;
     font-weight: 400;
     font-style: normal;
@@ -130,7 +132,8 @@ a, a:link, a:visited, a:hover, a:focus, a:active{
     font-size: 70px;
 }
 #instWr{
-    color: #959aa3;
+    color: white;
+    /* background-color: black; */
     font-family: "Protest Revolution", sans-serif;
     font-weight: 400;
     font-style: normal;
@@ -168,4 +171,21 @@ a, a:link, a:visited, a:hover, a:focus, a:active{
     margin-top:15px;
 }
 
- 
+.mask {
+    position: absolute;
+    left: 0vw;
+    top: 0vh;
+    width: 100vw;
+    height: 1000vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+
+.above-mask {
+    position: absolute;
+    left: 0vw;
+    top: 0vh;
+    width: 100vw;
+    height: 1000vh;
+    z-index: 99;
+}
