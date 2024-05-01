@@ -233,8 +233,8 @@ Maze.prototype.loadImages = function () {
         this.images[name].image.src = path;
     }
 
-    loadImage("./resources/coral.jpg", "section0");
-    loadImage("./resources/background.jpg", "section1");
+    loadImage("./resources/background0.webp", "section0");
+    loadImage("./resources/background1.webp", "section1");
     loadImage("./resources/background2.webp", "section2");
     loadImage("./resources/background3.webp", "section3");
 
