@@ -26,58 +26,85 @@ class Level {
 
         this.hero.run(this.renderCenter);
 
-        for (let i=0;i<this.enemies.length;i++) {
+        for (let i = 0; i < this.enemies.length; i++) {
             this.enemies[i].run(this.renderCenter);
-            if(this.enemies[i].health<=0){
+            if (this.enemies[i].health <= 0) {
                 this.enemies.splice(i, 1);
                 console.log(`Enemy killed at ${Date.now()}`);
             }
         }
 
-        if(this.renderCenter)
+        if (this.renderCenter)
             this.maze.resetLuminances();
+
+        this.arrowToExit();
     }
 
     genLevel() {
         //maze 
         this.maze = new Maze(world, this, new JSVector(0, 0), this.rows, this.cols, this.mazeLength, this.renderCenter);
         let mL = this.mazeLength;
-        for(let r = 0; r<this.rows/mL; r++){
-            for(let c = 0; c<this.cols/mL; c++){
-                this.maze.regenerate(mL*r, mL*c, r*mL+mL, c*mL+mL);
+        for (let r = 0; r < this.rows / mL; r++) {
+            for (let c = 0; c < this.cols / mL; c++) {
+                this.maze.regenerate(mL * r, mL * c, r * mL + mL, c * mL + mL);
             }
         }
         this.maze.addPaths(15);
         this.maze.exit();
         this.safeZones();
         this.hero = new BetterHero(world, new JSVector(15, 15));
-        for (let i = 0; i < 4+2*world.currentLevel; i++) {
-            let x=Math.floor(Math.random()*this.maze.width);
-            let y=Math.floor(Math.random()*this.maze.height);
+        for (let i = 0; i < 4 + 2 * world.currentLevel; i++) {
+            let x = Math.floor(Math.random() * this.maze.width);
+            let y = Math.floor(Math.random() * this.maze.height);
             this.enemies[i] = new Enemy(world, new JSVector(x, y));
         }
-	this.enemies.push(new Enemy(world, new JSVector(13, 13)));
-        
+        this.enemies.push(new Enemy(world, new JSVector(13, 13)));
+
     }
 
-    safeZones(){
+    arrowToExit() {
+
+        let center = this.maze.getCenter();//in terms of rows and cols 
+        let exit = new JSVector(this.maze.exit.col+0.5, this.maze.exit.row+0.5);//in terms of rows and cols 
+        let arrow = new JSVector.subGetNew(exit, center);
+        if (arrow.x * arrow.x + arrow.y * arrow.y < 25) {
+            let ctx = world.context;
+            ctx.save();
+            ctx.translate(world.canvas.width - 80, world.canvas.height - 80);
+            ctx.rotate(arrow.getDirection());
+            ctx.beginPath();
+            ctx.moveTo(50, 0);
+            ctx.lineTo(0, 0);
+            ctx.moveTo(50, 0);
+            ctx.lineTo(30, 30);
+            ctx.moveTo(50, 0);
+            ctx.lineTo(30, -30);
+            ctx.strokeStyle = "rgba(255, 255, 255)";
+            ctx.lineWidth = 6;
+            ctx.stroke();
+            ctx.closePath();
+            ctx.restore();
+        }
+    }
+
+    safeZones() {
         let sloc = this.maze.sloc;
-        for(let i = 0; i<sloc.length; i++){
+        for (let i = 0; i < sloc.length; i++) {
             let r = sloc[i].row;
             let c = sloc[i].col;
             let grid = this.maze.grid;
             grid[r][c].safeZone = true;//box 1
-            grid[r-1][c].walls[2] = false;//top cell removes bottom wall 
-            grid[r][c-1].walls[1] = false;//left cell removes right wall
-            grid[r][c+1].safeZone = true;//box 2
-            grid[r-1][c+1].walls[2] = false;//top cell removes bottom wall 
-            grid[r][c+2].walls[3] = false;//left cell removes right wall 
-            grid[r+1][c].safeZone = true;//box 3
-            grid[r+2][c].walls[0] = false;//bottom cell removes top wall 
-            grid[r+1][c-1].walls[1] = false;//left cell removes right wall 
-            grid[r+1][c+1].safeZone = true;//box 4 
-            grid[r+2][c+1].walls[0] = false;//bottom cell removes top wall 
-            grid[r+1][c+2].walls[3] = false;//right cell removes left wall 
+            grid[r - 1][c].walls[2] = false;//top cell removes bottom wall 
+            grid[r][c - 1].walls[1] = false;//left cell removes right wall
+            grid[r][c + 1].safeZone = true;//box 2
+            grid[r - 1][c + 1].walls[2] = false;//top cell removes bottom wall 
+            grid[r][c + 2].walls[3] = false;//left cell removes right wall 
+            grid[r + 1][c].safeZone = true;//box 3
+            grid[r + 2][c].walls[0] = false;//bottom cell removes top wall 
+            grid[r + 1][c - 1].walls[1] = false;//left cell removes right wall 
+            grid[r + 1][c + 1].safeZone = true;//box 4 
+            grid[r + 2][c + 1].walls[0] = false;//bottom cell removes top wall 
+            grid[r + 1][c + 2].walls[3] = false;//right cell removes left wall 
             /*
             r and c are the row and column (respectively) 
             of box 1 in the safe zone 
