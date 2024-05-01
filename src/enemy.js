@@ -37,17 +37,17 @@ class Enemy {
 	    this.imageNumber=Math.floor(Math.random()*6);
         this.name=null;
         if(this.imageNumber===0){
-            this.name="Blue Bottle";
+            this.name="Angry Powerade";
         } else if(this.imageNumber===1){
-            this.name="Red Bottle";
+            this.name="Angry Kool Aid";
         } else if(this.imageNumber===2){
-            this.name="Grey Bag";
+            this.name="Angrier Plastic Bag";
         } else if(this.imageNumber===3){
-            this.name="Red Cup";
+            this.name="Angry Solo Cup";
         } else if(this.imageNumber===4){
-            this.name="Ring Pack";
-        } else if(this.imageNumber===1){
-            this.name="White Bag";
+            this.name="Angry Ring Pack";
+        } else if(this.imageNumber===5){
+            this.name="Angry Plastic Bag";
         }
     }    
 
@@ -96,7 +96,9 @@ class Enemy {
         this.velocity.limit(this.speed);
         this.position.add(this.velocity);
         if(this.weapon!==null){
-            this.weapon.attack(world.levels[world.currentLevel].hero);
+            if(this.weapon.attack(world.levels[world.currentLevel].hero)){
+                this.world.score-=10;
+            }
             this.weapon.delayTime++;
         }
         this.checkWalls();

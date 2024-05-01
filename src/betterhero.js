@@ -313,12 +313,12 @@ class BetterHero {
             }
             this.target=closeEnemy;
             if(this.weapon.attack(this.target)){
-                world.score+=150;
+                world.score+=10;
                 this.tslal=0;
                 let s="You hit a "+this.target.name+"!";
                 if(closeEnemy.health<=0){
-                    s="You killed a "+this.target.name+"!";
-                    world.score+=100;
+                    s="You cleaned up a "+this.target.name+"!";
+                    world.score+=50;
                     this.health+=10;
                     this.killCount++;
                 }
@@ -338,10 +338,10 @@ class BetterHero {
         this.oh=this.health;
         this.tslal++;
         this.tsleh++;
-        if(this.tslal>180){
+        if(this.tslal>240){
             h.innerHTML="";
         } 
-        if(this.tsleh>180){
+        if(this.tsleh>240){
             e.innerHTML="";
         }
     }
