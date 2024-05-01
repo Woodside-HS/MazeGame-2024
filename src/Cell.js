@@ -27,6 +27,15 @@ function Cell(world, maze, r, c, cellWidth, wallWidth) {
     // this.type = "coral"; // Types for images
 }
 
+Cell.prototype.getSection = function() {
+    let horizontalSections = this.maze.width / this.maze.mazeLength;
+    // console.log(horizontalSections);
+    let section = new JSVector(this.col, this.row);
+    section.divide(this.maze.mazeLength);
+    section.floor();
+    return horizontalSections * section.y + section.x;
+}
+
 Cell.prototype.render = function (center) {
     if (this.safeZone) {//if its a safe zone, remove all walls 
         this.walls[0] = false;
@@ -60,12 +69,13 @@ Cell.prototype.renderCenter = function () {
     context.strokeStyle = "white";
     context.lineWidth = this.wallWidth;
 
-    const image = maze.images["background"];
+    const image = maze.images[`section${this.getSection()}`];
+    // console.log(image, `section${this.getSection()}`);
     if (image && image.loaded && this.luminance > 0) {
-        let sourceWidth = image.image.width / maze.width;
-        let sourceHeight = image.image.height / maze.height;
-        let sourceX = this.col * sourceWidth;
-        let sourceY = this.row * sourceHeight;
+        let sourceWidth = image.image.width / maze.mazeLength;
+        let sourceHeight = image.image.height / maze.mazeLength;
+        let sourceX = (this.col % maze.mazeLength) * sourceWidth;
+        let sourceY = (this.row % maze.mazeLength) * sourceHeight;
         let destinationX = x;
         let destinationY = y;
         let destinationWidth = cellWidth;
@@ -162,9 +172,17 @@ Cell.prototype.renderCenter = function () {
 
     context.stroke();
     context.closePath();
-    context.restore();
-
     
+
+    if(this.safeZone){
+        context.save();
+        context.font = "48px serif";
+        context.fillStyle = "rgba(255, 255, 255, 1)";
+        context.fillText("Safe", x+cellWidth/6, y+cellWidth/2, cellWidth);
+        context.fillText("Zone", x+cellWidth/6, y+cellWidth/1.3, cellWidth);
+        context.restore();
+    }
+    context.restore();
 }
 
 Cell.prototype.renderClassic = function () {

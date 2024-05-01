@@ -52,8 +52,8 @@ class World {
     }
     runScore() {
         let s = document.getElementById("score");
-        if (((this.time % 60) === 0) && this.levels[world.currentLevel].hero.health > 0) {
-            this.score += 100;
+        if (((this.time % 120) === 0) && this.levels[world.currentLevel].hero.health > 0) {
+            this.score += 1;
         }
         //detects contact with oxygen
         let hero=this.levels[this.currentLevel].hero;
@@ -62,13 +62,18 @@ class World {
             if (hero.oxygen < 99.9) {
                hero.oxygen += 0.1;
                 sanjan.air -= 0.1;
+                //this.score += 1;
             }
-            this.score += 1;
+            //this.score += 1;
+        }
+        let justin = hero.getMazeLocation().safeZone;
+        if(justin && hero.oxygen < 100){
+            hero.oxygen += 1;
         }
         let diego=hero.getMazeLocation().vision;
         if(diego!=null&&hero.superVision===0){
             hero.superVision+=600;
-            this.score+=200;
+            this.score+=20;
             diego.used=true;
         }
         let calvin=hero.getMazeLocation().healthHeart;
@@ -76,10 +81,10 @@ class World {
             hero.health+=30;
             hero.oxygen+=10;
             calvin.used=true;
-            this.score += 400;
+            this.score += 40;
         }
         if (this.levels[world.currentLevel].hero.getMazeLocation() === this.levels[world.currentLevel].maze.exit) {
-            this.score += 1000;
+            this.score += 100;
         }
         s.innerHTML = this.score;
     }

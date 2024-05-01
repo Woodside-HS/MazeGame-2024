@@ -90,26 +90,24 @@ Maze.prototype.exit = function () {
     if (side > 3) {//left wall 
         rc = 0;
         rr = Math.floor(Math.random() * this.rows);
-        while (rr < this.mazeLength) {
-            rr = Math.floor(Math.random() * this.rows);
-        }
+        // while (rr < this.mazeLength) {
+        //     rr = Math.floor(Math.random() * this.rows);
+        // }
     }
     else if (side > 2) {//bottom wall
         rr = this.rows - 1;
-        rc = Math.floor(Math.random() * this.cols);
         rc = Math.floor(Math.random() * this.cols);
     }
     else if (side > 1) {//right wall 
         rc = this.cols - 1;
         rr = Math.floor(Math.random() * this.rows);
-        rr = Math.floor(Math.random() * this.rows);
     }
     else {//top wall 
         rr = 0;
         rc = Math.floor(Math.random() * this.cols);
-        while (rc < this.mazeLength) {
-            rc = Math.floor(Math.random() * this.cols);
-        }
+        // while (rc < this.mazeLength) {
+        //     rc = Math.floor(Math.random() * this.cols);
+        // }
     }
     this.exit = this.grid[rr][rc];
     //make cell by exit & remove wall by exit 
@@ -235,8 +233,13 @@ Maze.prototype.loadImages = function () {
         this.images[name].image.src = path;
     }
 
+    loadImage("./resources/background0.webp", "section0");
+    loadImage("./resources/background1.webp", "section1");
+    loadImage("./resources/background2.webp", "section2");
+    loadImage("./resources/background3.webp", "section3");
+
+    // loadImage("./resources/background.jpg", "background");
     loadImage("./resources/bubble.png", "bubble");
-    loadImage("./resources/background.jpg", "background");
     loadImage("./resources/heart.png", "heart");
     loadImage("./resources/eye.png", "vision");
     loadImage("./resources/blueBottle.png","enemy0");
@@ -249,8 +252,16 @@ Maze.prototype.loadImages = function () {
 
 }
 
-// Set the proper luminance for each cell with a breadth-first search
 Maze.prototype.setCellLuminances = function () {
+    if (world.levels[world.currentLevel].hero.superVision > 0) {
+	this.setCellLuminancesRadial();
+    } else {
+	this.setCellLuminancesBFS();
+    }
+}
+
+// Set the proper luminance for each cell with a breadth-first search
+Maze.prototype.setCellLuminancesBFS = function () {
     const Point = class Point {
         constructor(x, y, parent = null) {
             this.x = x;
@@ -341,6 +352,22 @@ Maze.prototype.setCellLuminances = function () {
             let neighbor = new Point(cell.x + 1, cell.y, cell);
             queue.enqueue(neighbor);
         }
+    }
+}
+
+Maze.prototype.setCellLuminancesRadial = function () {
+    let heroPosition = world.levels[world.currentLevel].hero.position.copy();
+    for (let y = 0; y < this.height; ++y) {
+	for (let x = 0; x < this.width; ++x) {
+	    let cell = new JSVector(x, y);
+	    let distance = cell.distance(heroPosition);
+	    let maxDistance = 3;
+	    if (distance < maxDistance) {
+		this.grid[y][x].luminance = 1;
+	    } else {
+		this.grid[y][x].luminance = 0;
+	    }
+	}
     }
 }
 
