@@ -14,8 +14,7 @@ class Weapon {
         this.damage = damage;
         this.delay = delay;
         //needed for range
-        let pxcConst=world.levels[world.currentLevel].maze.cellWidth;
-        this.range = range/pxcConst;
+        this.range = range;
         this.holder=holder;
         if(holder.distanceToRecognizeHero!==undefined){//damage boost for enemy
             this.damage*=2;
@@ -42,18 +41,18 @@ class Weapon {
     attack(target){//still need to check for walls
         // let hp=this.holder.getMazeLocation();
         // let tp=this.target.getMazeLocation();
-	let canAttack = ((this.delayTime>=this.delay))&&(target.position.distance(this.holder.position)<this.range);
+	let canAttack = ((this.delayTime>=this.delay))&&(target.position.distanceSquared(this.holder.position)<this.range*this.range);
 	if (!canAttack) {
 	    return false;
+        } else {
+	        this.delayTime=0;
+            target.health-=this.damage;
+            if(target.health<0){
+                target.health=0;
+            }
+            console.log(`${this.holder.constructor.name} hit ${target.constructor.name} at ${Date.now()}`);
+            return true;
         }
-
-	this.delayTime=0;
-        target.health-=this.damage;
-        if(target.health<0){
-            target.health=0;
-        }
-        console.log(`${this.holder.constructor.name} hit ${target.constructor.name} at ${Date.now()}`);
-        return true;
     }
 
     render(){
