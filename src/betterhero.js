@@ -21,6 +21,8 @@ class BetterHero {
         this.target = null;
         this.killCount = 0;
         this.superVision=0;
+        this.tslal=0;
+        this.tsleh=0;
 
         /* @type {JSVector} */
         this.position = initialPosition.copy();
@@ -81,7 +83,8 @@ class BetterHero {
 
     /* Update the characters's position */
     update() {
-        const vel = new JSVector(0, 0);
+        let vel = this.velocity;
+        vel.setMagnitude(0.00000000000000000000000000000000000000000000001);//this has a purpose I swear
         if (this.keys["s"].pressed) {
             vel.y += this.speed;
             this.oxygen-=0.02;
@@ -210,14 +213,12 @@ class BetterHero {
         this.updateOxygen();
         this.updateHealth();
         this.updateWeaponStatus();
+        this.updateHitBar();
     }
     
     updateHealth() {//assume max health will always be 100
         if(this.health>100){
             this.health=100;
-        }
-        if(this.health!=this.oh){
-            this.hitPopUp();
         }
         let h = document.getElementById("health");
         let iT = document.getElementsByClassName("infoTile");
@@ -240,7 +241,6 @@ class BetterHero {
             iT.item(1).style.boxShadow="0 0 6px 6px #c7f705";
             iT.item(1).style.backgroundImage="linear-gradient(#c8f70a,#bbe809,#b1d911)";
         }
-        this.oh=this.health;
     }
     updateWeaponStatus(){
         let w=document.getElementById("weapon");
@@ -288,6 +288,7 @@ class BetterHero {
     }
     pickUpWeapon(){
         let calvin = world.levels[world.currentLevel].hero.getMazeLocation().weapon;
+        let h=document.getElementById("hAttack");
         //need to add a delay still
         if (calvin!==null&&this.keys["e"].pressed) {
             let diego=world.levels[world.currentLevel].hero.weapon;
@@ -295,11 +296,15 @@ class BetterHero {
             diego.holder=this.getMazeLocation();
             world.levels[world.currentLevel].hero.weapon=calvin;
             world.levels[world.currentLevel].hero.getMazeLocation().weapon=diego;
+            let s="You picked up a "+calvin.name+"!";
+            h.innerHTML=s;
+            this.tslal=0;
         }
     }
     updateWeapon() { 
         let enemies=world.levels[world.currentLevel].enemies;
         let closeEnemy=enemies[0];
+        let h=document.getElementById("hAttack");
         if(enemies.length>0){
             for(let i=0;i<enemies.length;i++){
                 if(enemies[i].path.length<closeEnemy.path.length){
@@ -308,24 +313,39 @@ class BetterHero {
             }
             this.target=closeEnemy;
             if(this.weapon.attack(this.target)){
-                world.score+=150;
+                world.score+=10;
+                this.tslal=0;
+                let s="You hit a "+this.target.name+"!";
                 if(closeEnemy.health<=0){
-                    world.score+=100;
+                    s="You cleaned up a "+this.target.name+"!";
+                    world.score+=50;
                     this.health+=10;
                     this.killCount++;
                 }
+                h.innerHTML=s;
             }
             this.weapon.delayTime++;
         }
     }
-    hitPopUp(){
-        let ctx=this.world.context;
-        ctx.strokeStyle="rgb(255,0,0)";
-        ctx.fillStyle="rgb(255,0,0)";
-        ctx.rect(0,0,this.world.canvas.width,this.world.canvas.height);
-        ctx.stroke();
-        ctx.fill();
+    updateHitBar(){
+        let h=document.getElementById("hAttack");
+        let e=document.getElementById("eAttack");
+        if(this.oh>this.health){
+            let s="You got hit by a "+this.target.name+" wielding a "+this.target.weapon.name+"!";
+            e.innerHTML=s;
+            this.tsleh=0;
+        }
+        this.oh=this.health;
+        this.tslal++;
+        this.tsleh++;
+        if(this.tslal>240){
+            h.innerHTML="";
+        } 
+        if(this.tsleh>240){
+            e.innerHTML="";
+        }
     }
+    
     /* Render the hero */
     renderCenter() {
         const cellWidth = world.levels[world.currentLevel].maze.cellWidth;
@@ -348,6 +368,7 @@ class BetterHero {
             let sourceWidth = hero.image.width;
             let sourceY = 0;
             let sourceX = 0;
+            context.rotate(this.velocity.getDirection()+Math.PI/2);
             context.drawImage(hero.image, sourceX, sourceY, sourceWidth, sourceHeight, destinationX, destinationY, destinationWidth, destinationHeight);
         }
         // context.fillStyle = "red";

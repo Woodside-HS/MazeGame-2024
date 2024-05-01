@@ -31,10 +31,24 @@ class Enemy {
         
         /* @type {JSVector} */
         this.target = new JSVector();
-	this.setNewRandonTarget();
+	    this.setNewRandonTarget();
         this.health = 15;
         this.weapon = new Sword(this);
-	this.imageNumber=Math.floor(Math.random()*6);
+	    this.imageNumber=Math.floor(Math.random()*6);
+        this.name=null;
+        if(this.imageNumber===0){
+            this.name="Angry Powerade";
+        } else if(this.imageNumber===1){
+            this.name="Angry Kool Aid";
+        } else if(this.imageNumber===2){
+            this.name="Angrier Plastic Bag";
+        } else if(this.imageNumber===3){
+            this.name="Angry Solo Cup";
+        } else if(this.imageNumber===4){
+            this.name="Angry Ring Pack";
+        } else if(this.imageNumber===5){
+            this.name="Angry Plastic Bag";
+        }
     }    
 
     /* Run the enemy (once per frame) */
@@ -82,7 +96,9 @@ class Enemy {
         this.velocity.limit(this.speed);
         this.position.add(this.velocity);
         if(this.weapon!==null){
-            this.weapon.attack(world.levels[world.currentLevel].hero);
+            if(this.weapon.attack(world.levels[world.currentLevel].hero)){
+                this.world.score-=10;
+            }
             this.weapon.delayTime++;
         }
         this.checkWalls();
