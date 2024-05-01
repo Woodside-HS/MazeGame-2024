@@ -43,6 +43,7 @@ function restart(){
     let r=document.getElementById("restartB");
     if(world.paused){
         world.levels[world.currentLevel].genLevel();
+        world.currentLevel=0;
         world.paused = false;
         world.time=0;
         world.score=0;
