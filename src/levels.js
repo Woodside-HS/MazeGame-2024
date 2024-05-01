@@ -19,7 +19,6 @@ class Level {
         this.maze;
         this.hero;
         this.enemies = [];
-        this.aaa = 0;
     }
 
     run() {
@@ -39,14 +38,6 @@ class Level {
             this.maze.resetLuminances();
 
         this.arrowToExit();
-
-        let ctx = world.context;
-        //ctx.save();
-        ctx.rect(0, 0, 500, 500);
-        ctx.fillStyle = "rgba(130, 50, 70, " + this.aaa + ")";
-        ctx.fill();
-        this.aaa+=0.1;
-        //ctx.restore();
     }
 
     genLevel() {
