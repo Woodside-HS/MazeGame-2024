@@ -15,11 +15,12 @@ class Weapon {
         this.delay = delay;
         //needed for range
         this.range = range;
+        this.length=length;
         this.holder=holder;
         if(holder.distanceToRecognizeHero!==undefined){//damage boost for enemy
             this.damage*=2;
             this.delay*=1.5;
-            this.range*=0.75;
+            this.range*=0.6;
         }
         this.name=name;
         this.delayTime=delay;
@@ -53,10 +54,5 @@ class Weapon {
             console.log(`${this.holder.constructor.name} hit ${target.constructor.name} at ${Date.now()}`);
             return true;
         }
-    }
-
-    render(){
-        let ctx=world.context;
-        ctx.drawImage(this.image.image, this.holder.position.x-30, this.holder.position.y-15,25,25);
     }
 }
