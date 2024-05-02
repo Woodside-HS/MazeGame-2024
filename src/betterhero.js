@@ -315,9 +315,9 @@ class BetterHero {
             if(this.weapon.attack(this.target)){
                 world.score+=10;
                 this.tslal=0;
-                let s="You hit a "+this.target.name+"!";
+                let s="You hit a "+this.target.name+" with a "+this.weapon.name+"!";
                 if(closeEnemy.health<=0){
-                    s="You cleaned up a "+this.target.name+"!";
+                    s="You sure cleaned up a "+this.target.name+"!";
                     world.score+=50;
                     this.health+=10;
                     this.killCount++;
@@ -371,10 +371,8 @@ class BetterHero {
             context.rotate(this.velocity.getDirection()+Math.PI/2);
             context.drawImage(hero.image, sourceX, sourceY, sourceWidth, sourceHeight, destinationX, destinationY, destinationWidth, destinationHeight);
         }
-        // context.fillStyle = "red";
-        // context.fillRect(x, y, w, w);
         if(this.weapon!==null){//render weapon if there is one
-            this.weapon.render();
+            context.drawImage(this.weapon.image.image, this.position.x-75, this.position.y-35-(cellWidth*this.weapon.length),25,cellWidth*this.weapon.length);
         }
         context.restore();
     }

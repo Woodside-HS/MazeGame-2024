@@ -533,16 +533,24 @@ Maze.prototype.weaponCreation = function () {
                         ranC = Math.floor(Math.random() * (col * mL + mL - col + 1) + col);
                     }
                     if (this.grid[ranR][ranC].oxygen === null&&this.grid[ranR][ranC].healthHeart===null&&this.grid[ranR][ranC].vision===null&&this.grid[ranR][ranC].weapon===null ){
-                        let ran = Math.random() * 4;
+                        let ran = Math.random() * 6;
                         if (ran < 1.5) {
-                            this.grid[ranR][ranC].weapon = new Sword(this.grid[ranR][ranC]);
-                        } else if (ran < 2.5) {
                             this.grid[ranR][ranC].weapon = new Dagger(this.grid[ranR][ranC]);
+                        } else if (ran < 2.5) {
+                            this.grid[ranR][ranC].weapon = new Sword(this.grid[ranR][ranC]);
                         } else if (ran < 3.5) {
                             this.grid[ranR][ranC].weapon = new Spear(this.grid[ranR][ranC]);
                         } else if (ran < 4) {
                             this.grid[ranR][ranC].weapon = new Trident(this.grid[ranR][ranC]);
-                        }
+                        } else if (ran < 4.75) {
+                            this.grid[ranR][ranC].weapon = new SuperDagger(this.grid[ranR][ranC]);
+                        } else if (ran < 5.33) {
+                            this.grid[ranR][ranC].weapon = new SuperSword(this.grid[ranR][ranC]);
+                        } else if (ran < 5.67) {
+                            this.grid[ranR][ranC].weapon = new SuperSpear(this.grid[ranR][ranC]);
+                        } else if (ran < 6) {
+                            this.grid[ranR][ranC].weapon = new SuperTrident(this.grid[ranR][ranC]);
+                        } 
                     }
                 } else {
                     done=true;
