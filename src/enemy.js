@@ -86,6 +86,12 @@ class Enemy {
             this.wander();
         } else if (this.pathType == PathType.SEEK) {
             this.seekPlayer();
+            if(this.weapon!==null){
+                if(this.weapon.attack(world.levels[world.currentLevel].hero)){
+                    this.world.score-=10;
+                }
+                this.weapon.delayTime++;
+            }
         } else {
             throw new Error(`pathType has an invalid value: ${this.pathType}`);
         }
@@ -95,12 +101,6 @@ class Enemy {
         this.velocity.add(this.acceleration);
         this.velocity.limit(this.speed);
         this.position.add(this.velocity);
-        if(this.weapon!==null){
-            if(this.weapon.attack(world.levels[world.currentLevel].hero)){
-                this.world.score-=10;
-            }
-            this.weapon.delayTime++;
-        }
         this.checkWalls();
     }
 
@@ -406,8 +406,6 @@ v
             let sourceX = 0;
             context.drawImage(enemy.image, sourceX, sourceY, sourceWidth, sourceHeight, destinationX, destinationY, destinationWidth, destinationHeight);
         }
-        // context.fillStyle = "red";
-        // context.fillRect(x, y, w, w);
         context.restore();
     }
 
