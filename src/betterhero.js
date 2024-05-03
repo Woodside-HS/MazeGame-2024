@@ -36,7 +36,8 @@ class BetterHero {
             "w": {pressed: false},
             "a": {pressed: false},
             "d": {pressed: false},
-            "e": {pressed: false}
+            "e": {pressed: false},
+            " ": {pressed: false}
         };
 
         window.addEventListener("keydown", (event) => {
@@ -313,7 +314,7 @@ class BetterHero {
                 }
             }
             this.target=closeEnemy;
-            if(this.weapon.attack(this.target)){
+            if(this.weapon.attack(this.target)&&this.keys[" "].pressed){
                 world.score+=10;
                 this.tslal=0;
                 let s="You hit a "+this.target.name+" with a "+this.weapon.name+"!";
