@@ -36,7 +36,8 @@ class BetterHero {
             "w": {pressed: false},
             "a": {pressed: false},
             "d": {pressed: false},
-            "e": {pressed: false}
+            "e": {pressed: false},
+            " ": {pressed: false}
         };
 
         window.addEventListener("keydown", (event) => {
@@ -290,10 +291,11 @@ class BetterHero {
         let calvin = world.levels[world.currentLevel].hero.getMazeLocation().weapon;
         let h=document.getElementById("hAttack");
         //need to add a delay still
-        if (calvin!==null&&this.keys["e"].pressed) {
+        if (calvin!==null&&this.keys["e"].pressed&&this.weapon.delayTime>30) {
             let diego=world.levels[world.currentLevel].hero.weapon;
             calvin.holder=this;
             diego.holder=this.getMazeLocation();
+            this.weapon.delayTime=0;
             world.levels[world.currentLevel].hero.weapon=calvin;
             world.levels[world.currentLevel].hero.getMazeLocation().weapon=diego;
             let s="You picked up a "+calvin.name+"!";
@@ -312,7 +314,7 @@ class BetterHero {
                 }
             }
             this.target=closeEnemy;
-            if(this.weapon.attack(this.target)){
+            if(this.weapon.attack(this.target)&&this.keys[" "].pressed){
                 world.score+=10;
                 this.tslal=0;
                 let s="You hit a "+this.target.name+" with a "+this.weapon.name+"!";
