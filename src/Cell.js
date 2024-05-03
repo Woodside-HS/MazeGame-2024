@@ -215,10 +215,6 @@ Cell.prototype.renderClassic = function () {
     this.context.closePath();
     this.context.restore();
 
-    if (this.oxygen != null) {
-        this.oxygen.render();
-    }
-
     if (this.safeZone) {
         this.context.save();
         this.context.rect(this.topL.x, this.topL.y, this.cellWidth, this.cellWidth);
