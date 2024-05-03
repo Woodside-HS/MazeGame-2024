@@ -33,7 +33,7 @@ class Enemy {
         this.target = new JSVector();
 	    this.setNewRandonTarget();
         this.health = 15;
-        this.weapon = new Sword(this);
+        this.weapon = new SuperTrident(this);
 	    this.imageNumber=Math.floor(Math.random()*6);
         this.name=null;
         if(this.imageNumber===0){

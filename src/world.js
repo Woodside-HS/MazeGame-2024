@@ -24,7 +24,7 @@ class World {
         this.time = 0;
         this.msTime = 0;
         this.score = 0;
-
+        this.difficulty=1;
         this.currentLevel = 0;
         this.levels = [new Level(30, 30, 15, 1, true)];//rows, cols, level number, renderCenter 
     }

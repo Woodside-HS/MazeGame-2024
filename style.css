@@ -96,6 +96,10 @@ canvas {
     background-image: linear-gradient(#35353b,#262629, #161617);
     box-shadow:none;
 }
+#diff{
+    background-image: linear-gradient(#35353b,#262629, #161617);
+    box-shadow:none;
+}
 .button{
     /* position:absolute; */
     text-align: center;
