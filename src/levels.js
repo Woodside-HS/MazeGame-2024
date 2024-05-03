@@ -10,7 +10,7 @@ generate hero, and generate enemies methods
 */
 
 class Level {
-    constructor(rows, cols, mL, levelNum, renderCenter) {
+    constructor(rows, cols, mL, levelNum, renderCenter, numEnemies) {
         this.levelNum = levelNum;
         this.rows = rows;
         this.cols = cols;
@@ -19,6 +19,7 @@ class Level {
         this.maze;
         this.hero;
         this.enemies = [];
+        this.numEnemies = numEnemies;
     }
 
     run() {
@@ -53,7 +54,7 @@ class Level {
         this.maze.exit();
         this.safeZones();
         this.hero = new BetterHero(world, new JSVector(15, 15));
-        for (let i = 0; i < 4 + 2 * world.currentLevel; i++) {
+        for (let i = 0; i < this.numEnemies; i++) {
             let x = Math.floor(Math.random() * this.maze.width);
             let y = Math.floor(Math.random() * this.maze.height);
             this.enemies[i] = new Enemy(world, new JSVector(x, y));
