@@ -74,6 +74,5 @@ function changeDifficulty(){
             d.innerHTML="Hard";
         }
         restart();
-        swapPause();
     }
 }
