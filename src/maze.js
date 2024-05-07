@@ -423,7 +423,7 @@ Maze.prototype.oxygenBubbles = function () {
                     }
                 }
                 //oxygen bubbles on random tiles if 
-                if (count < 10) {
+                if (count < this.mazeLegnth) {
                     let Rmax = row * mL + mL - 1;
                     let Rmin = row * mL;
                     let Cmax = col * mL + mL - 1;
