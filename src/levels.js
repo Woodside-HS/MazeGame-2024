@@ -53,7 +53,7 @@ class Level {
         this.maze.exit();
         this.safeZones();
         this.hero = new BetterHero(world, new JSVector(15, 15));
-        for (let i = 0; i < 5 + 4 * world.currentLevel+3*world.difficulty; i++) {
+        for (let i = 0; i <4; i++) {
             let x = Math.floor(Math.random() * this.maze.width);
             let y = Math.floor(Math.random() * this.maze.height);
             this.enemies[i] = new Enemy(world, new JSVector(x, y));
@@ -65,33 +65,38 @@ class Level {
     arrowToExit() {
 
         let center = this.maze.getCenter();//in terms of rows and cols 
-        let exit = new JSVector(this.maze.exit.col+0.5, this.maze.exit.row+0.5);//in terms of rows and cols 
+        let exit = new JSVector(this.maze.exit.col + 0.5, this.maze.exit.row + 0.5);//in terms of rows and cols 
         let arrow = new JSVector.subGetNew(exit, center);
-        if(this.levelNum === 1){
+        if (world.difficulty === 1) {
             this.renderArrow(arrow);
         }
-        else if (this.levelNum === 2 && (arrow.x * arrow.x + arrow.y * arrow.y) < 25) {
-            this.renderArrow(arrow);
+        else if (world.difficulty === 2) {
+            if (this.levelNum === 2 && (arrow.x * arrow.x + arrow.y * arrow.y) < 25) {
+                this.renderArrow(arrow);
+            }
+        }
+        else if(world.difficulty === 3){
+            //no arrow 
         }
     }
 
-    renderArrow(arrow){
+    renderArrow(arrow) {
         let ctx = world.context;
-            ctx.save();
-            ctx.translate(world.canvas.width - 80, world.canvas.height - 80);
-            ctx.rotate(arrow.getDirection());
-            ctx.beginPath();
-            ctx.moveTo(50, 0);
-            ctx.lineTo(0, 0);
-            ctx.moveTo(50, 0);
-            ctx.lineTo(30, 30);
-            ctx.moveTo(50, 0);
-            ctx.lineTo(30, -30);
-            ctx.strokeStyle = "rgba(255, 255, 255)";
-            ctx.lineWidth = 6;
-            ctx.stroke();
-            ctx.closePath();
-            ctx.restore();
+        ctx.save();
+        ctx.translate(world.canvas.width - 80, world.canvas.height - 80);
+        ctx.rotate(arrow.getDirection());
+        ctx.beginPath();
+        ctx.moveTo(50, 0);
+        ctx.lineTo(0, 0);
+        ctx.moveTo(50, 0);
+        ctx.lineTo(30, 30);
+        ctx.moveTo(50, 0);
+        ctx.lineTo(30, -30);
+        ctx.strokeStyle = "rgba(255, 255, 255)";
+        ctx.lineWidth = 6;
+        ctx.stroke();
+        ctx.closePath();
+        ctx.restore();
     }
 
     safeZones() {
