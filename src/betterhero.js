@@ -393,7 +393,6 @@ class BetterHero {
                     context.translate(this.position.x-cellWidth/6.5,this.position.y-cellWidth/6.5);
                     this.justAttacked+=0.25;
                 }
-                console.log(this.justAttacked);
                 
             }
             context.drawImage(this.weapon.image.image, this.position.x-75, this.position.y-35-(cellWidth*this.weapon.length),25,cellWidth*this.weapon.length);
