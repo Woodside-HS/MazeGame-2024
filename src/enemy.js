@@ -33,7 +33,8 @@ class Enemy {
         this.target = new JSVector();
 	    this.setNewRandonTarget();
         this.health = 15;
-        this.weapon = new Sword(this);
+        this.maxHealth=this.health;
+        this.weapon = new Dagger(this);
 	    this.imageNumber=Math.floor(Math.random()*6);
         this.name=null;
         if(this.imageNumber===0){
@@ -405,6 +406,22 @@ v
             let sourceY = 0;
             let sourceX = 0;
             context.drawImage(enemy.image, sourceX, sourceY, sourceWidth, sourceHeight, destinationX, destinationY, destinationWidth, destinationHeight);
+            if(this.health!=this.maxHealth){
+                context.beginPath();
+                context.fillStyle="rgb(85,75,74)";
+                context.rect(x,y+cellWidth/5*3,cellWidth/2,20);
+                context.fill();
+                context.closePath();
+            }    
+            context.beginPath();
+            if((this.health/this.maxHealth)<0.25){
+                context.fillStyle="rgb(255,0,0)";
+            } else {
+                context.fillStyle="rgb(0,255,0)";
+            }
+            context.rect(x,y+cellWidth/5*3,cellWidth/2*this.health/this.maxHealth,20);
+            context.fill();
+            context.closePath();
         }
         context.restore();
     }
