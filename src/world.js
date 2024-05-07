@@ -25,7 +25,7 @@ class World {
         this.msTime = 0;
         this.score = 0;
         this.currentLevel = 0;
-        this.levels = [new Level(30, 30, 15, 1, true)];//rows, cols, level number, renderCenter 
+        this.levels = [new Level(10, 10, 5, 1, true)];//rows, cols, level number, renderCenter 
         /*
         1 = easy 
         2 = medium 
@@ -43,6 +43,11 @@ class World {
         this.levels[this.currentLevel].run();
 
         this.updateStatusBar();
+        if(this.levels.length <2){
+            this.nextLevel();
+            //console.log(this.levels[1]);
+            //this.paused = true;
+        }
     }
     updateStatusBar() {
         this.updateTimer();
@@ -96,9 +101,9 @@ class World {
 
     nextLevel() {
         this.currentLevel++;
-        let row = this.currentLevel * 10;
+        let row = this.currentLevel * 10 + 10;
         let col = row;
-        let mL = row/2
+        let mL = row/2;
         this.levels.push(new Level(row, col, mL, this.currentLevel+1, true));
         this.levels[this.currentLevel].genLevel();
     }

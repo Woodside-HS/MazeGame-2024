@@ -52,7 +52,9 @@ class Level {
         this.maze.addPaths(15);
         this.maze.exit();
         this.safeZones();
-        this.hero = new BetterHero(world, new JSVector(15, 15));
+        let hx = this.rows/2;
+        let hy = this.cols/2
+        this.hero = new BetterHero(world, new JSVector(hx, hy));
         for (let i = 0; i <4; i++) {
             let x = Math.floor(Math.random() * this.maze.width);
             let y = Math.floor(Math.random() * this.maze.height);
