@@ -24,7 +24,7 @@ class World {
         this.time = 0;
         this.msTime = 0;
         this.score = 0;
-
+        this.difficulty=1;
         this.currentLevel = 0;
         this.levels = [new Level(30, 30, 15, 1, false, 8)];//rows, cols, level number, renderCenter 
     }
@@ -110,10 +110,11 @@ class World {
         ctx.fill();
         ctx.font = "bold 80px copperplate";
         ctx.fillStyle = "rgba(204,35,16)";
-        //will be off center but I'm working on fixing it
-        ctx.fillText("you died lol",(cnv.width/2)-280,cnv.height/2);
+        //will be off center but I'm working on fixing it - should be fixed 5/5
+        ctx.textAlign="center";
+        ctx.fillText("you died lol",(cnv.width/2),cnv.height/2);
         ctx.strokeStyle="rgb(46,41,40)"
-        ctx.strokeText("you died lol",(cnv.width/2)-280,cnv.height/2);
+        ctx.strokeText("you died lol",(cnv.width/2),cnv.height/2);
         this.paused=true;
         let iT=document.getElementsByClassName("infoTile");
         iT.item(2).style.boxShadow="0 0 6px 6px #f50521";
