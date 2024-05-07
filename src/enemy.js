@@ -409,7 +409,7 @@ v
             if(this.health!=this.maxHealth){
                 context.beginPath();
                 context.fillStyle="rgb(85,75,74)";
-                context.rect(x+enemy.image.width/58,y+enemy.image.height/4-20,75,20);
+                context.rect(x,y+cellWidth/5*3,cellWidth/2,20);
                 context.fill();
                 context.closePath();
             }    
@@ -419,7 +419,7 @@ v
             } else {
                 context.fillStyle="rgb(0,255,0)";
             }
-            context.rect(x+enemy.image.width/58,y+enemy.image.height/4-20,75*this.health/this.maxHealth,20);
+            context.rect(x,y+cellWidth/5*3,cellWidth/2*this.health/this.maxHealth,20);
             context.fill();
             context.closePath();
         }
