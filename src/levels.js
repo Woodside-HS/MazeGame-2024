@@ -60,8 +60,6 @@ class Level {
             let y = Math.floor(Math.random() * this.maze.height);
             this.enemies[i] = new Enemy(world, new JSVector(x, y));
         }
-        //this.enemies.push(new Enemy(world, new JSVector(13, 13)));
-
     }
 
     arrowToExit() {
