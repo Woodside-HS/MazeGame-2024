@@ -19,60 +19,72 @@ function createRandomEnemy() {
 
 class Powerade extends Enemy {
     constructor(initialPosition) {
-	let speed = world.maxSpeed * 0.95;
-	let distanceToRecognizeHero = 3;
+	let diffCoef = 0.5 * (1 + world.difficulty / world.maxDifficulty);
+	let speed = world.maxSpeed * 0.95 * diffCoef;
+	let distanceToRecognizeHero = 3 * diffCoef;
 	let name = "Angry Powerade";
 	let imageName = "enemy0";
-	super(initialPosition, speed, distanceToRecognizeHero, name, imageName);
+	let health = 10 * diffCoef;
+	super(initialPosition, speed, distanceToRecognizeHero, health, name, imageName);
     }
 }
 
 class KoolAid extends Enemy {
     constructor(initialPosition) {
-	let speed = world.maxSpeed * 0.95;
-	let distanceToRecognizeHero = 3;
+	let diffCoef = 0.5 * (1 + world.difficulty / world.maxDifficulty);
+	let speed = world.maxSpeed * 0.95 * diffCoef;
+	let distanceToRecognizeHero = 3 * diffCoef;
 	let name = "Angry Kool Aid";
 	let imageName = "enemy1";
-	super(initialPosition, speed, distanceToRecognizeHero, name, imageName);
+	let health = 10 * diffCoef;
+	super(initialPosition, speed, distanceToRecognizeHero, health, name, imageName);
     }
 }
 
 class SoloCup extends Enemy {
     constructor(initialPosition) {
-	let speed = world.maxSpeed * 0.85;
-	let distanceToRecognizeHero = 5;
+	let diffCoef = 0.5 * (1 + world.difficulty / world.maxDifficulty);
+	let speed = world.maxSpeed * 0.85 * diffCoef;
+	let distanceToRecognizeHero = 5 * diffCoef;
 	let name = "Angry Solo Cup";
 	let imageName = "enemy3";
-	super(initialPosition, speed, distanceToRecognizeHero, name, imageName);
+	let health = 15 * diffCoef;
+	super(initialPosition, speed, distanceToRecognizeHero, health, name, imageName);
     }
 }
 
 class AngryBag extends Enemy {
     constructor(initialPosition) {
-	let speed = world.maxSpeed * 0.70;
-	let distanceToRecognizeHero = 6;
+	let diffCoef = 0.5 * (1 + world.difficulty / world.maxDifficulty);
+	let speed = world.maxSpeed * 0.70 * diffCoef;
+	let distanceToRecognizeHero = 6 * diffCoef;
 	let name = "Angry Plastic Bag";
 	let imageName = "enemy5";
-	super(initialPosition, speed, distanceToRecognizeHero, name, imageName);
+	let health = 20 * diffCoef;
+	super(initialPosition, speed, distanceToRecognizeHero, health, name, imageName);
     }
 }
 
 class AngrierBag extends Enemy {
     constructor(initialPosition) {
-	let speed = world.maxSpeed * 0.70;
-	let distanceToRecognizeHero = 6;
+	let diffCoef = 0.5 * (1 + world.difficulty / world.maxDifficulty);
+	let speed = world.maxSpeed * 0.70 * diffCoef;
+	let distanceToRecognizeHero = 6 * diffCoef;
 	let name = "Angrier Plastic Bag";
 	let imageName = "enemy2";
-	super(initialPosition, speed, distanceToRecognizeHero, name, imageName);
+	let health = 20 * diffCoef;
+	super(initialPosition, speed, distanceToRecognizeHero, health, name, imageName);
     }
 }
 
 class RingPack extends Enemy {
     constructor(initialPosition) {
-	let speed = world.maxSpeed * 0.60;
-	let distanceToRecognizeHero = 8;
+	let diffCoef = 0.5 * (1 + world.difficulty / world.maxDifficulty);
+	let speed = world.maxSpeed * 0.60 * diffCoef;
+	let distanceToRecognizeHero = 8 * diffCoef;
 	let name = "Angry Ring Pack";
 	let imageName = "enemy4";
-	super(initialPosition, speed, distanceToRecognizeHero, name, imageName);
+	let health = 25 * diffCoef;
+	super(initialPosition, speed, distanceToRecognizeHero, health, name, imageName);
     }
 }

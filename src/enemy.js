@@ -6,7 +6,7 @@ class Enemy {
      * Create an enemy
      * @param {JSVector} initialPosition - the enemy's intial position in the maze
      */
-    constructor(initialPosition, speed, distanceToRecognizeHero, name, imageName) {
+    constructor(initialPosition, speed, distanceToRecognizeHero, health, name, imageName) {
         /* @type {World} */
         this.world = world;
 
@@ -30,7 +30,8 @@ class Enemy {
         /* @type {JSVector} */
         this.target = new JSVector();
 	this.setNewRandonTarget();
-        this.health = 15;
+        this.health = health
+	this.maxHealth = health;
         this.weapon = new Sword(this);
 	this.imageName = imageName
         this.name = name;
@@ -71,6 +72,12 @@ class Enemy {
             this.wander();
         } else if (this.pathType == PathType.SEEK) {
             this.seekPlayer();
+            if(this.weapon!==null){
+                if(this.weapon.attack(world.levels[world.currentLevel].hero)){
+                    this.world.score-=10;
+                }
+                this.weapon.delayTime++;
+            }
         } else {
             throw new Error(`pathType has an invalid value: ${this.pathType}`);
         }
@@ -84,12 +91,6 @@ class Enemy {
 	    this.velocity.limit(this.speed);
 	}
         this.position.add(this.velocity);
-        if(this.weapon!==null){
-            if(this.weapon.attack(world.levels[world.currentLevel].hero)){
-                this.world.score-=10;
-            }
-            this.weapon.delayTime++;
-        }
         this.checkWalls();
     }
 
@@ -379,6 +380,9 @@ v
         cell.add(new JSVector(this.width*0.5, this.width*0.5));
         cell.floor();
         const luminance = maze.getCell(cell.y, cell.x).luminance;
+	if (luminance <= 0) {
+	    return;
+	}
         const context = this.world.context;
         context.save();
         context.translate(this.world.canvas.width / 2, this.world.canvas.height / 2);
@@ -395,9 +399,23 @@ v
             let sourceY = 0;
             let sourceX = 0;
             context.drawImage(enemy.image, sourceX, sourceY, sourceWidth, sourceHeight, destinationX, destinationY, destinationWidth, destinationHeight);
+            if(this.health!=this.maxHealth){
+                context.beginPath();
+                context.fillStyle="rgb(85,75,74)";
+                context.rect(x,y+cellWidth/5*3,cellWidth/2,20);
+                context.fill();
+                context.closePath();
+            }    
+            context.beginPath();
+            if((this.health/this.maxHealth)<0.25){
+                context.fillStyle="rgb(255,0,0)";
+            } else {
+                context.fillStyle="rgb(0,255,0)";
+            }
+            context.rect(x,y+cellWidth/5*3,cellWidth/2*this.health/this.maxHealth,20);
+            context.fill();
+            context.closePath();
         }
-        // context.fillStyle = "red";
-        // context.fillRect(x, y, w, w);
         context.restore();
     }
 

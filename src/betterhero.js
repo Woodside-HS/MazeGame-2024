@@ -23,6 +23,7 @@ class BetterHero {
         this.superVision=0;
         this.tslal=0;
         this.tsleh=0;
+        this.justAttacked=0;
 
         /* @type {JSVector} */
         this.position = initialPosition.copy();
@@ -36,7 +37,8 @@ class BetterHero {
             "w": {pressed: false},
             "a": {pressed: false},
             "d": {pressed: false},
-            "e": {pressed: false}
+            "e": {pressed: false},
+            " ": {pressed: false}
         };
 
         window.addEventListener("keydown", (event) => {
@@ -290,10 +292,11 @@ class BetterHero {
         let calvin = world.levels[world.currentLevel].hero.getMazeLocation().weapon;
         let h=document.getElementById("hAttack");
         //need to add a delay still
-        if (calvin!==null&&this.keys["e"].pressed) {
+        if (calvin!==null&&this.keys["e"].pressed&&this.weapon.delayTime>30) {
             let diego=world.levels[world.currentLevel].hero.weapon;
             calvin.holder=this;
             diego.holder=this.getMazeLocation();
+            this.weapon.delayTime=0;
             world.levels[world.currentLevel].hero.weapon=calvin;
             world.levels[world.currentLevel].hero.getMazeLocation().weapon=diego;
             let s="You picked up a "+calvin.name+"!";
@@ -312,17 +315,21 @@ class BetterHero {
                 }
             }
             this.target=closeEnemy;
-            if(this.weapon.attack(this.target)){
-                world.score+=10;
-                this.tslal=0;
-                let s="You hit a "+this.target.name+" with a "+this.weapon.name+"!";
-                if(closeEnemy.health<=0){
-                    s="You sure cleaned up a "+this.target.name+"!";
-                    world.score+=50;
-                    this.health+=10;
-                    this.killCount++;
+            if(this.keys[" "].pressed&&this.weapon.delayTime>this.weapon.delay){
+                this.justAttacked++;
+                //console.log("this is jattacked after space pressed "+this.justAttacked);
+                if(this.weapon.attack(this.target)){
+                    world.score+=10;
+                    this.tslal=0;
+                    let s="You hit a "+this.target.name+" with a "+this.weapon.name+"!";
+                    if(closeEnemy.health<=0){
+                        s="You sure cleaned up a "+this.target.name+"!";
+                        world.score+=50;
+                        this.health+=10;
+                        this.killCount++;
+                    }
+                    h.innerHTML=s;
                 }
-                h.innerHTML=s;
             }
             this.weapon.delayTime++;
         }
@@ -372,6 +379,24 @@ class BetterHero {
             context.drawImage(hero.image, sourceX, sourceY, sourceWidth, sourceHeight, destinationX, destinationY, destinationWidth, destinationHeight);
         }
         if(this.weapon!==null){//render weapon if there is one
+            // if(this.justAttacked!=0){
+            //     if(this.justAttacked>0){
+            //         context.translate(this.position.x-25, this.position.y-25);
+            //         context.rotate(Math.PI/8*this.justAttacked);
+            //         this.justAttacked++;
+            //         if(this.justAttacked>5){
+            //             this.justAttacked=-5;
+            //         }
+            //     } else if(this.justAttacked<0){
+            //         context.translate(this.position.x-25, this.position.y-25);
+            //         context.rotate(Math.PI/8*this.justAttacked);
+            //         this.justAttacked++;
+            //         // if(this.justAttacked<){
+            //         //     this.justAttacked=-5;
+            //         // }
+            //     }
+                
+            // }
             context.drawImage(this.weapon.image.image, this.position.x-75, this.position.y-35-(cellWidth*this.weapon.length),25,cellWidth*this.weapon.length);
         }
         context.restore();
