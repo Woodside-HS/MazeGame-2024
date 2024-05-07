@@ -12,12 +12,15 @@
 	     background-attachment: fixed;
 	     background-size: 100% 100%;">
     <h1 class="title">Escape From Garbage Island</h1>
-    <!-- <img src="./resources/startScreen.png"alt="cool coral"> -->
-    <div id="start" class="button">
-      <a href="index.html">
-        Start Game
-      </a>
-    </div>
+      <a href="index.html"><div class="button" id="easy"> 
+        Play: <br>Easy Difficulty
+      </div></a>
+      <a href="index.html"><div class="button" id="medium">
+        Play: <br>Medium Difficulty
+      </div></a>
+      <a href="index.html"><div class="button" id="hard"> 
+        Play:<br>Hard Difficulty
+      </div></a>
     <div id="inst" class="button">
       <a href="instructions.html">
         Instructions
@@ -29,4 +32,30 @@
       </a>
     </div>
     <div id="cred" class="button"><a href="credits.html">Credits</a></div>
+    <script>
+    
+    function addListeners(){
+      let e=document.getElementById("easy");
+      console.log(e);
+      e.addEventListener("click",d2e);
+      let m=document.getElementById("medium");
+      m.addEventListener("click",d2m);
+      let h=document.getElementById("hard");
+      h.addEventListener("click",d2h);
+      
+    }
+    addListeners();
+    function d2e(){
+    world.difficulty=1;
+    console.log("easy");
+    }
+    function d2m(){
+        world.difficulty=2;
+        console.log("med");
+    }
+    function d2h(){
+        world.difficulty=3;
+        console.log("ha");
+    }
+    </script>
 </body>

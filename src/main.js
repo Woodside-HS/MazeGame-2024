@@ -23,8 +23,6 @@ function addAllListeners () {
     p.addEventListener("click", swapPause);
     let r=document.getElementById("restartB");
     r.addEventListener("click",restart);
-    let d=document.getElementById("diff");
-    d.addEventListener("click",changeDifficulty);
 }
 function swapPause () {
     world.paused = !world.paused;
@@ -57,22 +55,5 @@ function restart(){
         r.style.backgroundImage = "linear-gradient(#35353b,#262629, #161617)";
         p.style.boxShadow="0 0 6px 6px #89a2f5";
         p.style.backgroundImage = "linear-gradient(#80a2ec,#4871f8, #0162f3)";
-    }
-}
-function changeDifficulty(){
-    if(world.paused){
-        let d=document.getElementById("diffText");
-        world.difficulty++;
-        if(world.difficulty>3){
-            world.difficulty=1;
-        }
-        if(world.difficulty===1){
-            d.innerHTML="Easy";
-        } else if(world.difficulty===2){
-            d.innerHTML="Medium";
-        } else if(world.difficulty===3){
-            d.innerHTML="Hard";
-        }
-        restart();
     }
 }
