@@ -13,7 +13,7 @@ class BetterHero {
 
         /* @type {number} */
         this.width = 0.25;
-        this.speed = 0.03;
+        this.speed = world.maxSpeed * 0.75;
         this.health = 100;
         this.oh=this.health;
         this.oxygen = 100;
@@ -117,7 +117,7 @@ class BetterHero {
         let currentCel = this.getMazeLocation();
         let ext = world.levels[world.currentLevel].maze.exit;
         if(currentCel === ext){
-                world.nextLevel(30, 30, 15, world.levels.length+1, true);
+                world.nextLevel();
         }
     }
 

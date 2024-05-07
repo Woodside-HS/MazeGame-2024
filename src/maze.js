@@ -424,11 +424,15 @@ Maze.prototype.oxygenBubbles = function () {
                 }
                 //oxygen bubbles on random tiles if 
                 if (count < 10) {
-                    let ranR = Math.floor(Math.random() * ((row * mL + mL - 1) - (row * mL) + 1) + (row * mL));
-                    let ranC = Math.floor(Math.random() * ((col * mL + mL - 1) - (col * mL) + 1) + (col * mL));
+                    let Rmax = row * mL + mL - 1;
+                    let Rmin = row * mL;
+                    let Cmax = col * mL + mL - 1;
+                    let Cmin = col * mL;
+                    let ranR = Math.floor(Math.random() * ((Rmax) - (Rmin) + 1) + (Rmin));
+                    let ranC = Math.floor(Math.random() * ((Cmax) - (Cmin) + 1) + (Cmin));
                     while (this.grid[ranR][ranC].safeZone) {
-                        ranR = Math.floor(Math.random() * (row * mL + mL - row + 1) + row);
-                        ranC = Math.floor(Math.random() * (col * mL + mL - col + 1) + col);
+                        ranR = Math.floor(Math.random() * ((Rmax) - (Rmin) + 1) + (Rmin));
+                        ranC = Math.floor(Math.random() * ((Cmax) - (Cmin) + 1) + (Cmin));
                     }
                     this.grid[ranR][ranC].oxygen = new Oxygen(this.grid[ranR][ranC], this.context);
                 }

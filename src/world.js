@@ -24,9 +24,18 @@ class World {
         this.time = 0;
         this.msTime = 0;
         this.score = 0;
-        this.difficulty=1;
+	this.maxSpeed = 0.039;
+
+        this.difficulty = 1;
+	this.maxDifficulty = 3;
         this.currentLevel = 0;
         this.levels = [new Level(30, 30, 15, 1, true)];//rows, cols, level number, renderCenter 
+        /*
+        1 = easy 
+        2 = medium 
+        3 = hard 
+        */
+        this.difficulty=2;
     }
 
 
@@ -89,11 +98,13 @@ class World {
         s.innerHTML = this.score;
     }
 
-    nextLevel(row, col, mL, renderCenter) {
-        let ln = this.levels.length;
-        this.currentLevel = ln;
-        this.levels.push(new Level(row, col, mL, ln, renderCenter));
-        this.levels[ln].genLevel();
+    nextLevel() {
+        this.currentLevel++;
+        let row = this.currentLevel * 10;
+        let col = row;
+        let mL = row/2
+        this.levels.push(new Level(row, col, mL, this.currentLevel+1, true));
+        this.levels[this.currentLevel].genLevel();
     }
 
     updateLevel() {
