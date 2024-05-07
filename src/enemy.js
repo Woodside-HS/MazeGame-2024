@@ -4,24 +4,22 @@
 class Enemy {
     /**
      * Create an enemy
-     * @param {World} world - the world that the enemy belongs to
      * @param {JSVector} initialPosition - the enemy's intial position in the maze
      */
-    constructor(world, initialPosition) {
+    constructor(initialPosition, speed, distanceToRecognizeHero, name, imageName) {
         /* @type {World} */
         this.world = world;
 
         /* @type {number} */
         this.width = 0.5;
-        this.speed = 0.025;
-        this.distanceToRecognizeHero = 5;
+        this.speed = speed;
+        this.distanceToRecognizeHero = distanceToRecognizeHero;
 
         /* @type {JSVector} */
         this.position = initialPosition.copy();
         this.position.add(new JSVector(0.5 - this.width / 2, 0.5 - this.width / 2));
         this.velocity = new JSVector(0, 0);
         this.acceleration = new JSVector(0, 0);
-
         
         /* @type {Queue<JSVector>} */
         this.path = new Queue();
@@ -31,24 +29,11 @@ class Enemy {
         
         /* @type {JSVector} */
         this.target = new JSVector();
-	    this.setNewRandonTarget();
+	this.setNewRandonTarget();
         this.health = 15;
         this.weapon = new Sword(this);
-	    this.imageNumber=Math.floor(Math.random()*6);
-        this.name=null;
-        if(this.imageNumber===0){
-            this.name="Angry Powerade";
-        } else if(this.imageNumber===1){
-            this.name="Angry Kool Aid";
-        } else if(this.imageNumber===2){
-            this.name="Angrier Plastic Bag";
-        } else if(this.imageNumber===3){
-            this.name="Angry Solo Cup";
-        } else if(this.imageNumber===4){
-            this.name="Angry Ring Pack";
-        } else if(this.imageNumber===5){
-            this.name="Angry Plastic Bag";
-        }
+	this.imageName = imageName
+        this.name = name;
     }    
 
     /* Run the enemy (once per frame) */
@@ -93,7 +78,11 @@ class Enemy {
 
         // Update the enemy's position
         this.velocity.add(this.acceleration);
-        this.velocity.limit(this.speed);
+	if (this.pathType == PathType.SEEK) {
+            this.velocity.limit(this.speed * 1.25);
+	} else {
+	    this.velocity.limit(this.speed);
+	}
         this.position.add(this.velocity);
         if(this.weapon!==null){
             if(this.weapon.attack(world.levels[world.currentLevel].hero)){
@@ -114,6 +103,7 @@ class Enemy {
 	    && !world.levels[world.currentLevel].hero.getCenterMazeLocation().safeZone)
         {
             this.pathType = PathType.SEEK;
+	    this.velocity = new JSVector(0, 0);
             this.seekPlayer();
             return;
         }
@@ -394,7 +384,7 @@ v
         context.translate(this.world.canvas.width / 2, this.world.canvas.height / 2);
         context.beginPath();
         context.filter = `brightness(${100 * luminance}%)`;
-        const enemy=maze.images["enemy"+this.imageNumber];
+        const enemy=maze.images[this.imageName];
         if(enemy && enemy.loaded) {
             let destinationHeight = cellWidth * 0.75;
             let destinationWidth = cellWidth * 0.75;

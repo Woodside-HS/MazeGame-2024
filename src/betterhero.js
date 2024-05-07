@@ -13,7 +13,7 @@ class BetterHero {
 
         /* @type {number} */
         this.width = 0.25;
-        this.speed = 0.03;
+        this.speed = world.maxSpeed * 0.75;
         this.health = 100;
         this.oh=this.health;
         this.oxygen = 100;
