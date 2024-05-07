@@ -71,7 +71,7 @@ class Level {
             this.renderArrow(arrow);
         }
         else if (world.difficulty === 2) {
-            if (this.levelNum === 2 && (arrow.x * arrow.x + arrow.y * arrow.y) < 25) {
+            if (arrow.x * arrow.x + arrow.y * arrow.y < 81) {
                 this.renderArrow(arrow);
             }
         }

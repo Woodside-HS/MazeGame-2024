@@ -31,7 +31,7 @@ class World {
         2 = medium 
         3 = hard 
         */
-        this.difficulty=1;
+        this.difficulty=2;
     }
 
 
