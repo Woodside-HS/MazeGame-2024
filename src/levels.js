@@ -11,7 +11,7 @@ generate hero, and generate enemies methods
 
 class Level {
     constructor(rows, cols, mL, levelNum, renderCenter) {
-        this.levelNum = levelNum;
+        this.levelNum = levelNum;//starts at 1 
         this.rows = rows;
         this.cols = cols;
         this.mazeLength = mL
@@ -61,26 +61,38 @@ class Level {
     arrowToExit() {
 
         let center = this.maze.getCenter();//in terms of rows and cols 
-        let exit = new JSVector(this.maze.exit.col+0.5, this.maze.exit.row+0.5);//in terms of rows and cols 
+        let exit = new JSVector(this.maze.exit.col + 0.5, this.maze.exit.row + 0.5);//in terms of rows and cols 
         let arrow = new JSVector.subGetNew(exit, center);
-        if (arrow.x * arrow.x + arrow.y * arrow.y < 25) {
-            let ctx = world.context;
-            ctx.save();
-            ctx.translate(world.canvas.width - 80, world.canvas.height - 80);
-            ctx.rotate(arrow.getDirection());
-            ctx.beginPath();
-            ctx.moveTo(50, 0);
-            ctx.lineTo(0, 0);
-            ctx.moveTo(50, 0);
-            ctx.lineTo(30, 30);
-            ctx.moveTo(50, 0);
-            ctx.lineTo(30, -30);
-            ctx.strokeStyle = "rgba(255, 255, 255)";
-            ctx.lineWidth = 6;
-            ctx.stroke();
-            ctx.closePath();
-            ctx.restore();
+        if (world.difficulty === 1) {
+            this.renderArrow(arrow);
         }
+        else if (world.difficulty === 2) {
+            if (arrow.x * arrow.x + arrow.y * arrow.y < 81) {
+                this.renderArrow(arrow);
+            }
+        }
+        else if(world.difficulty === 3){
+            //no arrow 
+        }
+    }
+
+    renderArrow(arrow) {
+        let ctx = world.context;
+        ctx.save();
+        ctx.translate(world.canvas.width - 80, world.canvas.height - 80);
+        ctx.rotate(arrow.getDirection());
+        ctx.beginPath();
+        ctx.moveTo(50, 0);
+        ctx.lineTo(0, 0);
+        ctx.moveTo(50, 0);
+        ctx.lineTo(30, 30);
+        ctx.moveTo(50, 0);
+        ctx.lineTo(30, -30);
+        ctx.strokeStyle = "rgba(255, 255, 255)";
+        ctx.lineWidth = 6;
+        ctx.stroke();
+        ctx.closePath();
+        ctx.restore();
     }
 
     safeZones() {
