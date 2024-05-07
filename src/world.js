@@ -26,7 +26,7 @@ class World {
         this.score = 0;
         this.difficulty=1;
         this.currentLevel = 0;
-        this.levels = [new Level(30, 30, 15, 1, false, 8)];//rows, cols, level number, renderCenter 
+        this.levels = [new Level(30, 30, 15, 1, true)];//rows, cols, level number, renderCenter 
     }
 
 
@@ -94,8 +94,8 @@ class World {
         let row = this.currentLevel * 10;
         let col = row;
         let mL = row/2
-        this.levels.push(new Level(row, col, mL, this.currentLevel, false, 8));
-        this.levels[ln].genLevel();
+        this.levels.push(new Level(row, col, mL, this.currentLevel+1, true));
+        this.levels[this.currentLevel].genLevel();
     }
 
     updateLevel() {
