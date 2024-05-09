@@ -316,8 +316,7 @@ class BetterHero {
             }
             this.target=closeEnemy;
             if(this.keys[" "].pressed&&this.weapon.delayTime>this.weapon.delay){
-                this.justAttacked++;
-                //console.log("this is jattacked after space pressed "+this.justAttacked);
+                this.justAttacked=0.25;
                 if(this.weapon.attack(this.target)){
                     world.score+=10;
                     this.tslal=0;
@@ -379,24 +378,23 @@ class BetterHero {
             context.drawImage(hero.image, sourceX, sourceY, sourceWidth, sourceHeight, destinationX, destinationY, destinationWidth, destinationHeight);
         }
         if(this.weapon!==null){//render weapon if there is one
-            // if(this.justAttacked!=0){
-            //     if(this.justAttacked>0){
-            //         context.translate(this.position.x-25, this.position.y-25);
-            //         context.rotate(Math.PI/8*this.justAttacked);
-            //         this.justAttacked++;
-            //         if(this.justAttacked>5){
-            //             this.justAttacked=-5;
-            //         }
-            //     } else if(this.justAttacked<0){
-            //         context.translate(this.position.x-25, this.position.y-25);
-            //         context.rotate(Math.PI/8*this.justAttacked);
-            //         this.justAttacked++;
-            //         // if(this.justAttacked<){
-            //         //     this.justAttacked=-5;
-            //         // }
-            //     }
+            // context.arc(this.position.x-cellWidth/5.5,this.position.y-cellWidth/4,4,0,2*Math.PI);
+            // context.fillStyle="red";
+            // context.fill(); //this circle would be where the axes get translated to
+            if(this.justAttacked!=0){
+                if(this.justAttacked>0){
+                    context.translate(this.position.x-cellWidth/6.5,this.position.y-cellWidth/6.5);
+                    context.rotate(-Math.PI/8*this.justAttacked);
+                    this.justAttacked+=0.25;
+                    if(this.justAttacked>3){
+                        this.justAttacked=-3;
+                    }
+                } else if(this.justAttacked<0){
+                    context.translate(this.position.x-cellWidth/6.5,this.position.y-cellWidth/6.5);
+                    this.justAttacked+=0.25;
+                }
                 
-            // }
+            }
             context.drawImage(this.weapon.image.image, this.position.x-75, this.position.y-35-(cellWidth*this.weapon.length),25,cellWidth*this.weapon.length);
         }
         context.restore();

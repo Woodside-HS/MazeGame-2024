@@ -19,8 +19,8 @@ class Weapon {
         this.holder=holder;
         if(holder.distanceToRecognizeHero!==undefined){//damage boost for enemy
             this.damage*=2;
-            this.delay*=1.5;
-            this.range*=0.6;
+            this.delay*=2;
+            this.range*=1.2;
         }
         this.name=name;
         this.delayTime=delay;
