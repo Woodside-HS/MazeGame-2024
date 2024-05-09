@@ -11,7 +11,7 @@ function init() {
     localStorage.clear();
     wDiff=Number(wDiff);
     if(wDiff!=1 && wDiff!=2&&wDiff!=3){
-        wDiff=1;
+        wDiff=2;
     }
     world.difficulty=wDiff;
     addAllListeners();
