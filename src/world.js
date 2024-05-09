@@ -131,17 +131,16 @@ class World {
         ctx.fill();
         ctx.font = "bold 80px copperplate";
         ctx.fillStyle = "rgba(204,35,16)";
-        //will be off center but I'm working on fixing it - should be fixed 5/5
-        ctx.textAlign = "center";
-        ctx.fillText("you died lol", (cnv.width / 2), cnv.height / 2 - 200);
-        ctx.strokeStyle = "rgb(46,41,40)"
-        ctx.strokeText("you died lol", (cnv.width / 2), cnv.height / 2 - 200);
-        this.paused = true;
-        let iT = document.getElementsByClassName("infoTile");
-        iT.item(2).style.boxShadow = "0 0 6px 6px #f50521";
-        iT.item(2).style.backgroundImage = "linear-gradient(#e00d26,#d4152b,#bf192c)";
-        let rp = document.getElementsByClassName("rPB");
-        rp.item(0).style.boxShadow = "none";
+        ctx.textAlign="center";
+        ctx.fillText("you died lol",(cnv.width/2),cnv.height/2-200);
+        ctx.strokeStyle="rgb(46,41,40)"
+        ctx.strokeText("you died lol",(cnv.width/2),cnv.height/2-200);
+        this.paused=true;
+        let iT=document.getElementsByClassName("infoTile");
+        iT.item(2).style.boxShadow="0 0 6px 6px #f50521";
+        iT.item(2).style.backgroundImage="linear-gradient(#e00d26,#d4152b,#bf192c)";
+        let rp=document.getElementsByClassName("rPB");
+        rp.item(0).style.boxShadow="none";
         rp.item(0).style.backgroundImage = "linear-gradient(#35353b,#262629, #161617)";
         rp.item(1).style.boxShadow = "0 0 6px 6px #89a2f5";
         rp.item(1).style.backgroundImage = "linear-gradient(#80a2ec,#4871f8, #0162f3)";

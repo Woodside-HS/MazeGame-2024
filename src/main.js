@@ -7,6 +7,13 @@ window.addEventListener("load", init);
 function init() {
     world = new World();
     world.levels[world.currentLevel].genLevel();
+    let wDiff=localStorage.getItem("gameDiff");
+    localStorage.clear();
+    wDiff=Number(wDiff);
+    if(wDiff!=1 && wDiff!=2&&wDiff!=3){
+        wDiff=2;
+    }
+    world.difficulty=wDiff;
     addAllListeners();
     run();
 }
