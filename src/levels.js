@@ -56,9 +56,7 @@ class Level {
         let hy = this.cols/2
         this.hero = new BetterHero(world, new JSVector(hx, hy));
         for (let i = 0; i <4; i++) {
-            let x = Math.floor(Math.random() * this.maze.width);
-            let y = Math.floor(Math.random() * this.maze.height);
-            this.enemies[i] = new Enemy(world, new JSVector(x, y));
+            
         }
     }
 

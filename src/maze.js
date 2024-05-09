@@ -461,7 +461,7 @@ Maze.prototype.healthHearts=function(){
                     }
                 }
                 //hearts on random tiles if 
-                if (count < 8) {
+                if (count < Math.floor(this.mazeLength/3)) {
                     let ranR = Math.floor(Math.random() * ((row * mL + mL-1) - (row*mL) + 1) + (row*mL));
                     let ranC = Math.floor(Math.random() * ((col * mL + mL-1) - (col*mL) + 1) + (col*mL));
                     while (this.grid[ranR][ranC].safeZone) {
@@ -497,7 +497,7 @@ Maze.prototype.createVision=function(){
                     }
                 }
                 //vision power up on random tiles if 
-                if (count < 3) {
+                if (count < Math.floor(this.mazeLength/4)) {
                     let ranR = Math.floor(Math.random() * ((row * mL + mL-1) - (row*mL) + 1) + (row*mL));
                     let ranC = Math.floor(Math.random() * ((col * mL + mL-1) - (col*mL) + 1) + (col*mL));
                     while (this.grid[ranR][ranC].safeZone) {
@@ -529,7 +529,7 @@ Maze.prototype.weaponCreation = function () {
                     }
                 }
                 //weapons on random tiles if 
-                if (count < 4) {//4 weapons per maze section
+                if (count < Math.floor(this.mazeLength/4)) {//4 weapons per maze section
                     let ranR = Math.floor(Math.random() * ((row * mL + mL-1) - (row*mL) + 1) + (row*mL));
                     let ranC = Math.floor(Math.random() * ((col * mL + mL-1) - (col*mL) + 1) + (col*mL));
                     while (this.grid[ranR][ranC].safeZone) {

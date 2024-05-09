@@ -47,11 +47,6 @@ class World {
         this.levels[this.currentLevel].run();
 
         this.updateStatusBar();
-        if(this.levels.length <2){
-            this.nextLevel();
-            //console.log(this.levels[1]);
-            //this.paused = true;
-        }
     }
     updateStatusBar() {
         this.updateTimer();
@@ -105,7 +100,7 @@ class World {
 
     nextLevel() {
         this.currentLevel++;
-        let row = this.currentLevel * 10 + 10;
+        let row = this.currentLevel * 10 + 10*(world.difficulty-1);
         let col = row;
         let mL = row/2;
         this.levels.push(new Level(row, col, mL, this.currentLevel+1, true));
