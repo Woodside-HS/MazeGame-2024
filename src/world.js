@@ -47,11 +47,6 @@ class World {
         this.levels[this.currentLevel].run();
 
         this.updateStatusBar();
-        if(this.levels.length <2){
-            this.nextLevel();
-            //console.log(this.levels[1]);
-            //this.paused = true;
-        }
     }
     updateStatusBar() {
         this.updateTimer();
