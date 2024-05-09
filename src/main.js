@@ -47,7 +47,7 @@ function restart(){
     let p=document.getElementById("pauseB");
     let r=document.getElementById("restartB");
     if(world.paused){
-        world.levels = [new Level(10, 10, 5, 1, true)]
+        world.levels = [new Level(10, 10, 5, 1, true)];
         world.levels[0].genLevel();
         world.currentLevel=0;
         world.paused = false;

@@ -47,6 +47,10 @@ class World {
         this.levels[this.currentLevel].run();
 
         this.updateStatusBar();
+
+        if(this.currentLevel === 0){
+            this.nextLevel();
+        }
     }
     updateStatusBar() {
         this.updateTimer();

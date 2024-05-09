@@ -63,7 +63,7 @@ Maze.prototype.regenerate = function (startRow, startCol, endRow, endCol) {
     this.path = [];
     this.explore(startRow, startCol, endRow, endCol, startRow, startCol);
     //creates center safe zone for each group of four mazes 
-    let mL = this.world.levels[this.world.currentLevel].mazeLength;
+    let mL = this.world.levels[world.currentLevel].mazeLength;
     this.safeZone(startRow / mL, startCol / mL);
     // Load images
     this.images = {};
@@ -463,7 +463,7 @@ Maze.prototype.healthHearts=function(){
                     }
                 }
                 //hearts on random tiles if 
-                if (count < this.mazeLength) {
+                if (count < Math.floor(this.mazeLegnth/2)) {
 		    let ranR;
 		    let ranC;
 		    do {
@@ -500,7 +500,7 @@ Maze.prototype.createVision=function(){
                     }
                 }
                 //vision power up on random tiles if 
-                if (count < this.mazeLength) {
+                if (count < Math.floor(this.mazeLegnth/2)) {
 		    let ranR;
 		    let ranC;
 		    do {
@@ -533,7 +533,7 @@ Maze.prototype.weaponCreation = function () {
                     }
                 }
                 //weapons on random tiles if 
-                if (count < this.mazeLength) {//4 weapons per maze section
+                if (count < Math.floor(this.mazeLegnth/2)) {//4 weapons per maze section
 		    let ranR;
 		    let ranC;
 		    do {
