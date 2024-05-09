@@ -96,10 +96,6 @@ canvas {
     background-image: linear-gradient(#35353b,#262629, #161617);
     box-shadow:none;
 }
-#diff{
-    background-image: linear-gradient(#35353b,#262629, #161617);
-    box-shadow:none;
-}
 .button{
     /* position:absolute; */
     text-align: center;
@@ -111,7 +107,7 @@ canvas {
     font-style: normal;
     color: #0b1775;
     font-size: 20px;
-    width:180px;
+    width:220px;
     height:90px;
     background-image: linear-gradient(rgb(133, 203, 206),#68bd8e, #25d669 );
     border-radius: 50%;
@@ -192,4 +188,7 @@ a, a:link, a:visited, a:hover, a:focus, a:active{
     width: 100vw;
     height: 1000vh;
     z-index: 99;
+}
+#start{
+    display:flex;
 }
