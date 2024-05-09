@@ -2,6 +2,7 @@ function createRandomEnemy(section) {
     // TODO: random in section
     let position = JSVector.random(world.levels[world.currentLevel].maze.width,
 				   world.levels[world.currentLevel].maze.height);
+    position.floor();
     let n = Math.random();
     if (n < 1 / 6) {
 	return new Powerade(position);
