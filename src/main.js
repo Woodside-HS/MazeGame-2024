@@ -5,6 +5,16 @@ let world;
 window.addEventListener("load", init);
 
 function init() {
+    let style = "background: blue; color: black; font-family: monospace; font-weight: bold;";
+    console.log("%c  ___        ___  ___                   _____            _ \n"
+		+ " / _ \\       |  \\/  |                  |_   _|          | |\n"
+		+ "/ /_\\ \\______| .  . | __ _ _______ ______| | _ __   __ _| |\n"
+		+ "|  _  |______| |\\/| |/ _` |_  / _ \\______| || '_ \\ / _` | |\n"
+		+ "| | | |      | |  | | (_| |/ /  __/     _| || | | | (_| |_|\n"
+		+ "\\_| |_/      \\_|  |_/\\__,_/___\\___|     \\___/_| |_|\\__, (_)\n"
+		+ "                                                    __/ |  \n"
+		+ "                                                   |___/   ", style);
+    
     world = new World();
     let wDiff=localStorage.getItem("gameDiff");
     localStorage.clear();
