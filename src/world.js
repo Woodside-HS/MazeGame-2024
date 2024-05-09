@@ -24,22 +24,24 @@ class World {
         this.time = 0;
         this.msTime = 0;
         this.score = 0;
-	this.maxSpeed = 0.039;
-
-        this.difficulty = 0;
-	this.maxDifficulty = 3;
+        this.maxSpeed = 0.039;
         this.currentLevel = 0;
-        this.levels = [new Level(10, 10, 5, 1, true)];//rows, cols, level number, renderCenter 
+        this.levels = [];
         /*
         1 = easy 
         2 = medium 
         3 = hard 
         */
-        this.difficulty=2;
+        this.difficulty = 2;
+        this.maxDifficulty = 3;
     }
 
 
     run() {
+        if(this.levels.length < 1){
+            this.levels = [new Level(1, true)];
+            this.levels[0].genLevel();
+        }
         this.framecount++
 
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -47,11 +49,10 @@ class World {
         this.levels[this.currentLevel].run();
 
         this.updateStatusBar();
-        if(this.levels.length <2){
-            this.nextLevel();
-            //console.log(this.levels[1]);
-            //this.paused = true;
-        }
+
+        // if (this.currentLevel === 0) {
+        //     this.nextLevel();
+        // }
     }
     updateStatusBar() {
         this.updateTimer();
@@ -71,31 +72,31 @@ class World {
             this.score += 1;
         }
         //detects contact with oxygen
-        let hero=this.levels[this.currentLevel].hero;
+        let hero = this.levels[this.currentLevel].hero;
         let sanjan = hero.getMazeLocation().oxygen;
         if (sanjan != null && sanjan.air > 0) {
             if (hero.oxygen < 99.9) {
-               hero.oxygen += 0.1;
+                hero.oxygen += 0.1;
                 sanjan.air -= 0.1;
                 //this.score += 1;
             }
             //this.score += 1;
         }
         let justin = hero.getMazeLocation().safeZone;
-        if(justin && hero.oxygen < 100){
+        if (justin && hero.oxygen < 100) {
             hero.oxygen += 1;
         }
-        let diego=hero.getMazeLocation().vision;
-        if(diego!=null&&hero.superVision===0){
-            hero.superVision+=600;
-            this.score+=20;
-            diego.used=true;
+        let diego = hero.getMazeLocation().vision;
+        if (diego != null && hero.superVision === 0) {
+            hero.superVision += 600;
+            this.score += 20;
+            diego.used = true;
         }
-        let calvin=hero.getMazeLocation().healthHeart;
-        if (calvin != null&&hero.health!=100) {
-            hero.health+=30;
-            hero.oxygen+=10;
-            calvin.used=true;
+        let calvin = hero.getMazeLocation().healthHeart;
+        if (calvin != null && hero.health != 100) {
+            hero.health += 30;
+            hero.oxygen += 10;
+            calvin.used = true;
             this.score += 40;
         }
         if (this.levels[world.currentLevel].hero.getMazeLocation() === this.levels[world.currentLevel].maze.exit) {
@@ -103,22 +104,19 @@ class World {
         }
         s.innerHTML = this.score;
     }
-    updateDifficultyDisplay(){
-        let d=document.getElementById("diffText");
-        if(this.difficulty===1){
-            d.innerHTML="Easy";
-        } else if(this.difficulty===2){
-            d.innerHTML="Medium";
-        } else if(this.difficulty===3){
-            d.innerHTML="Hard";
+    updateDifficultyDisplay() {
+        let d = document.getElementById("diffText");
+        if (this.difficulty === 1) {
+            d.innerHTML = "Easy";
+        } else if (this.difficulty === 2) {
+            d.innerHTML = "Medium";
+        } else if (this.difficulty === 3) {
+            d.innerHTML = "Hard";
         }
     }
     nextLevel() {
         this.currentLevel++;
-        let row = this.currentLevel * 10 + 10;
-        let col = row;
-        let mL = row/2;
-        this.levels.push(new Level(row, col, mL, this.currentLevel+1, true));
+        this.levels.push(new Level(this.currentLevel + 1, true));
         this.levels[this.currentLevel].genLevel();
     }
 
@@ -145,7 +143,7 @@ class World {
         let rp=document.getElementsByClassName("rPB");
         rp.item(0).style.boxShadow="none";
         rp.item(0).style.backgroundImage = "linear-gradient(#35353b,#262629, #161617)";
-        rp.item(1).style.boxShadow="0 0 6px 6px #89a2f5";
+        rp.item(1).style.boxShadow = "0 0 6px 6px #89a2f5";
         rp.item(1).style.backgroundImage = "linear-gradient(#80a2ec,#4871f8, #0162f3)";
     }
 }
