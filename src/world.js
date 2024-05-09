@@ -134,7 +134,6 @@ class World {
         ctx.fill();
         ctx.font = "bold 80px copperplate";
         ctx.fillStyle = "rgba(204,35,16)";
-        //will be off center but I'm working on fixing it - should be fixed 5/5
         ctx.textAlign="center";
         ctx.fillText("you died lol",(cnv.width/2),cnv.height/2-200);
         ctx.strokeStyle="rgb(46,41,40)"
