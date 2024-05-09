@@ -24,6 +24,9 @@ class BetterHero {
         this.tslal=0;
         this.tsleh=0;
         this.justAttacked=0;
+	this.animationFrame = 0; // which turle image
+	this.animationDelay = 0; // time between frames
+	this.animationTime = 5;  // time to switch to next frame
 
         /* @type {JSVector} */
         this.position = initialPosition.copy();
@@ -364,7 +367,18 @@ class BetterHero {
         context.save();
         context.translate(this.world.canvas.width / 2, this.world.canvas.height / 2);
         context.beginPath();
-        const hero=this.world.levels[this.world.currentLevel].maze.images["hero"];
+	++this.animationDelay;
+	if (this.animationDelay >= this.animationTime)
+	{
+	    ++this.animationFrame;
+	    this.animationDelay = 0;
+	}
+	let hero;
+	if (this.velocity.getMagnitude() >= 0.01) {
+            hero = this.world.levels[this.world.currentLevel].maze.images[`turtle${this.animationFrame % 18}`];
+	} else {
+	    hero = this.world.levels[this.world.currentLevel].maze.images[`turtle0`];
+	}
         if(hero && hero.loaded) {
             let destinationHeight = cellWidth * 0.75;
             let destinationWidth = cellWidth * 0.75;
@@ -377,6 +391,7 @@ class BetterHero {
             context.rotate(this.velocity.getDirection()+Math.PI/2);
             context.drawImage(hero.image, sourceX, sourceY, sourceWidth, sourceHeight, destinationX, destinationY, destinationWidth, destinationHeight);
         }
+	
         if(this.weapon!==null){//render weapon if there is one
             // context.arc(this.position.x-cellWidth/5.5,this.position.y-cellWidth/4,4,0,2*Math.PI);
             // context.fillStyle="red";
