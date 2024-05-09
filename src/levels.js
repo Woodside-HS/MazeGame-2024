@@ -70,9 +70,11 @@ class Level {
         let exit = new JSVector(this.maze.exit.col + 0.5, this.maze.exit.row + 0.5);//in terms of rows and cols 
         let arrow = new JSVector.subGetNew(exit, center);
         if (world.difficulty === 1) {
+            //always 
             this.renderArrow(arrow);
         }
         else if (world.difficulty === 2) {
+            //within an 8 cell radius 
             if (arrow.x * arrow.x + arrow.y * arrow.y < 81) {
                 this.renderArrow(arrow);
             }
