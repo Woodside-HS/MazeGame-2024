@@ -26,7 +26,7 @@ class World {
         this.score = 0;
         this.maxSpeed = 0.039;
         this.currentLevel = 0;
-        this.levels = [new Level(10, 10, 5, 1, true)];//rows, cols, level number, renderCenter 
+        this.levels = [];
         /*
         1 = easy 
         2 = medium 
@@ -38,6 +38,10 @@ class World {
 
 
     run() {
+        if(this.levels.length < 1){
+            this.levels = [new Level(1, true)];
+            this.levels[0].genLevel();
+        }
         this.framecount++
 
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -112,10 +116,7 @@ class World {
     }
     nextLevel() {
         this.currentLevel++;
-        let row = this.currentLevel * 10 + 10 * (world.difficulty - 1);
-        let col = row;
-        let mL = row / 2;
-        this.levels.push(new Level(row, col, mL, this.currentLevel + 1, true));
+        this.levels.push(new Level(this.currentLevel + 1, true));
         this.levels[this.currentLevel].genLevel();
     }
 

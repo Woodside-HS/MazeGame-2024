@@ -6,7 +6,6 @@ window.addEventListener("load", init);
 
 function init() {
     world = new World();
-    world.levels[world.currentLevel].genLevel();
     let wDiff=localStorage.getItem("gameDiff");
     localStorage.clear();
     wDiff=Number(wDiff);
@@ -55,7 +54,7 @@ function restart(){
     let r=document.getElementById("restartB");
     if(world.paused){
         world.currentLevel = 0;
-        world.levels = [new Level(10, 10, 5, 1, true)]
+        world.levels = [new Level(1, true)]
         world.levels[0].genLevel();
         world.currentLevel=0;
         world.paused = false;
