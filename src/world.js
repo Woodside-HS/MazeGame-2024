@@ -49,10 +49,6 @@ class World {
         this.levels[this.currentLevel].run();
 
         this.updateStatusBar();
-
-        // if (this.currentLevel === 0) {
-        //     this.nextLevel();
-        // }
     }
     updateStatusBar() {
         this.updateTimer();
@@ -115,9 +111,12 @@ class World {
         }
     }
     nextLevel() {
+        let w=this.levels[this.currentLevel].hero.weapon;
+        console.log(w);
         this.currentLevel++;
         this.levels.push(new Level(this.currentLevel + 1, true));
         this.levels[this.currentLevel].genLevel();
+        this.levels[this.currentLevel].hero.weapon=w;
     }
 
     updateLevel() {
