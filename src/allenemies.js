@@ -1,4 +1,5 @@
-function createRandomEnemy() {
+function createRandomEnemy(section) {
+    // TODO: random in section
     let position = JSVector.random(world.levels[world.currentLevel].maze.width,
 				   world.levels[world.currentLevel].maze.height);
     let n = Math.random();

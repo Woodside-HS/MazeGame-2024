@@ -53,8 +53,13 @@ class Level {
         this.maze.exit();
         this.safeZones();
         this.hero = new BetterHero(world, new JSVector(15, 15));
-        for (let i = 0; i < 5 + 4 * world.currentLevel + 3 * world.difficulty; i++) {
-            this.enemies[i] = createRandomEnemy();
+
+	let sections = (this.maze.width / this.maze.mazeLength) ** 2;
+	let enemiesPerSection = world.difficulty + world.currentLevel;
+        for (let s = 0; s < sections; ++s) {
+	    for (let i = 0; i < enemiesPerSection; ++i) {
+		this.enemies[i] = createRandomEnemy(s);
+	    }
         }
     }
 
