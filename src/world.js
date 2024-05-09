@@ -26,7 +26,7 @@ class World {
         this.score = 0;
 	this.maxSpeed = 0.039;
 
-        this.difficulty = 1;
+        this.difficulty = 0;
 	this.maxDifficulty = 3;
         this.currentLevel = 0;
         this.levels = [new Level(10, 10, 5, 1, true)];//rows, cols, level number, renderCenter 
@@ -57,6 +57,7 @@ class World {
         this.updateTimer();
         this.updateLevel();
         this.runScore();
+        this.updateDifficultyDisplay();
     }
     updateTimer() {
         this.time++;
@@ -102,7 +103,16 @@ class World {
         }
         s.innerHTML = this.score;
     }
-
+    updateDifficultyDisplay(){
+        let d=document.getElementById("diffText");
+        if(this.difficulty===1){
+            d.innerHTML="Easy";
+        } else if(this.difficulty===2){
+            d.innerHTML="Medium";
+        } else if(this.difficulty===3){
+            d.innerHTML="Hard";
+        }
+    }
     nextLevel() {
         this.currentLevel++;
         let row = this.currentLevel * 10 + 10;

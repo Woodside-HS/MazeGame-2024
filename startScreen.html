@@ -33,29 +33,31 @@
     </div>
     <div id="cred" class="button"><a href="credits.html">Credits</a></div>
     <script>
-    
-    function addListeners(){
+      function addListeners(){
+        let worldDiff=0;
+        function d2e(){
+          worldDiff=1;
+          let s=worldDiff.toString();
+          localStorage.setItem("gameDiff",s);
+        }
+        function d2m(){
+          worldDiff=2;
+          let s=worldDiff.toString();
+          localStorage.setItem("gameDiff",s);
+        }
+        function d2h(){
+          worldDiff=3;
+          let s=worldDiff.toString();
+          localStorage.setItem("gameDiff",s);
+        } 
       let e=document.getElementById("easy");
-      console.log(e);
       e.addEventListener("click",d2e);
       let m=document.getElementById("medium");
       m.addEventListener("click",d2m);
       let h=document.getElementById("hard");
       h.addEventListener("click",d2h);
       
-    }
-    addListeners();
-    function d2e(){
-    world.difficulty=1;
-    console.log("easy");
-    }
-    function d2m(){
-        world.difficulty=2;
-        console.log("med");
-    }
-    function d2h(){
-        world.difficulty=3;
-        console.log("ha");
-    }
+      }
+addListeners();
     </script>
 </body>
