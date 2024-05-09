@@ -423,7 +423,7 @@ Maze.prototype.oxygenBubbles = function () {
                     }
                 }
                 //oxygen bubbles on random tiles if 
-                if (count < this.mazeLegnth) {
+                if (count < this.mazeLength) {
                     let Rmax = row * mL + mL - 1;
                     let Rmin = row * mL;
                     let Cmax = col * mL + mL - 1;
@@ -463,7 +463,7 @@ Maze.prototype.healthHearts=function(){
                     }
                 }
                 //hearts on random tiles if 
-                if (count < Math.floor(this.mazeLegnth/2)) {
+                if (count < Math.floor(this.mazeLength/2)) {
 		    let ranR;
 		    let ranC;
 		    do {
@@ -500,7 +500,7 @@ Maze.prototype.createVision=function(){
                     }
                 }
                 //vision power up on random tiles if 
-                if (count < Math.floor(this.mazeLegnth/2)) {
+                if (count < Math.floor(this.mazeLength/2)) {
 		    let ranR;
 		    let ranC;
 		    do {
@@ -533,7 +533,7 @@ Maze.prototype.weaponCreation = function () {
                     }
                 }
                 //weapons on random tiles if 
-                if (count < Math.floor(this.mazeLegnth/2)) {//4 weapons per maze section
+                if (count < Math.floor(this.mazeLength/2)) {//4 weapons per maze section
 		    let ranR;
 		    let ranC;
 		    do {

@@ -24,10 +24,7 @@ class World {
         this.time = 0;
         this.msTime = 0;
         this.score = 0;
-	this.maxSpeed = 0.039;
-
-        this.difficulty = 0;
-	this.maxDifficulty = 3;
+        this.maxSpeed = 0.039;
         this.currentLevel = 0;
         this.levels = [new Level(10, 10, 5, 1, true)];//rows, cols, level number, renderCenter 
         /*
@@ -35,7 +32,8 @@ class World {
         2 = medium 
         3 = hard 
         */
-        this.difficulty=2;
+        this.difficulty = 2;
+        this.maxDifficulty = 3;
     }
 
 
@@ -48,9 +46,9 @@ class World {
 
         this.updateStatusBar();
 
-        if(this.currentLevel === 0){
-            this.nextLevel();
-        }
+        // if (this.currentLevel === 0) {
+        //     this.nextLevel();
+        // }
     }
     updateStatusBar() {
         this.updateTimer();
@@ -70,31 +68,31 @@ class World {
             this.score += 1;
         }
         //detects contact with oxygen
-        let hero=this.levels[this.currentLevel].hero;
+        let hero = this.levels[this.currentLevel].hero;
         let sanjan = hero.getMazeLocation().oxygen;
         if (sanjan != null && sanjan.air > 0) {
             if (hero.oxygen < 99.9) {
-               hero.oxygen += 0.1;
+                hero.oxygen += 0.1;
                 sanjan.air -= 0.1;
                 //this.score += 1;
             }
             //this.score += 1;
         }
         let justin = hero.getMazeLocation().safeZone;
-        if(justin && hero.oxygen < 100){
+        if (justin && hero.oxygen < 100) {
             hero.oxygen += 1;
         }
-        let diego=hero.getMazeLocation().vision;
-        if(diego!=null&&hero.superVision===0){
-            hero.superVision+=600;
-            this.score+=20;
-            diego.used=true;
+        let diego = hero.getMazeLocation().vision;
+        if (diego != null && hero.superVision === 0) {
+            hero.superVision += 600;
+            this.score += 20;
+            diego.used = true;
         }
-        let calvin=hero.getMazeLocation().healthHeart;
-        if (calvin != null&&hero.health!=100) {
-            hero.health+=30;
-            hero.oxygen+=10;
-            calvin.used=true;
+        let calvin = hero.getMazeLocation().healthHeart;
+        if (calvin != null && hero.health != 100) {
+            hero.health += 30;
+            hero.oxygen += 10;
+            calvin.used = true;
             this.score += 40;
         }
         if (this.levels[world.currentLevel].hero.getMazeLocation() === this.levels[world.currentLevel].maze.exit) {
@@ -102,22 +100,22 @@ class World {
         }
         s.innerHTML = this.score;
     }
-    updateDifficultyDisplay(){
-        let d=document.getElementById("diffText");
-        if(this.difficulty===1){
-            d.innerHTML="Easy";
-        } else if(this.difficulty===2){
-            d.innerHTML="Medium";
-        } else if(this.difficulty===3){
-            d.innerHTML="Hard";
+    updateDifficultyDisplay() {
+        let d = document.getElementById("diffText");
+        if (this.difficulty === 1) {
+            d.innerHTML = "Easy";
+        } else if (this.difficulty === 2) {
+            d.innerHTML = "Medium";
+        } else if (this.difficulty === 3) {
+            d.innerHTML = "Hard";
         }
     }
     nextLevel() {
         this.currentLevel++;
-        let row = this.currentLevel * 10 + 10*(world.difficulty-1);
+        let row = this.currentLevel * 10 + 10 * (world.difficulty - 1);
         let col = row;
-        let mL = row/2;
-        this.levels.push(new Level(row, col, mL, this.currentLevel+1, true));
+        let mL = row / 2;
+        this.levels.push(new Level(row, col, mL, this.currentLevel + 1, true));
         this.levels[this.currentLevel].genLevel();
     }
 
@@ -134,18 +132,18 @@ class World {
         ctx.font = "bold 80px copperplate";
         ctx.fillStyle = "rgba(204,35,16)";
         //will be off center but I'm working on fixing it - should be fixed 5/5
-        ctx.textAlign="center";
-        ctx.fillText("you died lol",(cnv.width/2),cnv.height/2-200);
-        ctx.strokeStyle="rgb(46,41,40)"
-        ctx.strokeText("you died lol",(cnv.width/2),cnv.height/2-200);
-        this.paused=true;
-        let iT=document.getElementsByClassName("infoTile");
-        iT.item(2).style.boxShadow="0 0 6px 6px #f50521";
-        iT.item(2).style.backgroundImage="linear-gradient(#e00d26,#d4152b,#bf192c)";
-        let rp=document.getElementsByClassName("rPB");
-        rp.item(0).style.boxShadow="none";
+        ctx.textAlign = "center";
+        ctx.fillText("you died lol", (cnv.width / 2), cnv.height / 2 - 200);
+        ctx.strokeStyle = "rgb(46,41,40)"
+        ctx.strokeText("you died lol", (cnv.width / 2), cnv.height / 2 - 200);
+        this.paused = true;
+        let iT = document.getElementsByClassName("infoTile");
+        iT.item(2).style.boxShadow = "0 0 6px 6px #f50521";
+        iT.item(2).style.backgroundImage = "linear-gradient(#e00d26,#d4152b,#bf192c)";
+        let rp = document.getElementsByClassName("rPB");
+        rp.item(0).style.boxShadow = "none";
         rp.item(0).style.backgroundImage = "linear-gradient(#35353b,#262629, #161617)";
-        rp.item(1).style.boxShadow="0 0 6px 6px #89a2f5";
+        rp.item(1).style.boxShadow = "0 0 6px 6px #89a2f5";
         rp.item(1).style.backgroundImage = "linear-gradient(#80a2ec,#4871f8, #0162f3)";
     }
 }
