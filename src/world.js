@@ -78,9 +78,7 @@ class World {
             if (hero.oxygen < 99.9) {
                 hero.oxygen += 0.1;
                 sanjan.air -= 0.1;
-                //this.score += 1;
             }
-            //this.score += 1;
         }
         let justin = hero.getMazeLocation().safeZone;
         if (justin && hero.oxygen < 100) {
@@ -120,12 +118,29 @@ class World {
         this.levels.push(new Level(this.currentLevel + 1, true));
         this.levels[this.currentLevel].genLevel();
         this.levels[this.currentLevel].hero.weapon=w;
+        this.nextLevelScreen();
     }
 
     updateLevel() {
         let l = document.getElementById("level");
         l.innerHTML = this.currentLevel + 1;
     }
+    nextLevelScreen(){
+        let ctx = this.context;
+        let cnv = this.canvas;
+        ctx.rect(0, 0, cnv.width, cnv.height);
+        ctx.fillStyle = "rgba(56,54,54,0.7)";
+        ctx.fill();
+        ctx.font = "bold 80px copperplate";
+        ctx.fillStyle = "rgba(35,204,16)";
+        ctx.textAlign="center";
+        ctx.fillText("Congratulations! You have advanced!",(cnv.width/2),cnv.height/2-200);
+        ctx.strokeStyle="rgb(46,41,40)"
+        ctx.strokeText("Congratulations! You have advanced!",(cnv.width/2),cnv.height/2-200);
+        this.paused=true;
+        let rp=document.getElementsByClassName("rPB");
+        rp.item(0).innerHTML="Start Next";
+     }
     deathScreen() {
         let ctx = this.context;
         let cnv = this.canvas;

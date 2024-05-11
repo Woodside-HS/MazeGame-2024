@@ -242,6 +242,7 @@ Maze.prototype.loadImages = function () {
     loadImage("./resources/bubble.png", "bubble");
     loadImage("./resources/heart.png", "heart");
     loadImage("./resources/eye.png", "vision");
+    loadImage("./resources/shell.png","shell");
     loadImage("./resources/blueBottle.png","enemy0");
     loadImage("./resources/redBottle.png","enemy1");
     loadImage("./resources/greyBag.png","enemy2");
@@ -504,7 +505,7 @@ Maze.prototype.createVision=function(){
                     }
                 }
                 //vision power up on random tiles if 
-                if (count < Math.floor(this.mazeLength/2)) {
+                if (count < Math.floor(this.mazeLength/4)) {
 		    let ranR;
 		    let ranC;
 		    do {

@@ -24,6 +24,8 @@ class BetterHero {
         this.tslal=0;
         this.tsleh=0;
         this.justAttacked=0;
+        this.shellCount=10;
+        this.shellPickupDelay=0;
 	this.animationFrame = 0; // which turle image
 	this.animationDelay = 0; // time between frames
 	this.animationTime = 5;  // time to switch to next frame
@@ -41,7 +43,8 @@ class BetterHero {
             "a": {pressed: false},
             "d": {pressed: false},
             "e": {pressed: false},
-            " ": {pressed: false}
+            " ": {pressed: false},
+            "f": {pressed: false}
         };
 
         window.addEventListener("keydown", (event) => {
@@ -113,6 +116,7 @@ class BetterHero {
         this.updateStatusBar();
         this.pickUpWeapon();
         this.updateWeapon();
+        this.updateShells();
         this.touchingExit();
     }
 
@@ -354,7 +358,19 @@ class BetterHero {
             e.innerHTML="";
         }
     }
-    
+    updateShells(){
+        this.shellPickupDelay++;
+        let c=this.getCenterMazeLocation();
+        if(this.keys["f"].pressed&&this.shellCount>0&&c.shell===null&&this.shellPickupDelay>20){
+            c.shell=true;
+            this.shellCount--;
+            this.shellPickupDelay=0;
+        } else if(this.keys["f"].pressed&&c.shell===true&&this.shellPickupDelay>20){
+            c.shell=null;
+            this.shellCount++;
+            this.shellPickupDelay=0;
+        }
+    }
     /* Render the hero */
     renderCenter() {
         const cellWidth = world.levels[world.currentLevel].maze.cellWidth;
