@@ -59,7 +59,7 @@
         localStorage.setItem("gameDiff",s);
       }
       function d2i(){
-        worldDiff=100;
+        worldDiff=10;
         let s=worldDiff.toString();
         localStorage.setItem("gameDiff",s);
       }
@@ -71,7 +71,8 @@
     h.addEventListener("click",d2h);
     let v=document.getElementById("vhard");
     v.addEventListener("click",d2vh);
-    let i=document.getElementById("impossible",d2i);
+    let i=document.getElementById("impossible");
+    i.addEventListener("click",d2i)
     }
   addListeners();
   </script>

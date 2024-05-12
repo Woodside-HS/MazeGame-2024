@@ -112,7 +112,7 @@ class World {
             d.innerHTML = "Hard";
         } else if(this.difficulty===4){
             d.innerHTML="Very Hard";
-        } else if(this.difficulty===100){
+        } else if(this.difficulty===10){
             d.innerHTML="Impossible";
         }
     }

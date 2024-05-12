@@ -15,9 +15,12 @@ class BetterHero {
         this.width = 0.25;
         this.speed = world.maxSpeed * 0.75;
         this.health = 100;
-        this.oh=this.health;
+        this.oh=this.health;//used to detect when hero gets hit
         this.oxygen = 100;
         this.weapon = new Sword(this);
+        if(this.world.difficulty===10){
+            this.weapon=new Dagger(this);
+        }
         this.target = null;
         this.killCount = 0;
         this.superVision=0; //timer for vision
