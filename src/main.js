@@ -9,7 +9,7 @@ function init() {
     let wDiff=localStorage.getItem("gameDiff");
     localStorage.clear();
     wDiff=Number(wDiff);
-    if(wDiff!=1 && wDiff!=2&&wDiff!=3){
+    if(wDiff!=1 && wDiff!=2&&wDiff!=3&&wDiff!=4&&wDiff!=100){
         wDiff=2;
     }
     world.difficulty=wDiff;

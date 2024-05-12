@@ -73,31 +73,31 @@ class World {
         }
         //detects contact with oxygen
         let hero = this.levels[this.currentLevel].hero;
-        let sanjan = hero.getMazeLocation().oxygen;
+        let sanjan = hero.getCenterMazeLocation().oxygen;
         if (sanjan != null && sanjan.air > 0) {
             if (hero.oxygen < 99.9) {
                 hero.oxygen += 0.1;
                 sanjan.air -= 0.1;
             }
         }
-        let justin = hero.getMazeLocation().safeZone;
+        let justin = hero.getCenterMazeLocation().safeZone;
         if (justin && hero.oxygen < 100) {
             hero.oxygen += 1;
         }
-        let diego = hero.getMazeLocation().vision;
+        let diego = hero.getCenterMazeLocation().vision;
         if (diego != null && hero.superVision === 0) {
             hero.superVision += 600;
             this.score += 20;
             diego.used = true;
         }
-        let calvin = hero.getMazeLocation().healthHeart;
+        let calvin = hero.getCenterMazeLocation().healthHeart;
         if (calvin != null && hero.health != 100) {
             hero.health += 30;
             hero.oxygen += 10;
             calvin.used = true;
             this.score += 40;
         }
-        if (this.levels[world.currentLevel].hero.getMazeLocation() === this.levels[world.currentLevel].maze.exit) {
+        if (this.levels[world.currentLevel].hero.getCenterMazeLocation() === this.levels[world.currentLevel].maze.exit) {
             this.score += 100;
         }
         s.innerHTML = this.score;
@@ -110,6 +110,10 @@ class World {
             d.innerHTML = "Medium";
         } else if (this.difficulty === 3) {
             d.innerHTML = "Hard";
+        } else if(this.difficulty===4){
+            d.innerHTML="Very Hard";
+        } else if(this.difficulty===100){
+            d.innerHTML="Impossible";
         }
     }
     nextLevel() {

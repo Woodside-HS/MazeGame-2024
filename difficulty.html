@@ -1,0 +1,78 @@
+<!DOCTYPE HTML>
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&family=Sixtyfour&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Protest+Revolution&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Escape From Garbage Island</title>
+</head>
+<body class="scroll"
+      style="background-image:url('resources/startScreen.png');
+	     background-repeat: no-repeat;
+	     background-attachment: fixed;
+	     background-size: 100% 100%;">
+  <div class="mask"></div>
+  <div class="above-mask">
+    <h1 class="title">Escape From Garbage Island</h1>
+    <div class="infoDiv">
+      <div id="back" class="button"><a href="startScreen.html">Back to Start Screen</a></div>
+      <div id="mcds" class="button"><a href="https://www.mchire.com/co/McDonalds1330/Job?job_id=PDX_MC_4F9F2AED-FBAF-41E2-A900-5F7C895E5E76_14223"></a>If You Need More Help...</div>
+    </div>
+    <a href="index.html"><div class="button" id="easy"> 
+      Play: <br>Easy Difficulty
+    </div></a>
+    <a href="index.html"><div class="button" id="medium">
+      Play: <br>Medium Difficulty
+    </div></a>
+    <a href="index.html"><div class="button" id="hard"> 
+      Play:<br>Hard Difficulty
+    </div></a>
+    <a href="index.html"><div class="button" id="vhard"> 
+      Play:<br>Very Hard Difficulty
+    </div></a>
+    <a href="index.html"><div class="button" id="impossible"> 
+      Play:<br>Impossible Difficulty
+    </div></a>
+  </div>
+  <script>
+    function addListeners(){
+      let worldDiff=0;
+      function d2e(){
+        worldDiff=1;
+        let s=worldDiff.toString();
+        localStorage.setItem("gameDiff",s);
+      }
+      function d2m(){
+        worldDiff=2;
+        let s=worldDiff.toString();
+        localStorage.setItem("gameDiff",s);
+      }
+      function d2h(){
+        worldDiff=3;
+        let s=worldDiff.toString();
+        localStorage.setItem("gameDiff",s);
+      } 
+      function d2vh(){
+        worldDiff=4;
+        let s=worldDiff.toString();
+        localStorage.setItem("gameDiff",s);
+      }
+      function d2i(){
+        worldDiff=100;
+        let s=worldDiff.toString();
+        localStorage.setItem("gameDiff",s);
+      }
+    let e=document.getElementById("easy");
+    e.addEventListener("click",d2e);
+    let m=document.getElementById("medium");
+    m.addEventListener("click",d2m);
+    let h=document.getElementById("hard");
+    h.addEventListener("click",d2h);
+    let v=document.getElementById("vhard");
+    v.addEventListener("click",d2vh);
+    let i=document.getElementById("impossible",d2i);
+    }
+  addListeners();
+  </script>
+</body>
