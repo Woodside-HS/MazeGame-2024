@@ -11,11 +11,11 @@ function Cell(world, maze, r, c, cellWidth, wallWidth) {
     this.healthHeart=null;
     this.vision=null;
     this.weapon = null;
+    this.shell=null;
     this.cellWidth = cellWidth;
     this.wallWidth = wallWidth;
     this.color = "rgba(0, 0, 255, 1)";
     this.walls = [true, true, true, true];//top, right, bottom, left (like a clock)
-
     this.safeZone = false;
 
     /* @type {float} (0 <= luminance <= 1) */
@@ -66,7 +66,6 @@ Cell.prototype.renderCenter = function () {
     context.lineWidth = this.wallWidth;
 
     const image = maze.images[`section${this.getSection()}`];
-    // console.log(image, `section${this.getSection()}`);
     if (image && image.loaded && this.luminance > 0) {
         let sourceWidth = image.image.width / maze.mazeLength;
         let sourceHeight = image.image.height / maze.mazeLength;
@@ -81,7 +80,18 @@ Cell.prototype.renderCenter = function () {
         const brightness = 100 * this.luminance;
         context.filter = `brightness(${brightness}%)`;
         context.drawImage(image.image, sourceX, sourceY, sourceWidth, sourceHeight, destinationX, destinationY, destinationWidth, destinationHeight);
-
+        const shell=maze.images["shell"];
+        if(this.shell&&shell&&shell.loaded){
+            destinationHeight = cellWidth * 0.75;
+            destinationWidth = cellWidth * 0.75;
+            destinationY = y + 0.5 * (cellWidth - destinationHeight);
+            destinationX = x + 0.5 * (cellWidth - destinationWidth);
+            sourceHeight = shell.image.height;
+            sourceWidth = shell.image.width;
+            sourceY = 0;
+            sourceX = 0;
+            context.drawImage(shell.image, sourceX, sourceY, sourceWidth, sourceHeight, destinationX, destinationY, destinationWidth, destinationHeight);
+        }
         const bubble = maze.images["bubble"];
         if (this.oxygen && bubble && bubble.loaded) {
             destinationHeight = cellWidth * this.oxygenDiameter * this.oxygen.air / 20;
@@ -131,6 +141,7 @@ Cell.prototype.renderCenter = function () {
             sourceX = 0;
             context.drawImage(weapon.image, sourceX, sourceY, sourceWidth, sourceHeight, destinationX, destinationY, destinationWidth, destinationHeight);
         }
+        
         
         context.restore();
     } else if (this.luminance <= 0) {
