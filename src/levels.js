@@ -59,7 +59,7 @@ class Level {
         let enemiesPerSection = world.difficulty + world.currentLevel;
         for (let s = 0; s < sections; ++s) {
             for (let i = 0; i < enemiesPerSection; ++i) {
-                this.enemies[i] = createRandomEnemy(s);
+                this.enemies.push(createRandomEnemy(s));
             }
         }
     }
