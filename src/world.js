@@ -24,13 +24,24 @@ class World {
         this.time = 0;
         this.msTime = 0;
         this.score = 0;
-
+        this.maxSpeed = 0.039;
         this.currentLevel = 0;
-        this.levels = [new Level(30, 30, 15, 1, true)];//rows, cols, level number, renderCenter 
+        this.levels = [];
+        /*
+        1 = easy 
+        2 = medium 
+        3 = hard 
+        */
+        this.difficulty = 2;
+        this.maxDifficulty = 3;
     }
 
 
     run() {
+        if(this.levels.length < 1){
+            this.levels = [new Level(1, true)];
+            this.levels[0].genLevel();
+        }
         this.framecount++
 
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -38,11 +49,16 @@ class World {
         this.levels[this.currentLevel].run();
 
         this.updateStatusBar();
+
+        // if (this.currentLevel === 0) {
+        //     this.nextLevel();
+        // }
     }
     updateStatusBar() {
         this.updateTimer();
         this.updateLevel();
         this.runScore();
+        this.updateDifficultyDisplay();
     }
     updateTimer() {
         this.time++;
@@ -56,50 +72,79 @@ class World {
             this.score += 1;
         }
         //detects contact with oxygen
-        let hero=this.levels[this.currentLevel].hero;
-        let sanjan = hero.getMazeLocation().oxygen;
+        let hero = this.levels[this.currentLevel].hero;
+        let sanjan = hero.getCenterMazeLocation().oxygen;
         if (sanjan != null && sanjan.air > 0) {
             if (hero.oxygen < 99.9) {
-               hero.oxygen += 0.1;
+                hero.oxygen += 0.1;
                 sanjan.air -= 0.1;
-                //this.score += 1;
             }
-            //this.score += 1;
         }
-        let justin = hero.getMazeLocation().safeZone;
-        if(justin && hero.oxygen < 100){
+        let justin = hero.getCenterMazeLocation().safeZone;
+        if (justin && hero.oxygen < 100) {
             hero.oxygen += 1;
         }
-        let diego=hero.getMazeLocation().vision;
-        if(diego!=null&&hero.superVision===0){
-            hero.superVision+=600;
-            this.score+=20;
-            diego.used=true;
+        let diego = hero.getCenterMazeLocation().vision;
+        if (diego != null && hero.superVision === 0) {
+            hero.superVision += 600;
+            this.score += 20;
+            diego.used = true;
         }
-        let calvin=hero.getMazeLocation().healthHeart;
-        if (calvin != null&&hero.health!=100) {
-            hero.health+=30;
-            hero.oxygen+=10;
-            calvin.used=true;
+        let calvin = hero.getCenterMazeLocation().healthHeart;
+        if (calvin != null && hero.health != 100) {
+            hero.health += 30;
+            hero.oxygen += 10;
+            calvin.used = true;
             this.score += 40;
         }
-        if (this.levels[world.currentLevel].hero.getMazeLocation() === this.levels[world.currentLevel].maze.exit) {
+        if (this.levels[world.currentLevel].hero.getCenterMazeLocation() === this.levels[world.currentLevel].maze.exit) {
             this.score += 100;
         }
         s.innerHTML = this.score;
     }
-
-    nextLevel(row, col, mL, renderCenter) {
-        let ln = this.levels.length;
-        this.currentLevel = ln;
-        this.levels.push(new Level(row, col, mL, ln, renderCenter));
-        this.levels[ln].genLevel();
+    updateDifficultyDisplay() {
+        let d = document.getElementById("diffText");
+        if (this.difficulty === 1) {
+            d.innerHTML = "Easy";
+        } else if (this.difficulty === 2) {
+            d.innerHTML = "Medium";
+        } else if (this.difficulty === 3) {
+            d.innerHTML = "Hard";
+        } else if(this.difficulty===4){
+            d.innerHTML="Very Hard";
+        } else if(this.difficulty===10){
+            d.innerHTML="Impossible";
+        }
+    }
+    nextLevel() {
+        let w=this.levels[this.currentLevel].hero.weapon;
+        this.currentLevel++;
+        this.levels.push(new Level(this.currentLevel + 1, true));
+        this.levels[this.currentLevel].genLevel();
+        this.levels[this.currentLevel].hero.weapon=w;
+        this.nextLevelScreen();
     }
 
     updateLevel() {
         let l = document.getElementById("level");
         l.innerHTML = this.currentLevel + 1;
     }
+    nextLevelScreen(){
+        let ctx = this.context;
+        let cnv = this.canvas;
+        ctx.rect(0, 0, cnv.width, cnv.height);
+        ctx.fillStyle = "rgba(56,54,54,0.7)";
+        ctx.fill();
+        ctx.font = "bold 80px copperplate";
+        ctx.fillStyle = "rgba(35,204,16)";
+        ctx.textAlign="center";
+        ctx.fillText("Congratulations! You have advanced!",(cnv.width/2),cnv.height/2-200);
+        ctx.strokeStyle="rgb(46,41,40)"
+        ctx.strokeText("Congratulations! You have advanced!",(cnv.width/2),cnv.height/2-200);
+        this.paused=true;
+        let rp=document.getElementsByClassName("rPB");
+        rp.item(0).innerHTML="Start Next";
+     }
     deathScreen() {
         let ctx = this.context;
         let cnv = this.canvas;
@@ -108,10 +153,10 @@ class World {
         ctx.fill();
         ctx.font = "bold 80px copperplate";
         ctx.fillStyle = "rgba(204,35,16)";
-        //will be off center but I'm working on fixing it
-        ctx.fillText("you died lol",(cnv.width/2)-280,cnv.height/2);
+        ctx.textAlign="center";
+        ctx.fillText("you died lol",(cnv.width/2),cnv.height/2-200);
         ctx.strokeStyle="rgb(46,41,40)"
-        ctx.strokeText("you died lol",(cnv.width/2)-280,cnv.height/2);
+        ctx.strokeText("you died lol",(cnv.width/2),cnv.height/2-200);
         this.paused=true;
         let iT=document.getElementsByClassName("infoTile");
         iT.item(2).style.boxShadow="0 0 6px 6px #f50521";
@@ -119,7 +164,7 @@ class World {
         let rp=document.getElementsByClassName("rPB");
         rp.item(0).style.boxShadow="none";
         rp.item(0).style.backgroundImage = "linear-gradient(#35353b,#262629, #161617)";
-        rp.item(1).style.boxShadow="0 0 6px 6px #89a2f5";
+        rp.item(1).style.boxShadow = "0 0 6px 6px #89a2f5";
         rp.item(1).style.backgroundImage = "linear-gradient(#80a2ec,#4871f8, #0162f3)";
     }
 }

@@ -11,15 +11,11 @@ function Cell(world, maze, r, c, cellWidth, wallWidth) {
     this.healthHeart=null;
     this.vision=null;
     this.weapon = null;
+    this.shell=null;
     this.cellWidth = cellWidth;
     this.wallWidth = wallWidth;
     this.color = "rgba(0, 0, 255, 1)";
-    this.topL = new JSVector(this.col * this.cellWidth + this.maze.mazeLoc.x, this.row * this.cellWidth + this.maze.mazeLoc.y);
-    this.topR = new JSVector(this.topL.x + this.cellWidth,  this.topL.y);
-    this.bottomR = new JSVector(this.topR.x, this.topR.y + this.cellWidth);
-    this.bottomL = new JSVector(this.topL.x, this.topL.y + this.cellWidth);
     this.walls = [true, true, true, true];//top, right, bottom, left (like a clock)
-
     this.safeZone = false;
 
     /* @type {float} (0 <= luminance <= 1) */
@@ -70,7 +66,6 @@ Cell.prototype.renderCenter = function () {
     context.lineWidth = this.wallWidth;
 
     const image = maze.images[`section${this.getSection()}`];
-    // console.log(image, `section${this.getSection()}`);
     if (image && image.loaded && this.luminance > 0) {
         let sourceWidth = image.image.width / maze.mazeLength;
         let sourceHeight = image.image.height / maze.mazeLength;
@@ -85,7 +80,18 @@ Cell.prototype.renderCenter = function () {
         const brightness = 100 * this.luminance;
         context.filter = `brightness(${brightness}%)`;
         context.drawImage(image.image, sourceX, sourceY, sourceWidth, sourceHeight, destinationX, destinationY, destinationWidth, destinationHeight);
-
+        const shell=maze.images["shell"];
+        if(this.shell&&shell&&shell.loaded){
+            destinationHeight = cellWidth * 0.75;
+            destinationWidth = cellWidth * 0.75;
+            destinationY = y + 0.5 * (cellWidth - destinationHeight);
+            destinationX = x + 0.5 * (cellWidth - destinationWidth);
+            sourceHeight = shell.image.height;
+            sourceWidth = shell.image.width;
+            sourceY = 0;
+            sourceX = 0;
+            context.drawImage(shell.image, sourceX, sourceY, sourceWidth, sourceHeight, destinationX, destinationY, destinationWidth, destinationHeight);
+        }
         const bubble = maze.images["bubble"];
         if (this.oxygen && bubble && bubble.loaded) {
             destinationHeight = cellWidth * this.oxygenDiameter * this.oxygen.air / 20;
@@ -135,6 +141,7 @@ Cell.prototype.renderCenter = function () {
             sourceX = 0;
             context.drawImage(weapon.image, sourceX, sourceY, sourceWidth, sourceHeight, destinationX, destinationY, destinationWidth, destinationHeight);
         }
+        
         
         context.restore();
     } else if (this.luminance <= 0) {
@@ -190,45 +197,47 @@ Cell.prototype.renderClassic = function () {
     this.context.beginPath();
     this.context.strokeStyle = this.color;
     this.context.lineWidth = this.wallWidth;
+
+    let topL = new JSVector(this.col * this.cellWidth + this.maze.mazeLoc.x, this.row * this.cellWidth + this.maze.mazeLoc.y);
+    let topR = new JSVector(topL.x + cellWidth,  topL.y);
+    let bottomR = new JSVector(topR.x, topR.y + cellWidth);
+    let bottomL = new JSVector(topL.x, topL.y + cellWidth);
+
     // top wall 
     if (this.walls[0]) {
-        this.context.moveTo(this.topL.x, this.topL.y);
-        this.context.lineTo(this.topR.x, this.topR.y);
+        this.context.moveTo(topL.x, topL.y);
+        this.context.lineTo(topR.x, topR.y);
     }
     // right wall 
     if (this.walls[1]) {
-        this.context.moveTo(this.topR.x, this.topR.y);
-        this.context.lineTo(this.bottomR.x, this.bottomR.y);
+        this.context.moveTo(topR.x, topR.y);
+        this.context.lineTo(bottomR.x, bottomR.y);
     }
     // bottom wall 
     if (this.walls[2]) {
-        this.context.moveTo(this.bottomR.x, this.bottomR.y);
-        this.context.lineTo(this.bottomL.x, this.bottomL.y);
+        this.context.moveTo(bottomR.x, bottomR.y);
+        this.context.lineTo(bottomL.x, bottomL.y);
     }
     // left wall 
     if (this.walls[3]) {
-        this.context.moveTo(this.bottomL.x, this.bottomL.y);
-        this.context.lineTo(this.topL.x, this.topL.y);
+        this.context.moveTo(bottomL.x, bottomL.y);
+        this.context.lineTo(topL.x, topL.y);
     }
 
     this.context.stroke();
     this.context.closePath();
     this.context.restore();
 
-    if (this.oxygen != null) {
-        this.oxygen.render();
-    }
-
     if (this.safeZone) {
         this.context.save();
-        this.context.rect(this.topL.x, this.topL.y, this.cellWidth, this.cellWidth);
+        this.context.rect(topL.x, topL.y, cellWidth, cellWidth);
         this.context.fillStyle = "rgba(255, 116, 0, 0.2)";
         this.context.fill();
         this.context.restore();
     }
     if(this === this.maze.exit){
         this.context.save();
-        this.context.roundRect(this.topL.x, this.topL.y, this.cellWidth, this.cellWidth, 2);
+        this.context.roundRect(topL.x, topL.y, cellWidth, cellWidth, 2);
         this.context.fillStyle = "rgba(72, 239, 255, 0.6)";
         this.context.fill();
         this.context.restore();

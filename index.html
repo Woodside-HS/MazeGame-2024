@@ -23,6 +23,7 @@
     <script src="src/weapon.js"></script>
     <script src="src/allWeapons.js"></script>
     <script src="src/vision.js"></script>
+    <script src="src/allenemies.js"></script>
   </head>
 
   <body id="mainPage">
@@ -31,16 +32,18 @@
       <div class="infoTile"><a href="startScreen.html">Start Screen</a></div>
       <div class="infoTile">Health<div id="health"></div></div>
       <div class="infoTile">Oxygen<div id="oxygen"></div></div>
+      <div class="infoTile">Shells: <div id="shells"></div></div>
       <div class="infoTile">Weapon: <div id="weapon"></div></div>
-      <div class="infoTile">Kills <div id="kills">0</div></div>
+      <div class="infoTile">Kills: <div id="kills">0</div></div>
       <div class="infoTile" >Level<div id=level></div></div>
       <div class="infoTile" >Score<div id="score"></div></div>
       <div class="infoTile" >Time<div id="time"></div></div>
       <div id="pauseB" class="rPB">Pause</div>
       <div id="restartB"class="rPB">Restart</div>
+      <div id="diff"class="infoTile">Difficulty: <div id="diffText">Medium</div></div>
     </div>
     <div id="hitBar">
-      <div id="hAttack"></div>
+      <div id="hAttack">Use space to attack!</div>
       <div id="eAttack"></div>
     </div>
     <div id="cnvDiv">
