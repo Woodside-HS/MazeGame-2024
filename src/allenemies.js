@@ -1,8 +1,14 @@
 function createRandomEnemy(section) {
     // TODO: random in section
-    let position = JSVector.random(world.levels[world.currentLevel].maze.width,
-				   world.levels[world.currentLevel].maze.height);
+    let w = world.levels[world.currentLevel].maze.mazeLength;
+    let N = world.levels[world.currentLevel].maze.width / w;
+    let x = w * (section % N);
+    let y = w * Math.floor(section / N);
+    
+    let position = JSVector.random(w, w);
+    position.add(new JSVector(x, y));
     position.floor();
+
     let n = Math.random();
     if (n < 1 / 6) {
 	return new Powerade(position);
@@ -16,7 +22,6 @@ function createRandomEnemy(section) {
 	return new AngrierBag(position);
     } 
     return new RingPack(position);
-
 }
 
 class Powerade extends Enemy {
