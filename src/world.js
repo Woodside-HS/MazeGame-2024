@@ -34,6 +34,15 @@ class World {
         */
         this.difficulty = 2;
         this.maxDifficulty = 3;
+
+	this.images = {};
+	this.loadImages();
+
+	// Music == long music 
+	this.music = {};
+	// Sound == sound effects (eg. hit, pop)
+	this.sounds = {};
+	this.loadAudio();
     }
 
 
@@ -166,5 +175,48 @@ class World {
         rp.item(0).style.backgroundImage = "linear-gradient(#35353b,#262629, #161617)";
         rp.item(1).style.boxShadow = "0 0 6px 6px #89a2f5";
         rp.item(1).style.backgroundImage = "linear-gradient(#80a2ec,#4871f8, #0162f3)";
+    }
+    
+    loadImages() {
+	const loadImage = (path, name) => {
+            this.images[name] = { image: new Image(), loaded: false };
+            this.images[name].image.addEventListener("load", () => {
+		this.images[name].loaded = true;
+            });
+            this.images[name].image.src = path;
+	}
+
+	loadImage("./resources/background0.webp", "section0");
+	loadImage("./resources/background1.webp", "section1");
+	loadImage("./resources/background2.webp", "section2");
+	loadImage("./resources/background3.webp", "section3");
+
+	// loadImage("./resources/background.jpg", "background");
+	loadImage("./resources/bubble.png", "bubble");
+	loadImage("./resources/heart.png", "heart");
+	loadImage("./resources/eye.png", "vision");
+	loadImage("./resources/shell.png","shell");
+	loadImage("./resources/blueBottle.png","enemy0");
+	loadImage("./resources/redBottle.png","enemy1");
+	loadImage("./resources/greyBag.png","enemy2");
+	loadImage("./resources/redCup.png","enemy3");
+	loadImage("./resources/ringPack.png","enemy4");
+	loadImage("./resources/whiteBag.png","enemy5");
+	loadImage("./resources/turtle.png","hero");
+
+	for (let i = 1; i <= 18; ++i) {
+	    loadImage(`./resources/turtle/turtle3/turtle00${i}.png`,`turtle${i-1}`);
+	}
+    }
+    loadAudio() {
+	const loadAudio = (path, name, map) => {
+	    map[name] = {audio: new Audio(path), loaded: false};
+	    map[name].audio.addEventListener("canplaythrough", () => {
+		map[name].loaded = true;
+	    });
+	}
+
+	const loadSound = (path, name) => loadAudio(path, name, this.sounds);
+	const loadMusic = (path, name) => loadAudio(path, name, this.music);
     }
 }

@@ -388,7 +388,7 @@ v
         context.translate(this.world.canvas.width / 2, this.world.canvas.height / 2);
         context.beginPath();
         context.filter = `brightness(${100 * luminance}%)`;
-        const enemy=maze.images[this.imageName];
+        const enemy=world.images[this.imageName];
         if(enemy && enemy.loaded) {
             let destinationHeight = cellWidth * 0.75;
             let destinationWidth = cellWidth * 0.75;

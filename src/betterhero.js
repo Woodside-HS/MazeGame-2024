@@ -395,9 +395,9 @@ class BetterHero {
 	}
 	let hero;
 	if (this.velocity.getMagnitude() >= 0.01) {
-            hero = this.world.levels[this.world.currentLevel].maze.images[`turtle${this.animationFrame % 18}`];
+            hero = world.images[`turtle${this.animationFrame % 18}`];
 	} else {
-	    hero = this.world.levels[this.world.currentLevel].maze.images[`turtle0`];
+	    hero = world.images[`turtle0`];
 	}
         if(hero && hero.loaded) {
             let destinationHeight = cellWidth * 0.75;
