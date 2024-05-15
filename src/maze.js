@@ -254,7 +254,6 @@ Maze.prototype.loadImages = function () {
     for (let i = 1; i <= 18; ++i) {
 	loadImage(`./resources/turtle/turtle3/turtle00${i}.png`,`turtle${i-1}`);
     }
-
 }
 
 Maze.prototype.setCellLuminances = function () {
