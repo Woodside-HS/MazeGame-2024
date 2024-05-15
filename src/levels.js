@@ -10,11 +10,11 @@ generate hero, and generate enemies methods
 */
 
 class Level {
-    constructor(rows, cols, mL, levelNum, renderCenter) {
-        this.levelNum = levelNum;
-        this.rows = rows;
-        this.cols = cols;
-        this.mazeLength = mL
+    constructor(levelNum, renderCenter) {
+        this.levelNum = levelNum;//starts at 1 
+        this.rows = world.currentLevel * 10 + 10 * (world.difficulty - 1) + 10;
+        this.cols = this.rows;
+        this.mazeLength = this.rows/2;
         this.renderCenter = renderCenter;
         this.maze;
         this.hero;
@@ -30,7 +30,7 @@ class Level {
             this.enemies[i].run(this.renderCenter);
             if (this.enemies[i].health <= 0) {
                 this.enemies.splice(i, 1);
-                console.log(`Enemy killed at ${Date.now()}`);
+                //console.log(`Enemy killed at ${Date.now()}`);
             }
         }
 
@@ -52,39 +52,55 @@ class Level {
         this.maze.addPaths(15);
         this.maze.exit();
         this.safeZones();
-        this.hero = new BetterHero(world, new JSVector(15, 15));
-        for (let i = 0; i < 4 + 2 * world.currentLevel; i++) {
-            let x = Math.floor(Math.random() * this.maze.width);
-            let y = Math.floor(Math.random() * this.maze.height);
-            this.enemies[i] = new Enemy(world, new JSVector(x, y));
+        let hx = this.rows / 2;
+        let hy = this.cols / 2
+        this.hero = new BetterHero(world, new JSVector(hx, hy));
+        let sections = (this.maze.width / this.maze.mazeLength) ** 2;
+        let enemiesPerSection = world.difficulty + world.currentLevel;
+        for (let s = 0; s < sections; ++s) {
+            for (let i = 0; i < enemiesPerSection; ++i) {
+                this.enemies.push(createRandomEnemy(s));
+            }
         }
-        this.enemies.push(new Enemy(world, new JSVector(13, 13)));
-
     }
 
     arrowToExit() {
 
         let center = this.maze.getCenter();//in terms of rows and cols 
-        let exit = new JSVector(this.maze.exit.col+0.5, this.maze.exit.row+0.5);//in terms of rows and cols 
+        let exit = new JSVector(this.maze.exit.col + 0.5, this.maze.exit.row + 0.5);//in terms of rows and cols 
         let arrow = new JSVector.subGetNew(exit, center);
-        if (arrow.x * arrow.x + arrow.y * arrow.y < 25) {
-            let ctx = world.context;
-            ctx.save();
-            ctx.translate(world.canvas.width - 80, world.canvas.height - 80);
-            ctx.rotate(arrow.getDirection());
-            ctx.beginPath();
-            ctx.moveTo(50, 0);
-            ctx.lineTo(0, 0);
-            ctx.moveTo(50, 0);
-            ctx.lineTo(30, 30);
-            ctx.moveTo(50, 0);
-            ctx.lineTo(30, -30);
-            ctx.strokeStyle = "rgba(255, 255, 255)";
-            ctx.lineWidth = 6;
-            ctx.stroke();
-            ctx.closePath();
-            ctx.restore();
+        if (world.difficulty === 1) {
+            this.renderArrow(arrow);
         }
+        else if (world.difficulty === 2) {
+            if (arrow.x * arrow.x + arrow.y * arrow.y < 81) {
+                this.renderArrow(arrow);
+            }
+        }
+        else if (world.difficulty === 3) {
+            if (arrow.x * arrow.x + arrow.y * arrow.y < 25) {
+                this.renderArrow(arrow);
+            }
+        }
+    }
+
+    renderArrow(arrow) {
+        let ctx = world.context;
+        ctx.save();
+        ctx.translate(world.canvas.width - 80, world.canvas.height - 80);
+        ctx.rotate(arrow.getDirection());
+        ctx.beginPath();
+        ctx.moveTo(50, 0);
+        ctx.lineTo(0, 0);
+        ctx.moveTo(50, 0);
+        ctx.lineTo(30, 30);
+        ctx.moveTo(50, 0);
+        ctx.lineTo(30, -30);
+        ctx.strokeStyle = "rgba(255, 255, 255)";
+        ctx.lineWidth = 6;
+        ctx.stroke();
+        ctx.closePath();
+        ctx.restore();
     }
 
     safeZones() {

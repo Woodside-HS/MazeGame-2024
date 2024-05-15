@@ -4,24 +4,22 @@
 class Enemy {
     /**
      * Create an enemy
-     * @param {World} world - the world that the enemy belongs to
      * @param {JSVector} initialPosition - the enemy's intial position in the maze
      */
-    constructor(world, initialPosition) {
+    constructor(initialPosition, speed, distanceToRecognizeHero, health, name, imageName) {
         /* @type {World} */
         this.world = world;
 
         /* @type {number} */
         this.width = 0.5;
-        this.speed = 0.025;
-        this.distanceToRecognizeHero = 5;
+        this.speed = speed;
+        this.distanceToRecognizeHero = distanceToRecognizeHero;
 
         /* @type {JSVector} */
         this.position = initialPosition.copy();
         this.position.add(new JSVector(0.5 - this.width / 2, 0.5 - this.width / 2));
         this.velocity = new JSVector(0, 0);
         this.acceleration = new JSVector(0, 0);
-
         
         /* @type {Queue<JSVector>} */
         this.path = new Queue();
@@ -31,24 +29,12 @@ class Enemy {
         
         /* @type {JSVector} */
         this.target = new JSVector();
-	    this.setNewRandonTarget();
-        this.health = 15;
+	this.setNewRandonTarget();
+        this.health = health
+	this.maxHealth = health;
         this.weapon = new Sword(this);
-	    this.imageNumber=Math.floor(Math.random()*6);
-        this.name=null;
-        if(this.imageNumber===0){
-            this.name="Angry Powerade";
-        } else if(this.imageNumber===1){
-            this.name="Angry Kool Aid";
-        } else if(this.imageNumber===2){
-            this.name="Angrier Plastic Bag";
-        } else if(this.imageNumber===3){
-            this.name="Angry Solo Cup";
-        } else if(this.imageNumber===4){
-            this.name="Angry Ring Pack";
-        } else if(this.imageNumber===5){
-            this.name="Angry Plastic Bag";
-        }
+	this.imageName = imageName
+        this.name = name;
     }    
 
     /* Run the enemy (once per frame) */
@@ -86,6 +72,12 @@ class Enemy {
             this.wander();
         } else if (this.pathType == PathType.SEEK) {
             this.seekPlayer();
+            if(this.weapon!==null){
+                if(this.weapon.attack(world.levels[world.currentLevel].hero)){
+                    this.world.score-=10;
+                }
+                this.weapon.delayTime++;
+            }
         } else {
             throw new Error(`pathType has an invalid value: ${this.pathType}`);
         }
@@ -93,14 +85,12 @@ class Enemy {
 
         // Update the enemy's position
         this.velocity.add(this.acceleration);
-        this.velocity.limit(this.speed);
+	if (this.pathType == PathType.SEEK) {
+            this.velocity.limit(this.speed * 1.25);
+	} else {
+	    this.velocity.limit(this.speed);
+	}
         this.position.add(this.velocity);
-        if(this.weapon!==null){
-            if(this.weapon.attack(world.levels[world.currentLevel].hero)){
-                this.world.score-=10;
-            }
-            this.weapon.delayTime++;
-        }
         this.checkWalls();
     }
 
@@ -114,6 +104,7 @@ class Enemy {
 	    && !world.levels[world.currentLevel].hero.getCenterMazeLocation().safeZone)
         {
             this.pathType = PathType.SEEK;
+	    this.velocity = new JSVector(0, 0);
             this.seekPlayer();
             return;
         }
@@ -389,12 +380,15 @@ v
         cell.add(new JSVector(this.width*0.5, this.width*0.5));
         cell.floor();
         const luminance = maze.getCell(cell.y, cell.x).luminance;
+	if (luminance <= 0) {
+	    return;
+	}
         const context = this.world.context;
         context.save();
         context.translate(this.world.canvas.width / 2, this.world.canvas.height / 2);
         context.beginPath();
         context.filter = `brightness(${100 * luminance}%)`;
-        const enemy=maze.images["enemy"+this.imageNumber];
+        const enemy=maze.images[this.imageName];
         if(enemy && enemy.loaded) {
             let destinationHeight = cellWidth * 0.75;
             let destinationWidth = cellWidth * 0.75;
@@ -405,9 +399,23 @@ v
             let sourceY = 0;
             let sourceX = 0;
             context.drawImage(enemy.image, sourceX, sourceY, sourceWidth, sourceHeight, destinationX, destinationY, destinationWidth, destinationHeight);
+            if(this.health!=this.maxHealth){
+                context.beginPath();
+                context.fillStyle="rgb(85,75,74)";
+                context.rect(x,y+cellWidth/5*3,cellWidth/2,20);
+                context.fill();
+                context.closePath();
+            }    
+            context.beginPath();
+            if((this.health/this.maxHealth)<0.25){
+                context.fillStyle="rgb(255,0,0)";
+            } else {
+                context.fillStyle="rgb(0,255,0)";
+            }
+            context.rect(x,y+cellWidth/5*3,cellWidth/2*this.health/this.maxHealth,20);
+            context.fill();
+            context.closePath();
         }
-        // context.fillStyle = "red";
-        // context.fillRect(x, y, w, w);
         context.restore();
     }
 

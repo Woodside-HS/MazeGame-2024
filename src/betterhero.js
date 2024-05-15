@@ -13,16 +13,25 @@ class BetterHero {
 
         /* @type {number} */
         this.width = 0.25;
-        this.speed = 0.03;
+        this.speed = world.maxSpeed * 0.75;
         this.health = 100;
-        this.oh=this.health;
+        this.oh=this.health;//used to detect when hero gets hit
         this.oxygen = 100;
         this.weapon = new Sword(this);
+        if(this.world.difficulty===10){
+            this.weapon=new Dagger(this);
+        }
         this.target = null;
         this.killCount = 0;
-        this.superVision=0;
-        this.tslal=0;
-        this.tsleh=0;
+        this.superVision=0; //timer for vision
+        this.tslal=0; //time since last attack
+        this.tsleh=0;//time since last enemy hit
+        this.justAttacked=0; //timer for weapon swinging
+        this.shellCount=(5-this.world.difficulty)*5;
+        this.shellPickupDelay=0;
+	this.animationFrame = 0; // which turle image
+	this.animationDelay = 0; // time between frames
+	this.animationTime = 5;  // time to switch to next frame
 
         /* @type {JSVector} */
         this.position = initialPosition.copy();
@@ -36,7 +45,9 @@ class BetterHero {
             "w": {pressed: false},
             "a": {pressed: false},
             "d": {pressed: false},
-            "e": {pressed: false}
+            "e": {pressed: false},
+            " ": {pressed: false},
+            "f": {pressed: false}
         };
 
         window.addEventListener("keydown", (event) => {
@@ -58,11 +69,6 @@ class BetterHero {
      * Get the cell the hero is currently on
      * @return {Cell} - the cell the hero is currently on
      */
-    getMazeLocation() {
-        const cell = this.position.copy();
-        cell.floor();
-        return world.levels[world.currentLevel].maze.grid[cell.y][cell.x];
-    }
     getCenterMazeLocation() {
         const cell = this.position.copy();
 	cell.x += this.width / 2;
@@ -108,14 +114,15 @@ class BetterHero {
         this.updateStatusBar();
         this.pickUpWeapon();
         this.updateWeapon();
+        this.updateShells();
         this.touchingExit();
     }
 
     touchingExit(){
-        let currentCel = this.getMazeLocation();
+        let currentCel = this.getCenterMazeLocation();
         let ext = world.levels[world.currentLevel].maze.exit;
         if(currentCel === ext){
-                world.nextLevel(30, 30, 15, world.levels.length+1, true);
+                world.nextLevel();
         }
     }
 
@@ -283,19 +290,19 @@ class BetterHero {
     updateVision(){
         if(this.superVision>0){
             this.superVision--;
-        } else {
-        }
+        } 
     }
     pickUpWeapon(){
-        let calvin = world.levels[world.currentLevel].hero.getMazeLocation().weapon;
+        let calvin = world.levels[world.currentLevel].hero.getCenterMazeLocation().weapon;
         let h=document.getElementById("hAttack");
         //need to add a delay still
-        if (calvin!==null&&this.keys["e"].pressed) {
+        if (calvin!==null&&this.keys["e"].pressed&&this.weapon.delayTime>30) {
             let diego=world.levels[world.currentLevel].hero.weapon;
             calvin.holder=this;
-            diego.holder=this.getMazeLocation();
+            diego.holder=this.getCenterMazeLocation();
+            this.weapon.delayTime=0;
             world.levels[world.currentLevel].hero.weapon=calvin;
-            world.levels[world.currentLevel].hero.getMazeLocation().weapon=diego;
+            world.levels[world.currentLevel].hero.getCenterMazeLocation().weapon=diego;
             let s="You picked up a "+calvin.name+"!";
             h.innerHTML=s;
             this.tslal=0;
@@ -312,17 +319,20 @@ class BetterHero {
                 }
             }
             this.target=closeEnemy;
-            if(this.weapon.attack(this.target)){
-                world.score+=10;
-                this.tslal=0;
-                let s="You hit a "+this.target.name+" with a "+this.weapon.name+"!";
-                if(closeEnemy.health<=0){
-                    s="You sure cleaned up a "+this.target.name+"!";
-                    world.score+=50;
-                    this.health+=10;
-                    this.killCount++;
+            if(this.keys[" "].pressed&&this.weapon.delayTime>this.weapon.delay){
+                this.justAttacked=0.25;
+                if(this.weapon.attack(this.target)){
+                    world.score+=10;
+                    this.tslal=0;
+                    let s="You hit a "+this.target.name+" with a "+this.weapon.name+"!";
+                    if(closeEnemy.health<=0){
+                        s="You sure cleaned up a "+this.target.name+"!";
+                        world.score+=50;
+                        this.health+=10;
+                        this.killCount++;
+                    }
+                    h.innerHTML=s;
                 }
-                h.innerHTML=s;
             }
             this.weapon.delayTime++;
         }
@@ -345,7 +355,26 @@ class BetterHero {
             e.innerHTML="";
         }
     }
-    
+    updateShells(){
+        if(this.world.difficulty>3){
+            let iT=document.getElementsByClassName("infoTile");
+            iT.item(3).style="display: none";
+        } else {
+            this.shellPickupDelay++;
+            let c=this.getCenterMazeLocation();
+            if(this.keys["f"].pressed&&this.shellCount>0&&c.shell===null&&this.shellPickupDelay>20){
+                c.shell=true;
+                this.shellCount--;
+                this.shellPickupDelay=0;
+            } else if(this.keys["f"].pressed&&c.shell===true&&this.shellPickupDelay>20){
+                c.shell=null;
+                this.shellCount++;
+                this.shellPickupDelay=0;
+            }
+            let s=document.getElementById("shells");
+            s.innerHTML=this.shellCount;
+        }
+    }
     /* Render the hero */
     renderCenter() {
         const cellWidth = world.levels[world.currentLevel].maze.cellWidth;
@@ -358,7 +387,18 @@ class BetterHero {
         context.save();
         context.translate(this.world.canvas.width / 2, this.world.canvas.height / 2);
         context.beginPath();
-        const hero=this.world.levels[this.world.currentLevel].maze.images["hero"];
+	++this.animationDelay;
+	if (this.animationDelay >= this.animationTime)
+	{
+	    ++this.animationFrame;
+	    this.animationDelay = 0;
+	}
+	let hero;
+	if (this.velocity.getMagnitude() >= 0.01) {
+            hero = this.world.levels[this.world.currentLevel].maze.images[`turtle${this.animationFrame % 18}`];
+	} else {
+	    hero = this.world.levels[this.world.currentLevel].maze.images[`turtle0`];
+	}
         if(hero && hero.loaded) {
             let destinationHeight = cellWidth * 0.75;
             let destinationWidth = cellWidth * 0.75;
@@ -371,7 +411,25 @@ class BetterHero {
             context.rotate(this.velocity.getDirection()+Math.PI/2);
             context.drawImage(hero.image, sourceX, sourceY, sourceWidth, sourceHeight, destinationX, destinationY, destinationWidth, destinationHeight);
         }
+	
         if(this.weapon!==null){//render weapon if there is one
+            // context.arc(this.position.x-cellWidth/5.5,this.position.y-cellWidth/4,4,0,2*Math.PI);
+            // context.fillStyle="red";
+            // context.fill(); //this circle would be where the axes get translated to
+            if(this.justAttacked!=0){
+                if(this.justAttacked>0){
+                    context.translate(this.position.x-cellWidth/6.5,this.position.y-cellWidth/6.5);
+                    context.rotate(-Math.PI/8*this.justAttacked);
+                    this.justAttacked+=0.25;
+                    if(this.justAttacked>3){
+                        this.justAttacked=-3;
+                    }
+                } else if(this.justAttacked<0){
+                    context.translate(this.position.x-cellWidth/6.5,this.position.y-cellWidth/6.5);
+                    this.justAttacked+=0.25;
+                }
+                
+            }
             context.drawImage(this.weapon.image.image, this.position.x-75, this.position.y-35-(cellWidth*this.weapon.length),25,cellWidth*this.weapon.length);
         }
         context.restore();
