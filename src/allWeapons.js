@@ -77,7 +77,7 @@ class SuperSpear extends Weapon{
         let delay = 90;
         let length = 0.75;
         let range = 1.2;
-        let name = "Spear";
+        let name = "Magic Spear";
         let imagePath = "./resources/spear2.png";
         super(damage, delay, range, length, holder, name, imagePath);
     }
