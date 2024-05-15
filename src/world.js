@@ -73,33 +73,31 @@ class World {
         }
         //detects contact with oxygen
         let hero = this.levels[this.currentLevel].hero;
-        let sanjan = hero.getMazeLocation().oxygen;
+        let sanjan = hero.getCenterMazeLocation().oxygen;
         if (sanjan != null && sanjan.air > 0) {
             if (hero.oxygen < 99.9) {
                 hero.oxygen += 0.1;
                 sanjan.air -= 0.1;
-                //this.score += 1;
             }
-            //this.score += 1;
         }
-        let justin = hero.getMazeLocation().safeZone;
+        let justin = hero.getCenterMazeLocation().safeZone;
         if (justin && hero.oxygen < 100) {
             hero.oxygen += 1;
         }
-        let diego = hero.getMazeLocation().vision;
+        let diego = hero.getCenterMazeLocation().vision;
         if (diego != null && hero.superVision === 0) {
             hero.superVision += 600;
             this.score += 20;
             diego.used = true;
         }
-        let calvin = hero.getMazeLocation().healthHeart;
+        let calvin = hero.getCenterMazeLocation().healthHeart;
         if (calvin != null && hero.health != 100) {
             hero.health += 30;
             hero.oxygen += 10;
             calvin.used = true;
             this.score += 40;
         }
-        if (this.levels[world.currentLevel].hero.getMazeLocation() === this.levels[world.currentLevel].maze.exit) {
+        if (this.levels[world.currentLevel].hero.getCenterMazeLocation() === this.levels[world.currentLevel].maze.exit) {
             this.score += 100;
         }
         s.innerHTML = this.score;
@@ -112,18 +110,41 @@ class World {
             d.innerHTML = "Medium";
         } else if (this.difficulty === 3) {
             d.innerHTML = "Hard";
+        } else if(this.difficulty===4){
+            d.innerHTML="Very Hard";
+        } else if(this.difficulty===10){
+            d.innerHTML="Impossible";
         }
     }
     nextLevel() {
+        let w=this.levels[this.currentLevel].hero.weapon;
         this.currentLevel++;
         this.levels.push(new Level(this.currentLevel + 1, true));
         this.levels[this.currentLevel].genLevel();
+        this.levels[this.currentLevel].hero.weapon=w;
+        this.nextLevelScreen();
     }
 
     updateLevel() {
         let l = document.getElementById("level");
         l.innerHTML = this.currentLevel + 1;
     }
+    nextLevelScreen(){
+        let ctx = this.context;
+        let cnv = this.canvas;
+        ctx.rect(0, 0, cnv.width, cnv.height);
+        ctx.fillStyle = "rgba(56,54,54,0.7)";
+        ctx.fill();
+        ctx.font = "bold 80px copperplate";
+        ctx.fillStyle = "rgba(35,204,16)";
+        ctx.textAlign="center";
+        ctx.fillText("Congratulations! You have advanced!",(cnv.width/2),cnv.height/2-200);
+        ctx.strokeStyle="rgb(46,41,40)"
+        ctx.strokeText("Congratulations! You have advanced!",(cnv.width/2),cnv.height/2-200);
+        this.paused=true;
+        let rp=document.getElementsByClassName("rPB");
+        rp.item(0).innerHTML="Start Next";
+     }
     deathScreen() {
         let ctx = this.context;
         let cnv = this.canvas;

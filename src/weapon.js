@@ -40,8 +40,8 @@ class Weapon {
     }
 
     attack(target){//still need to check for walls
-        // let hp=this.holder.getMazeLocation();
-        // let tp=target.getMazeLocation();
+        // let hp=this.holder.getCenterMazeLocation();
+        // let tp=target.getCenterMazeLocation();
 	let canAttack = ((this.delayTime>=this.delay))&&(target.position.distanceSquared(this.holder.position)<this.range*this.range);
 	if (!canAttack) {
 	    return false;
