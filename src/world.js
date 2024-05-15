@@ -33,7 +33,7 @@ class World {
         3 = hard 
         */
         this.difficulty = 2;
-        this.maxDifficulty = 3;
+        this.maxDifficulty = 4;
     }
 
 
