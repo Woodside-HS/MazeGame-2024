@@ -15,15 +15,20 @@ class BetterHero {
         this.width = 0.25;
         this.speed = world.maxSpeed * 0.75;
         this.health = 100;
-        this.oh=this.health;
+        this.oh=this.health;//used to detect when hero gets hit
         this.oxygen = 100;
         this.weapon = new Sword(this);
+        if(this.world.difficulty===10){
+            this.weapon=new Dagger(this);
+        }
         this.target = null;
         this.killCount = 0;
-        this.superVision=0;
-        this.tslal=0;
-        this.tsleh=0;
-        this.justAttacked=0;
+        this.superVision=0; //timer for vision
+        this.tslal=0; //time since last attack
+        this.tsleh=0;//time since last enemy hit
+        this.justAttacked=0; //timer for weapon swinging
+        this.shellCount=(5-this.world.difficulty)*5;
+        this.shellPickupDelay=0;
 	this.animationFrame = 0; // which turle image
 	this.animationDelay = 0; // time between frames
 	this.animationTime = 5;  // time to switch to next frame
@@ -41,7 +46,8 @@ class BetterHero {
             "a": {pressed: false},
             "d": {pressed: false},
             "e": {pressed: false},
-            " ": {pressed: false}
+            " ": {pressed: false},
+            "f": {pressed: false}
         };
 
         window.addEventListener("keydown", (event) => {
@@ -63,11 +69,6 @@ class BetterHero {
      * Get the cell the hero is currently on
      * @return {Cell} - the cell the hero is currently on
      */
-    getMazeLocation() {
-        const cell = this.position.copy();
-        cell.floor();
-        return world.levels[world.currentLevel].maze.grid[cell.y][cell.x];
-    }
     getCenterMazeLocation() {
         const cell = this.position.copy();
 	cell.x += this.width / 2;
@@ -113,11 +114,12 @@ class BetterHero {
         this.updateStatusBar();
         this.pickUpWeapon();
         this.updateWeapon();
+        this.updateShells();
         this.touchingExit();
     }
 
     touchingExit(){
-        let currentCel = this.getMazeLocation();
+        let currentCel = this.getCenterMazeLocation();
         let ext = world.levels[world.currentLevel].maze.exit;
         if(currentCel === ext){
                 world.nextLevel();
@@ -288,20 +290,19 @@ class BetterHero {
     updateVision(){
         if(this.superVision>0){
             this.superVision--;
-        } else {
-        }
+        } 
     }
     pickUpWeapon(){
-        let calvin = world.levels[world.currentLevel].hero.getMazeLocation().weapon;
+        let calvin = world.levels[world.currentLevel].hero.getCenterMazeLocation().weapon;
         let h=document.getElementById("hAttack");
         //need to add a delay still
         if (calvin!==null&&this.keys["e"].pressed&&this.weapon.delayTime>30) {
             let diego=world.levels[world.currentLevel].hero.weapon;
             calvin.holder=this;
-            diego.holder=this.getMazeLocation();
+            diego.holder=this.getCenterMazeLocation();
             this.weapon.delayTime=0;
             world.levels[world.currentLevel].hero.weapon=calvin;
-            world.levels[world.currentLevel].hero.getMazeLocation().weapon=diego;
+            world.levels[world.currentLevel].hero.getCenterMazeLocation().weapon=diego;
             let s="You picked up a "+calvin.name+"!";
             h.innerHTML=s;
             this.tslal=0;
@@ -354,7 +355,26 @@ class BetterHero {
             e.innerHTML="";
         }
     }
-    
+    updateShells(){
+        if(this.world.difficulty>3){
+            let iT=document.getElementsByClassName("infoTile");
+            iT.item(3).style="display: none";
+        } else {
+            this.shellPickupDelay++;
+            let c=this.getCenterMazeLocation();
+            if(this.keys["f"].pressed&&this.shellCount>0&&c.shell===null&&this.shellPickupDelay>20){
+                c.shell=true;
+                this.shellCount--;
+                this.shellPickupDelay=0;
+            } else if(this.keys["f"].pressed&&c.shell===true&&this.shellPickupDelay>20){
+                c.shell=null;
+                this.shellCount++;
+                this.shellPickupDelay=0;
+            }
+            let s=document.getElementById("shells");
+            s.innerHTML=this.shellCount;
+        }
+    }
     /* Render the hero */
     renderCenter() {
         const cellWidth = world.levels[world.currentLevel].maze.cellWidth;

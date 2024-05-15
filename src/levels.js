@@ -80,7 +80,9 @@ class Level {
             }
         }
         else if (world.difficulty === 3) {
-            //no arrow 
+            if (arrow.x * arrow.x + arrow.y * arrow.y < 25) {
+                this.renderArrow(arrow);
+            }
         }
     }
 
