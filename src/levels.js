@@ -12,7 +12,7 @@ generate hero, and generate enemies methods
 class Level {
     constructor(levelNum, renderCenter) {
         this.levelNum = levelNum;//starts at 1 
-        this.rows = world.currentLevel * 10 + 10 * (world.difficulty - 1) + 10;
+        this.rows = (world.currentLevel) * 4 + 6 * (world.difficulty);
         this.cols = this.rows;
         this.mazeLength = this.rows/2;
         this.renderCenter = renderCenter;
