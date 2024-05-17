@@ -33,16 +33,10 @@ class World {
         3 = hard 
         */
         this.difficulty = 2;
-        this.maxDifficulty = 3;
+        this.maxDifficulty = 4;
 
 	this.images = {};
 	this.loadImages();
-
-	// Music == long music 
-	this.music = {};
-	// Sound == sound effects (eg. hit, pop)
-	this.sounds = {};
-	this.loadAudio();
     }
 
 
@@ -58,10 +52,6 @@ class World {
         this.levels[this.currentLevel].run();
 
         this.updateStatusBar();
-
-        // if (this.currentLevel === 0) {
-        //     this.nextLevel();
-        // }
     }
     updateStatusBar() {
         this.updateTimer();
@@ -131,6 +121,7 @@ class World {
         this.levels.push(new Level(this.currentLevel + 1, true));
         this.levels[this.currentLevel].genLevel();
         this.levels[this.currentLevel].hero.weapon=w;
+        this.levels[this.currentLevel].hero.weapon.holder=this.levels[this.currentLevel].hero;
         this.nextLevelScreen();
     }
 
@@ -147,9 +138,11 @@ class World {
         ctx.font = "bold 80px copperplate";
         ctx.fillStyle = "rgba(35,204,16)";
         ctx.textAlign="center";
-        ctx.fillText("Congratulations! You have advanced!",(cnv.width/2),cnv.height/2-200);
+        ctx.fillText("Congratulations!",(cnv.width/2),cnv.height/2-200);
+        ctx.fillText("You have advanced to the next level!",(cnv.width/2),cnv.height/2-100);
         ctx.strokeStyle="rgb(46,41,40)"
-        ctx.strokeText("Congratulations! You have advanced!",(cnv.width/2),cnv.height/2-200);
+        ctx.strokeText("Congratulations!",(cnv.width/2),cnv.height/2-200);
+        ctx.strokeText("You have advanced to the next level!",(cnv.width/2),cnv.height/2-100);
         this.paused=true;
         let rp=document.getElementsByClassName("rPB");
         rp.item(0).innerHTML="Start Next";

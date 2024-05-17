@@ -33,6 +33,9 @@ class Enemy {
         this.health = health
 	this.maxHealth = health;
         this.weapon = new Sword(this);
+        if(this.world.difficulty === 10){
+            this.weapon = new SuperTrident(this);
+        }
 	this.imageName = imageName
         this.name = name;
     }    
