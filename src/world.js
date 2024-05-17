@@ -33,7 +33,7 @@ class World {
         3 = hard 
         */
         this.difficulty = 2;
-        this.maxDifficulty = 3;
+        this.maxDifficulty = 4;
     }
 
 
@@ -49,10 +49,6 @@ class World {
         this.levels[this.currentLevel].run();
 
         this.updateStatusBar();
-
-        // if (this.currentLevel === 0) {
-        //     this.nextLevel();
-        // }
     }
     updateStatusBar() {
         this.updateTimer();

@@ -30,7 +30,7 @@ function Maze(world, level, loc, row, col, mL, renderCenter) {
     this.entry;
     this.exit;
     //the distance of illuminated cells
-    this.cellMaxDist=5;
+    this.cellMaxDist = 5;
     //safe zone locs (top left cells)
     this.sloc = [];
 
@@ -242,26 +242,26 @@ Maze.prototype.loadImages = function () {
     loadImage("./resources/bubble.png", "bubble");
     loadImage("./resources/heart.png", "heart");
     loadImage("./resources/eye.png", "vision");
-    loadImage("./resources/shell.png","shell");
-    loadImage("./resources/blueBottle.png","enemy0");
-    loadImage("./resources/redBottle.png","enemy1");
-    loadImage("./resources/greyBag.png","enemy2");
-    loadImage("./resources/redCup.png","enemy3");
-    loadImage("./resources/ringPack.png","enemy4");
-    loadImage("./resources/whiteBag.png","enemy5");
-    loadImage("./resources/turtle.png","hero");
+    loadImage("./resources/shell.png", "shell");
+    loadImage("./resources/blueBottle.png", "enemy0");
+    loadImage("./resources/redBottle.png", "enemy1");
+    loadImage("./resources/greyBag.png", "enemy2");
+    loadImage("./resources/redCup.png", "enemy3");
+    loadImage("./resources/ringPack.png", "enemy4");
+    loadImage("./resources/whiteBag.png", "enemy5");
+    loadImage("./resources/turtle.png", "hero");
 
     for (let i = 1; i <= 18; ++i) {
-	loadImage(`./resources/turtle/turtle3/turtle00${i}.png`,`turtle${i-1}`);
+        loadImage(`./resources/turtle/turtle3/turtle00${i}.png`, `turtle${i - 1}`);
     }
 
 }
 
 Maze.prototype.setCellLuminances = function () {
     if (world.levels[world.currentLevel].hero.superVision > 0) {
-	this.setCellLuminancesRadial();
+        this.setCellLuminancesRadial();
     } else {
-	this.setCellLuminancesBFS();
+        this.setCellLuminancesBFS();
     }
 }
 
@@ -363,16 +363,16 @@ Maze.prototype.setCellLuminancesBFS = function () {
 Maze.prototype.setCellLuminancesRadial = function () {
     let heroPosition = world.levels[world.currentLevel].hero.position.copy();
     for (let y = 0; y < this.height; ++y) {
-	for (let x = 0; x < this.width; ++x) {
-	    let cell = new JSVector(x, y);
-	    let distance = cell.distance(heroPosition);
-	    let maxDistance = 3;
-	    if (distance < maxDistance) {
-		this.grid[y][x].luminance = 1;
-	    } else {
-		this.grid[y][x].luminance = 0;
-	    }
-	}
+        for (let x = 0; x < this.width; ++x) {
+            let cell = new JSVector(x, y);
+            let distance = cell.distance(heroPosition);
+            let maxDistance = 3;
+            if (distance < maxDistance) {
+                this.grid[y][x].luminance = 1;
+            } else {
+                this.grid[y][x].luminance = 0;
+            }
+        }
     }
 }
 
@@ -435,23 +435,23 @@ Maze.prototype.oxygenBubbles = function () {
                     let Cmin = col * mL;
 
                     let ranR;
-		    let ranC;
-		    do {
-			ranR = row * mL + Math.floor(Math.random() * mL);
-			ranC = col * mL + Math.floor(Math.random() * mL);
+                    let ranC;
+                    do {
+                        ranR = row * mL + Math.floor(Math.random() * mL);
+                        ranC = col * mL + Math.floor(Math.random() * mL);
                     } while (this.grid[ranR][ranC].safeZone);
 
-		    this.grid[ranR][ranC].oxygen = new Oxygen(this.grid[ranR][ranC], this.context);
+                    this.grid[ranR][ranC].oxygen = new Oxygen(this.grid[ranR][ranC], this.context);
                 }
                 else { done = true; }
             }
         }
     }
 }
-Maze.prototype.healthHearts=function(){
+Maze.prototype.healthHearts = function () {
     let mL = this.world.levels[this.world.currentLevel].mazeLength;
-    for (let row = 0; row < this.rows/mL; row++) {
-        for (let col = 0; col < this.cols/mL; col++) {
+    for (let row = 0; row < this.rows / mL; row++) {
+        for (let col = 0; col < this.cols / mL; col++) {
             let done = false;
             while (!done) {
                 //count how many hearts there are 
@@ -459,8 +459,8 @@ Maze.prototype.healthHearts=function(){
                 for (let r = row * mL; r < row * mL + mL; r++) {
                     for (let c = col * mL; c < col * mL + mL; c++) {
                         if (this.grid[r][c].healthHeart != null) {
-                            if(this.grid[r][c].healthHeart.used===true){
-                                this.grid[r][c].healthHeart=null;
+                            if (this.grid[r][c].healthHeart.used === true) {
+                                this.grid[r][c].healthHeart = null;
                             } else {
                                 count++;
                             }
@@ -468,16 +468,16 @@ Maze.prototype.healthHearts=function(){
                     }
                 }
                 //hearts on random tiles if 
-                if (count < Math.floor(this.mazeLength/2)) {
-		    let ranR;
-		    let ranC;
-		    do {
-			ranR = row * mL + Math.floor(Math.random() * mL);
-			ranC = col * mL + Math.floor(Math.random() * mL);
+                if (count < Math.floor(this.mazeLength / 2) && this.world.difficulty !== 10) {
+                    let ranR;
+                    let ranC;
+                    do {
+                        ranR = row * mL + Math.floor(Math.random() * mL);
+                        ranC = col * mL + Math.floor(Math.random() * mL);
                     } while (this.grid[ranR][ranC].safeZone);
 
-                    if(this.grid[ranR][ranC].oxygen === null&&this.grid[ranR][ranC].healthHeart===null){
-                        this.grid[ranR][ranC].healthHeart= new healthHeart(this.grid[ranR][ranC], this.context);
+                    if (this.grid[ranR][ranC].oxygen === null && this.grid[ranR][ranC].healthHeart === null) {
+                        this.grid[ranR][ranC].healthHeart = new healthHeart(this.grid[ranR][ranC], this.context);
                     }
                 }
                 else { done = true; }
@@ -485,10 +485,10 @@ Maze.prototype.healthHearts=function(){
         }
     }
 }
-Maze.prototype.createVision=function(){
+Maze.prototype.createVision = function () {
     let mL = this.world.levels[this.world.currentLevel].mazeLength;
-    for (let row = 0; row < this.rows/mL; row++) {
-        for (let col = 0; col < this.cols/mL; col++) {
+    for (let row = 0; row < this.rows / mL; row++) {
+        for (let col = 0; col < this.cols / mL; col++) {
             let done = false;
             while (!done) {
                 //count how many eyes there are 
@@ -496,8 +496,8 @@ Maze.prototype.createVision=function(){
                 for (let r = row * mL; r < row * mL + mL; r++) {
                     for (let c = col * mL; c < col * mL + mL; c++) {
                         if (this.grid[r][c].vision != null) {
-                            if(this.grid[r][c].vision.used===true){
-                                this.grid[r][c].vision=null;
+                            if (this.grid[r][c].vision.used === true) {
+                                this.grid[r][c].vision = null;
                             } else {
                                 count++;
                             }
@@ -505,16 +505,16 @@ Maze.prototype.createVision=function(){
                     }
                 }
                 //vision power up on random tiles if 
-                if (count < Math.floor(this.mazeLength/4)) {
-		    let ranR;
-		    let ranC;
-		    do {
-			ranR = row * mL + Math.floor(Math.random() * mL);
-			ranC = col * mL + Math.floor(Math.random() * mL);
+                if (count < Math.floor(this.mazeLength / 4) && this.world.difficulty !== 10) {
+                    let ranR;
+                    let ranC;
+                    do {
+                        ranR = row * mL + Math.floor(Math.random() * mL);
+                        ranC = col * mL + Math.floor(Math.random() * mL);
                     } while (this.grid[ranR][ranC].safeZone);
 
-                    if(this.grid[ranR][ranC].oxygen === null&&this.grid[ranR][ranC].healthHeart===null&&this.grid[ranR][ranC].vision===null){
-                        this.grid[ranR][ranC].vision= new Vision(this.grid[ranR][ranC], this.context);
+                    if (this.grid[ranR][ranC].oxygen === null && this.grid[ranR][ranC].healthHeart === null && this.grid[ranR][ranC].vision === null) {
+                        this.grid[ranR][ranC].vision = new Vision(this.grid[ranR][ranC], this.context);
                     }
                 }
                 else { done = true; }
@@ -524,8 +524,8 @@ Maze.prototype.createVision=function(){
 }
 Maze.prototype.weaponCreation = function () {
     let mL = this.world.levels[this.world.currentLevel].mazeLength;
-    for (let row = 0; row < this.rows/mL; row++) {
-        for (let col = 0; col < this.cols/mL; col++) {
+    for (let row = 0; row < this.rows / mL; row++) {
+        for (let col = 0; col < this.cols / mL; col++) {
             let done = false;
             while (!done) {
                 //count how many weapons there are 
@@ -538,15 +538,15 @@ Maze.prototype.weaponCreation = function () {
                     }
                 }
                 //weapons on random tiles if 
-                if (count < Math.floor(this.mazeLength/2)) {//4 weapons per maze section
-		    let ranR;
-		    let ranC;
-		    do {
-			ranR = row * mL + Math.floor(Math.random() * mL);
-			ranC = col * mL + Math.floor(Math.random() * mL);
+                if (count < Math.floor(this.mazeLength / 2) && this.world.difficulty !== 10) {//4 weapons per maze section
+                    let ranR;
+                    let ranC;
+                    do {
+                        ranR = row * mL + Math.floor(Math.random() * mL);
+                        ranC = col * mL + Math.floor(Math.random() * mL);
                     } while (this.grid[ranR][ranC].safeZone);
 
-                    if (this.grid[ranR][ranC].oxygen === null&&this.grid[ranR][ranC].healthHeart===null&&this.grid[ranR][ranC].vision===null&&this.grid[ranR][ranC].weapon===null ){
+                    if (this.grid[ranR][ranC].oxygen === null && this.grid[ranR][ranC].healthHeart === null && this.grid[ranR][ranC].vision === null && this.grid[ranR][ranC].weapon === null) {
                         let ran = Math.random() * 6;
                         if (ran < 1.5) {
                             this.grid[ranR][ranC].weapon = new Dagger(this.grid[ranR][ranC]);
@@ -564,11 +564,11 @@ Maze.prototype.weaponCreation = function () {
                             this.grid[ranR][ranC].weapon = new SuperSpear(this.grid[ranR][ranC]);
                         } else if (ran < 6) {
                             this.grid[ranR][ranC].weapon = new SuperTrident(this.grid[ranR][ranC]);
-                        } 
+                        }
                     }
                 } else {
-                    done=true;
-                }   
+                    done = true;
+                }
             }
         }
     }
