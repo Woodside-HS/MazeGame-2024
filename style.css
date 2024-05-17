@@ -192,3 +192,20 @@ a, a:link, a:visited, a:hover, a:focus, a:active{
 #start{
     display:flex;
 }
+
+#music {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    border: none;
+    background-color: transparent;
+}
+
+svg {
+vertical-align: -0.125em;
+}
+
+svg, path {
+    width: 4em;
+    height: 4em;
+}
