@@ -16,6 +16,21 @@ function init() {
 		+ "                                                   |___/   ", style);
     
     world = new World();
+
+    var urlParams = new URLSearchParams(window.location.search);
+    var data = urlParams.get('data');
+    console.log("THIS IS DATAAA " + data)
+
+    data = "2medium+3hard+1easy.300"
+    
+    let justLevels = data.split(".")
+
+    console.log("JSUT LEVELS")
+    console.log(justLevels[0])
+    console.log(justLevels[0].slice(1))
+
+    let j = justLevels[0].slice(1)
+
     let wDiff=localStorage.getItem("gameDiff");
     //localStorage.clear();
     wDiff=Number(wDiff);
@@ -23,6 +38,42 @@ function init() {
         wDiff=2;
     }
     world.difficulty=wDiff;
+
+    console.log("WDIFF " + wDiff)
+
+    let splitLevels = j.split("+")
+
+    let diffString
+
+    if(wDiff == 1){
+        diffString = "easy"
+    } else if(wDiff == 2){
+        diffString = "medium"
+    } else if(wDiff == 3){
+        diffString = "hard"
+    } else if(wDiff == 4){
+        diffString = "veryHard"
+    } else if(wDiff == 10){
+        diffString = "impossible"
+    }
+
+    for(let i = 0; i < splitLevels.length; i++){
+        let firstChar = splitLevels[i].charAt(0);
+
+        let restOfString = splitLevels[i].slice(1);
+
+        console.log(restOfString)
+        console.log(firstChar)
+
+        if(diffString == restOfString){
+            console.log("AHHHHHHHHHHHHHHHHH LEVEL CHANGEEE" + firstChar + restOfString)
+            world.currentLevel = firstChar - 1
+        }
+        
+    }
+
+
+
     addAllListeners();
     run();
 }

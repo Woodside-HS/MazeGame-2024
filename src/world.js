@@ -1,6 +1,12 @@
 "use strict";
 class World {
     constructor() {
+
+        var urlParams = new URLSearchParams(window.location.search);
+        var data = urlParams.get('data');
+        console.log("THIS IS DATAAA " + data)
+
+
         this.canvas = document.getElementById("cnv1");
         this.context = this.canvas.getContext("2d");
 
@@ -39,8 +45,8 @@ class World {
 
     run() {
         if(this.levels.length < 1){
-            this.levels = [new Level(1, true)];
-            this.levels[0].genLevel();
+            this.levels[this.currentLevel] = new Level(this.currentLevel, true);
+            this.levels[this.currentLevel].genLevel();
         }
         this.framecount++
 

@@ -13,6 +13,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
         let str = encodeURIComponent(data)
 
-        window.location.href = "index.html?data=" + str;
+        window.location.href = "difficulty.html?data=" + str;
     });
 });
