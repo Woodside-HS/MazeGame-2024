@@ -34,9 +34,6 @@ function Maze(world, level, loc, row, col, mL, renderCenter) {
     //safe zone locs (top left cells)
     this.sloc = [];
 
-    // Load images
-    this.images = {};
-    //this.loadImages();
 }
 
 Object.defineProperty(Maze.prototype, "width", {
@@ -65,9 +62,6 @@ Maze.prototype.regenerate = function (startRow, startCol, endRow, endCol) {
     //creates center safe zone for each group of four mazes 
     let mL = this.world.levels[world.currentLevel].mazeLength;
     this.safeZone(startRow / mL, startCol / mL);
-    // Load images
-    this.images = {};
-    this.loadImages();
 }
 
 Maze.prototype.safeZone = function (r, c) {
@@ -222,39 +216,6 @@ Maze.prototype.addPaths = function (walls) {
         }
         this.grid[y][x].walls[(wall + 2) % 4] = false;
     }
-}
-
-Maze.prototype.loadImages = function () {
-    const loadImage = (path, name) => {
-        this.images[name] = { image: new Image(), loaded: false };
-        this.images[name].image.addEventListener("load", () => {
-            this.images[name].loaded = true;
-        });
-        this.images[name].image.src = path;
-    }
-
-    loadImage("./resources/background0.webp", "section0");
-    loadImage("./resources/background1.webp", "section1");
-    loadImage("./resources/background2.webp", "section2");
-    loadImage("./resources/background3.webp", "section3");
-
-    // loadImage("./resources/background.jpg", "background");
-    loadImage("./resources/bubble.png", "bubble");
-    loadImage("./resources/heart.png", "heart");
-    loadImage("./resources/eye.png", "vision");
-    loadImage("./resources/shell.png", "shell");
-    loadImage("./resources/blueBottle.png", "enemy0");
-    loadImage("./resources/redBottle.png", "enemy1");
-    loadImage("./resources/greyBag.png", "enemy2");
-    loadImage("./resources/redCup.png", "enemy3");
-    loadImage("./resources/ringPack.png", "enemy4");
-    loadImage("./resources/whiteBag.png", "enemy5");
-    loadImage("./resources/turtle.png", "hero");
-
-    for (let i = 1; i <= 18; ++i) {
-        loadImage(`./resources/turtle/turtle3/turtle00${i}.png`, `turtle${i - 1}`);
-    }
-
 }
 
 Maze.prototype.setCellLuminances = function () {
