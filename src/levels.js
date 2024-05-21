@@ -12,7 +12,7 @@ generate hero, and generate enemies methods
 class Level {
     constructor(levelNum, renderCenter) {
         this.levelNum = levelNum;//starts at 1 
-        this.rows = world.currentLevel * 10 + 10 * (world.difficulty - 1) + 10;
+        this.rows = (world.currentLevel) * 4 + 6 * (world.difficulty);
         this.cols = this.rows;
         this.mazeLength = this.rows/2;
         this.renderCenter = renderCenter;
@@ -56,7 +56,10 @@ class Level {
         let hy = this.cols / 2
         this.hero = new BetterHero(world, new JSVector(hx, hy));
         let sections = (this.maze.width / this.maze.mazeLength) ** 2;
-        let enemiesPerSection = world.difficulty + world.currentLevel;
+        let enemiesPerSection = (world.difficulty-1) + world.currentLevel;
+        if(world.difficulty === 10){
+            enemiesPerSection = this.mazeLength*this.mazeLength / 4;
+        }
         for (let s = 0; s < sections; ++s) {
             for (let i = 0; i < enemiesPerSection; ++i) {
                 this.enemies.push(createRandomEnemy(s));
@@ -70,9 +73,11 @@ class Level {
         let exit = new JSVector(this.maze.exit.col + 0.5, this.maze.exit.row + 0.5);//in terms of rows and cols 
         let arrow = new JSVector.subGetNew(exit, center);
         if (world.difficulty === 1) {
+            //always 
             this.renderArrow(arrow);
         }
         else if (world.difficulty === 2) {
+            //within an 8 cell radius 
             if (arrow.x * arrow.x + arrow.y * arrow.y < 81) {
                 this.renderArrow(arrow);
             }

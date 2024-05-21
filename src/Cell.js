@@ -65,7 +65,7 @@ Cell.prototype.renderCenter = function () {
     context.strokeStyle = "white";
     context.lineWidth = this.wallWidth;
 
-    const image = maze.images[`section${this.getSection()}`];
+    const image = world.images[`section${this.getSection()}`];
     if (image && image.loaded && this.luminance > 0) {
         let sourceWidth = image.image.width / maze.mazeLength;
         let sourceHeight = image.image.height / maze.mazeLength;
@@ -80,7 +80,7 @@ Cell.prototype.renderCenter = function () {
         const brightness = 100 * this.luminance;
         context.filter = `brightness(${brightness}%)`;
         context.drawImage(image.image, sourceX, sourceY, sourceWidth, sourceHeight, destinationX, destinationY, destinationWidth, destinationHeight);
-        const shell=maze.images["shell"];
+        const shell=world.images["shell"];
         if(this.shell&&shell&&shell.loaded){
             destinationHeight = cellWidth * 0.75;
             destinationWidth = cellWidth * 0.75;
@@ -92,7 +92,7 @@ Cell.prototype.renderCenter = function () {
             sourceX = 0;
             context.drawImage(shell.image, sourceX, sourceY, sourceWidth, sourceHeight, destinationX, destinationY, destinationWidth, destinationHeight);
         }
-        const bubble = maze.images["bubble"];
+        const bubble = world.images["bubble"];
         if (this.oxygen && bubble && bubble.loaded) {
             destinationHeight = cellWidth * this.oxygenDiameter * this.oxygen.air / 20;
             destinationWidth = cellWidth * this.oxygenDiameter * this.oxygen.air / 20;
@@ -105,7 +105,7 @@ Cell.prototype.renderCenter = function () {
 
             context.drawImage(bubble.image, sourceX, sourceY, sourceWidth, sourceHeight, destinationX, destinationY, destinationWidth, destinationHeight);
         }
-        const heart=maze.images["heart"];
+        const heart=world.images["heart"];
         if(this.healthHeart && heart && heart.loaded) {
             destinationHeight = cellWidth * 0.75;
             destinationWidth = cellWidth * 0.75;
@@ -117,7 +117,7 @@ Cell.prototype.renderCenter = function () {
             sourceX = 0;
             context.drawImage(heart.image, sourceX, sourceY, sourceWidth, sourceHeight, destinationX, destinationY, destinationWidth, destinationHeight);
         }
-        const vision =maze.images["vision"];
+        const vision =world.images["vision"];
         if(this.vision && vision && vision.loaded){
             destinationHeight = cellWidth * 0.75;
             destinationWidth = cellWidth * 0.75;
@@ -199,9 +199,9 @@ Cell.prototype.renderClassic = function () {
     this.context.lineWidth = this.wallWidth;
 
     let topL = new JSVector(this.col * this.cellWidth + this.maze.mazeLoc.x, this.row * this.cellWidth + this.maze.mazeLoc.y);
-    let topR = new JSVector(topL.x + cellWidth,  topL.y);
-    let bottomR = new JSVector(topR.x, topR.y + cellWidth);
-    let bottomL = new JSVector(topL.x, topL.y + cellWidth);
+    let topR = new JSVector(topL.x + this.cellWidth,  topL.y);
+    let bottomR = new JSVector(topR.x, topR.y + this.cellWidth);
+    let bottomL = new JSVector(topL.x, topL.y + this.cellWidth);
 
     // top wall 
     if (this.walls[0]) {
@@ -230,14 +230,14 @@ Cell.prototype.renderClassic = function () {
 
     if (this.safeZone) {
         this.context.save();
-        this.context.rect(topL.x, topL.y, cellWidth, cellWidth);
+        this.context.rect(topL.x, topL.y, this.cellWidth, this.cellWidth);
         this.context.fillStyle = "rgba(255, 116, 0, 0.2)";
         this.context.fill();
         this.context.restore();
     }
     if(this === this.maze.exit){
         this.context.save();
-        this.context.roundRect(topL.x, topL.y, cellWidth, cellWidth, 2);
+        this.context.roundRect(topL.x, topL.y, this.cellWidth, this.cellWidth, 2);
         this.context.fillStyle = "rgba(72, 239, 255, 0.6)";
         this.context.fill();
         this.context.restore();

@@ -395,9 +395,9 @@ class BetterHero {
 	}
 	let hero;
 	if (this.velocity.getMagnitude() >= 0.01) {
-            hero = this.world.levels[this.world.currentLevel].maze.images[`turtle${this.animationFrame % 18}`];
+            hero = world.images[`turtle${this.animationFrame % 18}`];
 	} else {
-	    hero = this.world.levels[this.world.currentLevel].maze.images[`turtle0`];
+	    hero = world.images[`turtle0`];
 	}
         if(hero && hero.loaded) {
             let destinationHeight = cellWidth * 0.75;
@@ -413,22 +413,22 @@ class BetterHero {
         }
 	
         if(this.weapon!==null){//render weapon if there is one
-            // context.arc(this.position.x-cellWidth/5.5,this.position.y-cellWidth/4,4,0,2*Math.PI);
+            // context.arc(this.position.x-cellWidth/8,this.position.y-cellWidth/15,4,0,2*Math.PI);
             // context.fillStyle="red";
             // context.fill(); //this circle would be where the axes get translated to
             if(this.justAttacked!=0){
                 if(this.justAttacked>0){
-                    context.translate(this.position.x-cellWidth/6.5,this.position.y-cellWidth/6.5);
-                    context.rotate(-Math.PI/8*this.justAttacked);
-                    this.justAttacked+=0.25;
-                    if(this.justAttacked>3){
-                        this.justAttacked=-3;
+                    context.translate(this.position.x-cellWidth/8,this.position.y-cellWidth/15);
+                    context.rotate(-Math.PI/8*this.justAttacked/4);
+                    this.justAttacked+=0.5;
+                    if(this.justAttacked>5){
+                        this.justAttacked=-5;
                     }
                 } else if(this.justAttacked<0){
-                    context.translate(this.position.x-cellWidth/6.5,this.position.y-cellWidth/6.5);
-                    this.justAttacked+=0.25;
-                }
-                
+                    context.translate(this.position.x-cellWidth/8,this.position.y-cellWidth/15);
+                    context.rotate(Math.PI/8*this.justAttacked/4);
+                    this.justAttacked+=0.5;
+                }  
             }
             context.drawImage(this.weapon.image.image, this.position.x-75, this.position.y-35-(cellWidth*this.weapon.length),25,cellWidth*this.weapon.length);
         }
