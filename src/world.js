@@ -117,10 +117,12 @@ class World {
     }
     nextLevel() {
         let w=this.levels[this.currentLevel].hero.weapon;
+        let k = this.levels[this.currentLevel].hero.killCount;
         this.currentLevel++;
         this.levels.push(new Level(this.currentLevel + 1, true));
         this.levels[this.currentLevel].genLevel();
         this.levels[this.currentLevel].hero.weapon=w;
+        this.levels[this.currentLevel].hero.killCount=k;
         this.levels[this.currentLevel].hero.weapon.holder=this.levels[this.currentLevel].hero;
         this.nextLevelScreen();
     }
