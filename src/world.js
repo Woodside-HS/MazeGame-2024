@@ -188,7 +188,12 @@ class World {
 	loadImage("./resources/bubble.png", "bubble");
 	loadImage("./resources/heart.png", "heart");
 	loadImage("./resources/eye.png", "vision");
-	loadImage("./resources/shell.png","shell");
+	loadImage("./resources/shell0.png","shell0");
+    loadImage("./resources/shell1.png","shell1");
+    loadImage("./resources/shell2.png","shell2");
+    loadImage("./resources/shell3.png","shell3");
+    loadImage("./resources/shell4.png","shell4");
+    loadImage("./resources/shell5.png","shell5");
 	loadImage("./resources/blueBottle.png","enemy0");
 	loadImage("./resources/redBottle.png","enemy1");
 	loadImage("./resources/greyBag.png","enemy2");
