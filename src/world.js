@@ -148,6 +148,21 @@ class World {
         this.paused=true;
         let rp=document.getElementsByClassName("rPB");
         rp.item(0).innerHTML="Start Next";
+        ctx.save();
+        ctx.translate(6.25*world.canvas.width/8, 80);
+        ctx.rotate(3*Math.PI/2);
+        ctx.beginPath();
+        ctx.moveTo(50, 0);
+        ctx.lineTo(0, 0);
+        ctx.moveTo(50, 0);
+        ctx.lineTo(30, 30);
+        ctx.moveTo(50, 0);
+        ctx.lineTo(30, -30);
+        ctx.strokeStyle = "rgba(255, 0, 0)";
+        ctx.lineWidth = 6;
+        ctx.stroke();
+        ctx.closePath();
+        ctx.restore();
      }
     deathScreen() {
         let ctx = this.context;
