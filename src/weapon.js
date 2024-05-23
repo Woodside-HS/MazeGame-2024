@@ -43,7 +43,8 @@ class Weapon {
         // let hp=this.holder.getCenterMazeLocation();
         // let tp=target.getCenterMazeLocation();
 	let canAttack = ((this.delayTime>=this.delay))&&(target.position.distanceSquared(this.holder.position)<this.range*this.range);
-	if (!canAttack) {
+	console.log(target.getCenterMazeLocation().safeZone)
+    if (!canAttack || target.getCenterMazeLocation().safeZone) {
 	    return false;
         } else {
 	        this.delayTime=0;
