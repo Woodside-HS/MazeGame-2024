@@ -226,5 +226,10 @@ svg, path {
 }
 
 .skin-wrapper {
-    padding: min(1vh, 1vh)
+    padding: min(1vh, 1vh);
+
+    p {
+	padding: 0px;
+	margin: 0px;
+    }
 }
