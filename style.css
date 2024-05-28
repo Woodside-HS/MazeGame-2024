@@ -50,12 +50,12 @@ canvas {
     text-shadow: -1px 1px 2px #fff, 1px 1px 2px #fff, 1px -1px 0 #fff, -1px -1px 0 #fff;
 }
 
-.infoDiv{
+.infoDiv {
     /* background-color: 83def5; */
     text-align: center;
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-evenly;
     height: 110px;
 }
 
@@ -116,6 +116,10 @@ canvas {
     padding-top:25px;
     box-shadow: 0 0 6px 6px #1ba583;
     cursor: pointer;
+}
+
+.infoDiv > .button {
+    margin: 0px;
 }
 
 a, a:link, a:visited, a:hover, a:focus, a:active{
@@ -208,4 +212,19 @@ vertical-align: -0.125em;
 svg, path {
     width: 4em;
     height: 4em;
+}
+
+#locker {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+}
+
+.skin {
+    width: min(19vw, 19vh);
+    height: min(19vw, 19vh);
+}
+
+.skin-wrapper {
+    padding: min(1vh, 1vh)
 }
