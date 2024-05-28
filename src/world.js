@@ -28,9 +28,9 @@ class World {
         this.currentLevel = 0;
         this.levels = [];
         /*
-        1 = easy 
-        2 = medium 
-        3 = hard 
+          1 = easy 
+          2 = medium 
+          3 = hard 
         */
         this.difficulty = 2;
         this.maxDifficulty = 4;
@@ -163,7 +163,7 @@ class World {
         ctx.stroke();
         ctx.closePath();
         ctx.restore();
-     }
+    }
     deathScreen() {
         let ctx = this.context;
         let cnv = this.canvas;
@@ -206,11 +206,11 @@ class World {
 	loadImage("./resources/heart.png", "heart");
 	loadImage("./resources/eye.png", "vision");
 	loadImage("./resources/shell0.png","shell0");
-    loadImage("./resources/shell1.png","shell1");
-    loadImage("./resources/shell2.png","shell2");
-    loadImage("./resources/shell3.png","shell3");
-    loadImage("./resources/shell4.png","shell4");
-    loadImage("./resources/shell5.png","shell5");
+	loadImage("./resources/shell1.png","shell1");
+	loadImage("./resources/shell2.png","shell2");
+	loadImage("./resources/shell3.png","shell3");
+	loadImage("./resources/shell4.png","shell4");
+	loadImage("./resources/shell5.png","shell5");
 	loadImage("./resources/blueBottle.png","enemy0");
 	loadImage("./resources/redBottle.png","enemy1");
 	loadImage("./resources/greyBag.png","enemy2");
@@ -219,8 +219,16 @@ class World {
 	loadImage("./resources/whiteBag.png","enemy5");
 	loadImage("./resources/turtle.png","hero");
 
+	let n = +localStorage.getItem("skin");
+	if (isNaN(n) || !n) {
+	    n = 0;
+	}
+	let skins = JSON.parse(localStorage.getItem("skins"));
+	if (!skins[n]) {
+	    n = 0;
+	}
 	for (let i = 1; i <= 18; ++i) {
-	    loadImage(`./resources/turtle/turtle3/turtle00${i}.png`,`turtle${i-1}`);
+	    loadImage(`./resources/turtle/turtle${n}/turtle${n}_${i}.png`,`turtle${i-1}`);
 	}
     }
     loadAudio() {
