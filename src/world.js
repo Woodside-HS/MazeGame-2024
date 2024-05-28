@@ -34,7 +34,9 @@ class World {
         */
         this.difficulty = 2;
         this.maxDifficulty = 4;
-
+        this.avaliable=`[false, true, true, false, 
+            false, false, false, false,
+            false, false, false, false]`;
         this.images = {};
         this.loadImages();
     }
@@ -250,9 +252,7 @@ class World {
         let lvl = this.currentLevel;
         let kills = this.killCount;
         // local storage order: L, y, o, g, b, p, lp, rainbow, a, fr, ng, rb
-        let avaliable= `[false, true, true, false, 
-            false, false, false, false,
-            false, false, false, false]`;
+        let avaliable=this.avaliable;
         let avaliableA=JSON.parse(avaliable);
         if (dif === 1 && lvl >= 5) {
             //unlock basic green 
@@ -294,6 +294,7 @@ class World {
             avaliableA[8]=true;
         }
         avaliableA=JSON.stringify(avaliableA);
+        this.avaliable=avaliableA;
         localStorage.setItem("skins", avaliableA);
     }
 }
