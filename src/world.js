@@ -241,8 +241,13 @@ class World {
         let dif = this.difficulty;
         let lvl = this.currentLevel;
         let kills = this.killCount;
+        // local storage order: L, y, o, g, b, p, lp, rainbow, a, fr, ng, rb
+        let avaliable="false, true, true, false, false, false, false, false, false, false, false, false";
+        let avaliableA=JSON.parse(avaliable);
+        console.log(avaliableA);
         if (dif === 1 && lvl >= 5) {
             //unlock basic green 
+            
         }
         else if (dif === 2) {
             if (lvl >= 5) {
