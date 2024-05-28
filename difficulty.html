@@ -84,7 +84,10 @@
 	for (let i = 0; i < 12; ++i) {
 	    let wrapper = document.querySelector(`#skin${i}-wrapper`);
 	    let skin = document.querySelector(`#skin${i}`);
-	    if (skins[i]) {
+	    console.log(i, localStorage.getItem("skin"));
+	    if (i == localStorage.getItem("skin")) {
+		wrapper.style.backgroundColor = "violet";
+	    } else if (skins[i]) {
 		wrapper.style.backgroundColor = "green";
 	    } else {
 		wrapper.style.backgroundColor = "red";
@@ -92,6 +95,16 @@
 	    skin.addEventListener("click", () => {
 		if (skins[i]) {
 		    localStorage.setItem("skin", i);
+		    wrapper.style.backgroundColor = "violet";
+		    for (let j = 0; j < 12; ++j) {
+			if (j == i) continue;
+			let wrapper_j = document.querySelector(`#skin${j}-wrapper`);
+			if (skins[j]) {
+			    wrapper_j.style.backgroundColor = "green";
+			} else {
+			    wrapper_j.style.backgroundColor = "red";
+			}
+		    }
 		} else {
 		    alert("You haven't unlocked that skin!");
 		}
