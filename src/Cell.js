@@ -12,6 +12,7 @@ function Cell(world, maze, r, c, cellWidth, wallWidth) {
     this.vision=null;
     this.weapon = null;
     this.shell=null;
+    this.shellNumber=Math.floor(Math.random()*5);
     this.cellWidth = cellWidth;
     this.wallWidth = wallWidth;
     this.color = "rgba(0, 0, 255, 1)";
@@ -80,7 +81,7 @@ Cell.prototype.renderCenter = function () {
         const brightness = 100 * this.luminance;
         context.filter = `brightness(${brightness}%)`;
         context.drawImage(image.image, sourceX, sourceY, sourceWidth, sourceHeight, destinationX, destinationY, destinationWidth, destinationHeight);
-        const shell=world.images["shell"];
+        const shell=world.images["shell"+this.shellNumber];
         if(this.shell&&shell&&shell.loaded){
             destinationHeight = cellWidth * 0.75;
             destinationWidth = cellWidth * 0.75;

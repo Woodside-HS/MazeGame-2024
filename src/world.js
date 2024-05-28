@@ -117,10 +117,12 @@ class World {
     }
     nextLevel() {
         let w=this.levels[this.currentLevel].hero.weapon;
+        let k = this.levels[this.currentLevel].hero.killCount;
         this.currentLevel++;
         this.levels.push(new Level(this.currentLevel + 1, true));
         this.levels[this.currentLevel].genLevel();
         this.levels[this.currentLevel].hero.weapon=w;
+        this.levels[this.currentLevel].hero.killCount=k;
         this.levels[this.currentLevel].hero.weapon.holder=this.levels[this.currentLevel].hero;
         this.nextLevelScreen();
     }
@@ -146,6 +148,21 @@ class World {
         this.paused=true;
         let rp=document.getElementsByClassName("rPB");
         rp.item(0).innerHTML="Start Next";
+        ctx.save();
+        ctx.translate(6.25*world.canvas.width/8, 80);
+        ctx.rotate(3*Math.PI/2);
+        ctx.beginPath();
+        ctx.moveTo(50, 0);
+        ctx.lineTo(0, 0);
+        ctx.moveTo(50, 0);
+        ctx.lineTo(30, 30);
+        ctx.moveTo(50, 0);
+        ctx.lineTo(30, -30);
+        ctx.strokeStyle = "rgba(255, 0, 0)";
+        ctx.lineWidth = 6;
+        ctx.stroke();
+        ctx.closePath();
+        ctx.restore();
      }
     deathScreen() {
         let ctx = this.context;
@@ -188,7 +205,12 @@ class World {
 	loadImage("./resources/bubble.png", "bubble");
 	loadImage("./resources/heart.png", "heart");
 	loadImage("./resources/eye.png", "vision");
-	loadImage("./resources/shell.png","shell");
+	loadImage("./resources/shell0.png","shell0");
+    loadImage("./resources/shell1.png","shell1");
+    loadImage("./resources/shell2.png","shell2");
+    loadImage("./resources/shell3.png","shell3");
+    loadImage("./resources/shell4.png","shell4");
+    loadImage("./resources/shell5.png","shell5");
 	loadImage("./resources/blueBottle.png","enemy0");
 	loadImage("./resources/redBottle.png","enemy1");
 	loadImage("./resources/greyBag.png","enemy2");
