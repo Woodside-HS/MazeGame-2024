@@ -250,32 +250,40 @@ class World {
         let lvl = this.currentLevel;
         let kills = this.killCount;
         // local storage order: L, y, o, g, b, p, lp, rainbow, a, fr, ng, rb
-        let avaliable="false, true, true, false, false, false, false, false, false, false, false, false";
+        let avaliable= `[false, true, true, false, 
+            false, false, false, false,
+            false, false, false, false]`;
         let avaliableA=JSON.parse(avaliable);
-        console.log(avaliableA);
         if (dif === 1 && lvl >= 5) {
             //unlock basic green 
-            
+            avaliableA[3]=true;
         }
         else if (dif === 2) {
             if (lvl >= 5) {
                 //unlock basic blue and basic purple 
+                avaliableA[4]=true;
+                avaliableA[5]=true;
             }
             if (kills >= 10) {
                 //unlock fireball red 
+                avaliableA[9]=true;
             }
         }
         else if (dif === 3) {
             if (lvl >= 5) {
                 //unlock Legacy 
+                avaliableA[0]=true;
             }
             if (kills >= 15) {
                 //unlock noble green 
+                avaliableA[10]=true;
             }
         }
         else if (dif === 4) {
             if (lvl >= 5) {
                 //unlock luxury purple and rainbow blue 
+                avaliableA[6]=true;
+                avaliableA[7]=true;
             }
             if (kills >= 20) {
                 //unlock royal blue 
@@ -283,6 +291,9 @@ class World {
         }
         else if(dif === 10 && lvl >= 2){
             //unlock albino white 
+            avaliableA[8]=true;
         }
+        avaliableA=JSON.stringify(avaliableA);
+        localStorage.setItem("skins", avaliableA);
     }
 }
