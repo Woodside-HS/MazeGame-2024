@@ -93,6 +93,7 @@ class Enemy {
 	} else {
 	    this.velocity.limit(this.speed);
 	}
+	this.velocity.limit(world.maxSpeed);
         this.position.add(this.velocity);
         this.checkWalls();
     }

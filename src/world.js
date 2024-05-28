@@ -28,9 +28,9 @@ class World {
         this.currentLevel = 0;
         this.levels = [];
         /*
-        1 = easy 
-        2 = medium 
-        3 = hard 
+          1 = easy 
+          2 = medium 
+          3 = hard 
         */
         this.difficulty = 2;
         this.maxDifficulty = 4;
@@ -203,27 +203,35 @@ class World {
         loadImage("./resources/background2.webp", "section2");
         loadImage("./resources/background3.webp", "section3");
 
-        // loadImage("./resources/background.jpg", "background");
-        loadImage("./resources/bubble.png", "bubble");
-        loadImage("./resources/heart.png", "heart");
-        loadImage("./resources/eye.png", "vision");
-        loadImage("./resources/shell0.png", "shell0");
-        loadImage("./resources/shell1.png", "shell1");
-        loadImage("./resources/shell2.png", "shell2");
-        loadImage("./resources/shell3.png", "shell3");
-        loadImage("./resources/shell4.png", "shell4");
-        loadImage("./resources/shell5.png", "shell5");
-        loadImage("./resources/blueBottle.png", "enemy0");
-        loadImage("./resources/redBottle.png", "enemy1");
-        loadImage("./resources/greyBag.png", "enemy2");
-        loadImage("./resources/redCup.png", "enemy3");
-        loadImage("./resources/ringPack.png", "enemy4");
-        loadImage("./resources/whiteBag.png", "enemy5");
-        loadImage("./resources/turtle.png", "hero");
+	// loadImage("./resources/background.jpg", "background");
+	loadImage("./resources/bubble.png", "bubble");
+	loadImage("./resources/heart.png", "heart");
+	loadImage("./resources/eye.png", "vision");
+	loadImage("./resources/shell0.png","shell0");
+	loadImage("./resources/shell1.png","shell1");
+	loadImage("./resources/shell2.png","shell2");
+	loadImage("./resources/shell3.png","shell3");
+	loadImage("./resources/shell4.png","shell4");
+	loadImage("./resources/shell5.png","shell5");
+	loadImage("./resources/blueBottle.png","enemy0");
+	loadImage("./resources/redBottle.png","enemy1");
+	loadImage("./resources/greyBag.png","enemy2");
+	loadImage("./resources/redCup.png","enemy3");
+	loadImage("./resources/ringPack.png","enemy4");
+	loadImage("./resources/whiteBag.png","enemy5");
+	loadImage("./resources/turtle.png","hero");
 
-        for (let i = 1; i <= 18; ++i) {
-            loadImage(`./resources/turtle/turtle3/turtle00${i}.png`, `turtle${i - 1}`);
-        }
+	let n = +localStorage.getItem("skin");
+	if (isNaN(n) || !n) {
+	    n = 0;
+	}
+	let skins = JSON.parse(localStorage.getItem("skins"));
+	if (!skins[n]) {
+	    n = 0;
+	}
+	for (let i = 1; i <= 18; ++i) {
+	    loadImage(`./resources/turtle/turtle${n}/turtle${n}_${i}.png`,`turtle${i-1}`);
+	}
     }
     loadAudio() {
         const loadAudio = (path, name, map) => {
