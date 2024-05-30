@@ -35,9 +35,6 @@ class World {
         this.difficulty = 2;
         this.maxDifficulty = 4;
         this.avaliable=localStorage.getItem("skins");
-        // this.avaliable=`[false, true, true, false, 
-        //     false, false, false, false,
-        //     false, false, false, false]`;
         this.images = {};
         this.loadImages();
     }
@@ -295,7 +292,6 @@ class World {
         }
         avaliableA=JSON.stringify(avaliableA);
         this.avaliable=avaliableA;
-        console.log(this.avaliable);
         localStorage.setItem("skins", avaliableA);
     }
 }
