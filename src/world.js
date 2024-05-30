@@ -35,6 +35,12 @@ class World {
         this.difficulty = 2;
         this.maxDifficulty = 4;
         this.avaliable=localStorage.getItem("skins");
+        if(this.avaliable===undefined){
+            this.avaliable=`[false, true, true, false, 
+                     false, false, false, false,
+                     false, false, false, false]`;
+            localStorage.storage.setItem("skin",1);
+        }
         this.images = {};
         this.loadImages();
     }
