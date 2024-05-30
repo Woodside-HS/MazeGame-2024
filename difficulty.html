@@ -17,62 +17,143 @@
     <h1 class="title">Escape From Garbage Island</h1>
     <div class="infoDiv">
       <div id="back" class="button"><a href="startScreen.html">Back to Start Screen</a></div>
-      <div id="mcds" class="button"><a href="https://www.mchire.com/co/McDonalds1330/Job?job_id=PDX_MC_4F9F2AED-FBAF-41E2-A900-5F7C895E5E76_14223" target="_blank">If You Need More Help...</a></div>
+      <button id="lockerButton" class="button">
+	Locker
+      </button>
+      <dialog id="lockerModal" hide>
+	<div id="locker">
+	  <div id="skin0-wrapper" class="skin-wrapper">
+	    <input id="skin0" class="skin" type="image" src="resources/skins/skin0.webp" />
+	  </div>
+	  <div id="skin1-wrapper" class="skin-wrapper">
+	    <input id="skin1" class="skin" type="image" src="resources/skins/skin1.webp" />
+	  </div>
+	  <div id="skin2-wrapper" class="skin-wrapper">
+	    <input id="skin2" class="skin" type="image" src="resources/skins/skin2.webp" />
+	  </div>
+	  <div id="skin3-wrapper" class="skin-wrapper">
+	    <input id="skin3" class="skin" type="image" src="resources/skins/skin3.webp" />
+	  </div>
+	  <div id="skin4-wrapper" class="skin-wrapper">
+	    <input id="skin4" class="skin" type="image" src="resources/skins/skin4.webp" />
+	  </div>
+	  <div id="skin5-wrapper" class="skin-wrapper">
+	    <input id="skin5" class="skin" type="image" src="resources/skins/skin5.webp" />
+	  </div>
+	  <div id="skin6-wrapper" class="skin-wrapper">
+	    <input id="skin6" class="skin" type="image" src="resources/skins/skin6.webp" />
+	  </div>
+	  <div id="skin7-wrapper" class="skin-wrapper">
+	    <input id="skin7" class="skin" type="image" src="resources/skins/skin7.webp" />
+	  </div>
+	  <div id="skin8-wrapper" class="skin-wrapper">
+	    <input id="skin8" class="skin" type="image" src="resources/skins/skin8.webp" />
+	  </div>
+	  <div id="skin9-wrapper" class="skin-wrapper">
+	    <input id="skin9" class="skin" type="image" src="resources/skins/skin9.webp" />
+	  </div>
+	  <div id="skin10-wrapper" class="skin-wrapper">
+	    <input id="skin10" class="skin" type="image" src="resources/skins/skin10.webp" />
+	  </div>
+	  <div id="skin11-wrapper" class="skin-wrapper">
+	    <input id="skin11" class="skin" type="image" src="resources/skins/skin11.webp" />
+	  </div>
+	</div>
+	<button id="closeLockerButton" style="margin-top: 10px"> Close </button>
+      </dialog>
+      <script>
+	if (!localStorage.getItem("skin")) {
+	    localStorage.setItem("skin", 0);
+	}
+	if (!localStorage.getItem("skins")) {
+	    localStorage.setItem("skins", `[true, false, false, true,
+                                           false, false, false, false,
+                                           false, false, false, false]`);
+	}
+	let openLockerBtn = document.querySelector("#lockerButton");
+	openLockerBtn.addEventListener("click", () => {
+	    let locker = document.querySelector("#lockerModal");
+	    locker.showModal();
+	});
+	let closeLockerBtn = document.querySelector("#closeLockerButton");
+	closeLockerBtn.addEventListener("click", () => {
+	    let locker = document.querySelector("#lockerModal");
+	    locker.close();
+	});
+	let skins = JSON.parse(localStorage.getItem("skins"));
+	for (let i = 0; i < 12; ++i) {
+	    let wrapper = document.querySelector(`#skin${i}-wrapper`);
+	    let skin = document.querySelector(`#skin${i}`);
+	    if (skins[i]) {
+		wrapper.style.backgroundColor = "green";
+	    } else {
+		wrapper.style.backgroundColor = "red";
+	    }
+	    skin.addEventListener("click", () => {
+		if (skins[i]) {
+		    localStorage.setItem("skin", i);
+		} else {
+		    alert("You haven't unlocked that skin!");
+		}
+	    });
+	}
+      </script> 
+      <a href="https://www.mchire.com/co/McDonalds1330/Job?job_id=PDX_MC_4F9F2AED-FBAF-41E2-A900-5F7C895E5E76_14223"><div id="mcds" class="button">If You Need More Help...</div></a>
     </div>
     <a href="index.html"><div class="button" id="easy"> 
-      Play: <br>Easy Difficulty
+	Play: <br>Easy Difficulty
     </div></a>
     <a href="index.html"><div class="button" id="medium">
-      Play: <br>Medium Difficulty
+	Play: <br>Medium Difficulty
     </div></a>
     <a href="index.html"><div class="button" id="hard"> 
-      Play:<br>Hard Difficulty
+	Play:<br>Hard Difficulty
     </div></a>
     <a href="index.html"><div class="button" id="vhard"> 
-      Play:<br>Very Hard Difficulty
+	Play:<br>Very Hard Difficulty
     </div></a>
     <a href="index.html"><div class="button" id="impossible"> 
-      Play:<br>Impossible Difficulty
+	Play:<br>Impossible Difficulty
     </div></a>
   </div>
   <script>
     function addListeners(){
-      let worldDiff=0;
-      function d2e(){
-        worldDiff=1;
-        let s=worldDiff.toString();
-        localStorage.setItem("gameDiff",s);
-      }
-      function d2m(){
-        worldDiff=2;
-        let s=worldDiff.toString();
-        localStorage.setItem("gameDiff",s);
-      }
-      function d2h(){
-        worldDiff=3;
-        let s=worldDiff.toString();
-        localStorage.setItem("gameDiff",s);
-      } 
-      function d2vh(){
-        worldDiff=4;
-        let s=worldDiff.toString();
-        localStorage.setItem("gameDiff",s);
-      }
-      function d2i(){
-        worldDiff=10;
-        let s=worldDiff.toString();
-        localStorage.setItem("gameDiff",s);
-      }
-    let e=document.getElementById("easy");
-    e.addEventListener("click",d2e);
-    let m=document.getElementById("medium");
-    m.addEventListener("click",d2m);
-    let h=document.getElementById("hard");
-    h.addEventListener("click",d2h);
-    let v=document.getElementById("vhard");
-    v.addEventListener("click",d2vh);
-    let i=document.getElementById("impossible");
-    i.addEventListener("click",d2i)
+	let worldDiff=0;
+	function d2e(){
+            worldDiff=1;
+            let s=worldDiff.toString();
+            localStorage.setItem("gameDiff",s);
+	}
+	function d2m(){
+            worldDiff=2;
+            let s=worldDiff.toString();
+            localStorage.setItem("gameDiff",s);
+	}
+	function d2h(){
+            worldDiff=3;
+            let s=worldDiff.toString();
+            localStorage.setItem("gameDiff",s);
+	} 
+	function d2vh(){
+            worldDiff=4;
+            let s=worldDiff.toString();
+            localStorage.setItem("gameDiff",s);
+	}
+	function d2i(){
+            worldDiff=10;
+            let s=worldDiff.toString();
+            localStorage.setItem("gameDiff",s);
+	}
+	let e=document.getElementById("easy");
+	e.addEventListener("click",d2e);
+	let m=document.getElementById("medium");
+	m.addEventListener("click",d2m);
+	let h=document.getElementById("hard");
+	h.addEventListener("click",d2h);
+	let v=document.getElementById("vhard");
+	v.addEventListener("click",d2vh);
+	let i=document.getElementById("impossible");
+	i.addEventListener("click",d2i)
     }
   addListeners();
   </script>
