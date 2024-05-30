@@ -74,14 +74,6 @@
 	<button id="closeLockerButton" style="margin-top: 10px"> Close </button>
       </dialog>
       <script>
-	if (!localStorage.getItem("skin")) {
-	    localStorage.setItem("skin", 0);
-	}
-	if (!localStorage.getItem("skins")) {
-	    localStorage.setItem("skins", `[true, false, false, true,
-                                           false, false, false, false,
-                                           false, false, false, false]`);
-	}
 	let openLockerBtn = document.querySelector("#lockerButton");
 	openLockerBtn.addEventListener("click", () => {
 	    let locker = document.querySelector("#lockerModal");
@@ -96,7 +88,6 @@
 	for (let i = 0; i < 12; ++i) {
 	    let wrapper = document.querySelector(`#skin${i}-wrapper`);
 	    let skin = document.querySelector(`#skin${i}`);
-	    console.log(i, localStorage.getItem("skin"));
 	    if (i == localStorage.getItem("skin")) {
 		wrapper.style.backgroundColor = "violet";
 	    } else if (skins[i]) {
