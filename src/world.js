@@ -34,7 +34,13 @@ class World {
         */
         this.difficulty = 2;
         this.maxDifficulty = 4;
-
+        this.avaliable=localStorage.getItem("skins");
+        if(this.avaliable===undefined){
+            this.avaliable=`[false, true, true, false, 
+                     false, false, false, false,
+                     false, false, false, false]`;
+            localStorage.storage.setItem("skin",1);
+        }
         this.images = {};
         this.loadImages();
     }
@@ -254,7 +260,6 @@ class World {
                 map[name].loaded = true;
             });
         }
-
         const loadSound = (path, name) => loadAudio(path, name, this.sounds);
         const loadMusic = (path, name) => loadAudio(path, name, this.music);
     }
@@ -263,28 +268,39 @@ class World {
         let dif = this.difficulty;
         let lvl = this.currentLevel;
         let kills = this.killCount;
+        // local storage order: L, y, o, g, b, p, lp, rainbow, a, fr, ng, rb
+        let avaliable=this.avaliable;
+        let avaliableA=JSON.parse(avaliable);
         if (dif === 1 && lvl >= 5) {
             //unlock basic green 
+            avaliableA[3]=true;
         }
         else if (dif === 2) {
             if (lvl >= 5) {
                 //unlock basic blue and basic purple 
+                avaliableA[4]=true;
+                avaliableA[5]=true;
             }
             if (kills >= 10) {
                 //unlock fireball red 
+                avaliableA[9]=true;
             }
         }
         else if (dif === 3) {
             if (lvl >= 5) {
                 //unlock Legacy 
+                avaliableA[0]=true;
             }
             if (kills >= 15) {
                 //unlock noble green 
+                avaliableA[10]=true;
             }
         }
         else if (dif === 4) {
             if (lvl >= 5) {
                 //unlock luxury purple and rainbow blue 
+                avaliableA[6]=true;
+                avaliableA[7]=true;
             }
             if (kills >= 20) {
                 //unlock royal blue 
@@ -292,6 +308,10 @@ class World {
         }
         else if(dif === 10 && lvl >= 2){
             //unlock albino white 
+            avaliableA[8]=true;
         }
+        avaliableA=JSON.stringify(avaliableA);
+        this.avaliable=avaliableA;
+        localStorage.setItem("skins", avaliableA);
     }
 }
