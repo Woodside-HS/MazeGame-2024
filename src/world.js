@@ -34,9 +34,10 @@ class World {
         */
         this.difficulty = 2;
         this.maxDifficulty = 4;
-        this.avaliable=`[false, true, true, false, 
-            false, false, false, false,
-            false, false, false, false]`;
+        this.avaliable=localStorage.getItem("skins");
+        // this.avaliable=`[false, true, true, false, 
+        //     false, false, false, false,
+        //     false, false, false, false]`;
         this.images = {};
         this.loadImages();
     }
@@ -242,7 +243,6 @@ class World {
                 map[name].loaded = true;
             });
         }
-
         const loadSound = (path, name) => loadAudio(path, name, this.sounds);
         const loadMusic = (path, name) => loadAudio(path, name, this.music);
     }
@@ -295,6 +295,7 @@ class World {
         }
         avaliableA=JSON.stringify(avaliableA);
         this.avaliable=avaliableA;
+        console.log(this.avaliable);
         localStorage.setItem("skins", avaliableA);
     }
 }
