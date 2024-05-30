@@ -74,6 +74,14 @@
 	<button id="closeLockerButton" style="margin-top: 10px"> Close </button>
       </dialog>
       <script>
+	if (!localStorage.getItem("skin")) {
+	    localStorage.setItem("skin", 0);
+	}
+	if (!localStorage.getItem("skins")) {
+	    localStorage.setItem("skins", `[true, false, false, false,
+                                           false, false, false, false,
+                                           false, false, false, false]`);
+	}
 	let openLockerBtn = document.querySelector("#lockerButton");
 	openLockerBtn.addEventListener("click", () => {
 	    let locker = document.querySelector("#lockerModal");

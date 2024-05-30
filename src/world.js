@@ -235,7 +235,21 @@ class World {
 	if (!skins[n]) {
 	    n = 0;
 	}
-	for (let i = 1; i <= 18; ++i) {
+	let imageCounts = [
+	    /*0*/  18,
+	    /*1*/  0,
+	    /*2*/  0,
+	    /*3*/  18,
+	    /*4*/  0,
+	    /*5*/  23,
+	    /*6*/  23,
+	    /*7*/  21,
+	    /*8*/  0,
+	    /*9*/  20,
+	    /*10*/ 0,
+	    /*11*/ 21,
+	];
+	for (let i = 1; i <= imageCounts[n]; ++i) {
 	    loadImage(`./resources/turtle/turtle${n}/turtle${n}_${i}.png`,`turtle${i-1}`);
 	}
     }
