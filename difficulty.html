@@ -16,7 +16,7 @@
   <div class="above-mask">
     <h1 class="title">Escape From Garbage Island</h1>
     <div class="infoDiv">
-      <div id="back" class="button"><a href="startScreen.html">Back to Start Screen</a></div>
+      <div id="back" class="button"><a href="index.html">Back to Start Screen</a></div>
       <button id="lockerButton" class="button">
 	Locker
       </button>
@@ -24,39 +24,51 @@
 	<div id="locker">
 	  <div id="skin0-wrapper" class="skin-wrapper">
 	    <input id="skin0" class="skin" type="image" src="resources/skins/skin0.webp" />
+	    <p> Default </p>
 	  </div>
 	  <div id="skin1-wrapper" class="skin-wrapper">
 	    <input id="skin1" class="skin" type="image" src="resources/skins/skin1.webp" />
+	    <p> Basic Yellow  </p>
 	  </div>
 	  <div id="skin2-wrapper" class="skin-wrapper">
 	    <input id="skin2" class="skin" type="image" src="resources/skins/skin2.webp" />
+	    <p> Basic Orange </p>
 	  </div>
 	  <div id="skin3-wrapper" class="skin-wrapper">
 	    <input id="skin3" class="skin" type="image" src="resources/skins/skin3.webp" />
+	    <p> Basic Green </p>
 	  </div>
 	  <div id="skin4-wrapper" class="skin-wrapper">
 	    <input id="skin4" class="skin" type="image" src="resources/skins/skin4.webp" />
+	    <p> Baisc Blue </p>
 	  </div>
 	  <div id="skin5-wrapper" class="skin-wrapper">
 	    <input id="skin5" class="skin" type="image" src="resources/skins/skin5.webp" />
+	    <p> Basic Purple </p>
 	  </div>
 	  <div id="skin6-wrapper" class="skin-wrapper">
 	    <input id="skin6" class="skin" type="image" src="resources/skins/skin6.webp" />
+	    <p> Luxury Purple </p>
 	  </div>
 	  <div id="skin7-wrapper" class="skin-wrapper">
 	    <input id="skin7" class="skin" type="image" src="resources/skins/skin7.webp" />
+	    <p> Iridescent Blue </p>
 	  </div>
 	  <div id="skin8-wrapper" class="skin-wrapper">
 	    <input id="skin8" class="skin" type="image" src="resources/skins/skin8.webp" />
+	    <p> Albino White </p>
 	  </div>
 	  <div id="skin9-wrapper" class="skin-wrapper">
 	    <input id="skin9" class="skin" type="image" src="resources/skins/skin9.webp" />
+	    <p> Fireball Red </p>
 	  </div>
 	  <div id="skin10-wrapper" class="skin-wrapper">
 	    <input id="skin10" class="skin" type="image" src="resources/skins/skin10.webp" />
+	    <p> Noble Green </p>
 	  </div>
 	  <div id="skin11-wrapper" class="skin-wrapper">
 	    <input id="skin11" class="skin" type="image" src="resources/skins/skin11.webp" />
+	    <p> Royal Blue </p>
 	  </div>
 	</div>
 	<button id="closeLockerButton" style="margin-top: 10px"> Close </button>
@@ -76,7 +88,10 @@
 	for (let i = 0; i < 12; ++i) {
 	    let wrapper = document.querySelector(`#skin${i}-wrapper`);
 	    let skin = document.querySelector(`#skin${i}`);
-	    if (skins[i]) {
+	    console.log(i, localStorage.getItem("skin"));
+	    if (i == localStorage.getItem("skin")) {
+		wrapper.style.backgroundColor = "violet";
+	    } else if (skins[i]) {
 		wrapper.style.backgroundColor = "green";
 	    } else {
 		wrapper.style.backgroundColor = "red";
@@ -84,6 +99,16 @@
 	    skin.addEventListener("click", () => {
 		if (skins[i]) {
 		    localStorage.setItem("skin", i);
+		    wrapper.style.backgroundColor = "violet";
+		    for (let j = 0; j < 12; ++j) {
+			if (j == i) continue;
+			let wrapper_j = document.querySelector(`#skin${j}-wrapper`);
+			if (skins[j]) {
+			    wrapper_j.style.backgroundColor = "green";
+			} else {
+			    wrapper_j.style.backgroundColor = "red";
+			}
+		    }
 		} else {
 		    alert("You haven't unlocked that skin!");
 		}
@@ -92,19 +117,19 @@
       </script> 
       <a href="https://www.mchire.com/co/McDonalds1330/Job?job_id=PDX_MC_4F9F2AED-FBAF-41E2-A900-5F7C895E5E76_14223"><div id="mcds" class="button">If You Need More Help...</div></a>
     </div>
-    <a href="index.html"><div class="button" id="easy"> 
+    <a href="game.html"><div class="button" id="easy"> 
 	Play: <br>Easy Difficulty
     </div></a>
-    <a href="index.html"><div class="button" id="medium">
+    <a href="game.html"><div class="button" id="medium">
 	Play: <br>Medium Difficulty
     </div></a>
-    <a href="index.html"><div class="button" id="hard"> 
+    <a href="game.html"><div class="button" id="hard"> 
 	Play:<br>Hard Difficulty
     </div></a>
-    <a href="index.html"><div class="button" id="vhard"> 
+    <a href="game.html"><div class="button" id="vhard"> 
 	Play:<br>Very Hard Difficulty
     </div></a>
-    <a href="index.html"><div class="button" id="impossible"> 
+    <a href="game.html"><div class="button" id="impossible"> 
 	Play:<br>Impossible Difficulty
     </div></a>
   </div>
