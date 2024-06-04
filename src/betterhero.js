@@ -24,8 +24,8 @@ class BetterHero {
         this.target = null;
         this.killCount = 0;
         this.superVision=0; //timer for vision
-        this.tslal=0; //time since last attack
-        this.tsleh=0;//time since last enemy hit
+        this.tslal=0; //time since last attack (for HUD purposes)
+        this.tsleh=0;//time since last enemy hit (for HUD)
         this.justAttacked=0; //timer for weapon swinging
         this.shellCount=(5-this.world.difficulty)*5;
         this.shellPickupDelay=0;
@@ -90,7 +90,7 @@ class BetterHero {
     /* Update the characters's position */
     update() {
         let vel = this.velocity;
-        vel.setMagnitude(0.00000000000000000000000000000000000000000000001);//this has a purpose I swear
+        vel.setMagnitude(0.00000000000000000000000000000000000000000000001);//necessary to make turtle face the correct direction when stopped
         if (this.keys["s"].pressed) {
             vel.y += this.speed;
             this.oxygen-=0.02;
@@ -117,7 +117,7 @@ class BetterHero {
         this.updateShells();
         this.touchingExit();
     }
-
+    //checks if hero is touching exit
     touchingExit(){
         let currentCel = this.getCenterMazeLocation();
         let ext = world.levels[world.currentLevel].maze.exit;
@@ -215,14 +215,14 @@ class BetterHero {
             this.velocity.x *= collisionCoefficient;
         }
     }
-
+    
     updateStatusBar() {
         this.updateOxygen();
         this.updateHealth();
         this.updateWeaponStatus();
         this.updateHitBar();
     }
-    
+    //updates health
     updateHealth() {//assume max health will always be 100
         if(this.health>100){
             this.health=100;

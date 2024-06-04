@@ -73,6 +73,7 @@ class World {
         this.msTime = Math.round(this.time * 1000 / 60) / 1000;
         t.innerHTML = Math.round(this.time / 60);
     }
+    //updates score
     runScore() {
         let s = document.getElementById("score");
         if (((this.time % 120) === 0) && this.levels[world.currentLevel].hero.health > 0) {
@@ -109,6 +110,7 @@ class World {
         }
         s.innerHTML = this.score;
     }
+    //updates the text that tells you what the difficulty is
     updateDifficultyDisplay() {
         let d = document.getElementById("diffText");
         if (this.difficulty === 1) {
@@ -123,6 +125,7 @@ class World {
             d.innerHTML = "Impossible";
         }
     }
+    //generates a new level
     nextLevel() {
         let w = this.levels[this.currentLevel].hero.weapon;
         let k = this.levels[this.currentLevel].hero.killCount;
@@ -139,6 +142,7 @@ class World {
         let l = document.getElementById("level");
         l.innerHTML = this.currentLevel + 1;
     }
+    //screen popup for when you start a new level
     nextLevelScreen() {
         let ctx = this.context;
         let cnv = this.canvas;
@@ -172,6 +176,7 @@ class World {
         ctx.closePath();
         ctx.restore();
     }
+    //screen that pops up when you die
     deathScreen() {
         let ctx = this.context;
         let cnv = this.canvas;
@@ -263,7 +268,7 @@ class World {
         const loadSound = (path, name) => loadAudio(path, name, this.sounds);
         const loadMusic = (path, name) => loadAudio(path, name, this.music);
     }
-
+    //skin locker and unlock functions
     skins() {
         let dif = this.difficulty;
         let lvl = this.currentLevel;
