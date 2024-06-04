@@ -43,6 +43,7 @@ function addAllListeners () {
     let music = document.querySelector("#music");
     music.addEventListener("click", toggleMusic)
 }
+//adds functions to buttons for pausing and restarting
 function swapPause () {
     world.paused = !world.paused;
     let p=document.getElementById("pauseB");
@@ -78,7 +79,7 @@ function restart(){
         p.style.backgroundImage = "linear-gradient(#80a2ec,#4871f8, #0162f3)";
     }
 }
-
+//starts music
 function toggleMusic() {
     let music = document.querySelector("#music");
     let audio = document.querySelector("#audio");

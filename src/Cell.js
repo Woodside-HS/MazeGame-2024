@@ -65,7 +65,7 @@ Cell.prototype.renderCenter = function () {
     context.beginPath();
     context.strokeStyle = "white";
     context.lineWidth = this.wallWidth;
-
+    //everything after this is rendering the cell background and then whatever items are on the cell
     const image = world.images[`section${this.getSection()}`];
     if (image && image.loaded && this.luminance > 0) {
         let sourceWidth = image.image.width / maze.mazeLength;

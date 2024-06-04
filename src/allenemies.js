@@ -23,7 +23,7 @@ function createRandomEnemy(section) {
     } 
     return new RingPack(position);
 }
-
+//each enemy has different health and speed
 class Powerade extends Enemy {
     constructor(initialPosition) {
 	let diffCoef = 0.5 * (1 + world.difficulty / world.maxDifficulty);

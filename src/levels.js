@@ -39,7 +39,7 @@ class Level {
 
         this.arrowToExit();
     }
-
+    //creates new level
     genLevel() {
         //maze 
         this.maze = new Maze(world, this, new JSVector(0, 0), this.rows, this.cols, this.mazeLength, this.renderCenter);
@@ -66,7 +66,7 @@ class Level {
             }
         }
     }
-
+    //draws arrow that points in direction of exit
     arrowToExit() {
 
         let center = this.maze.getCenter();//in terms of rows and cols 
@@ -88,7 +88,7 @@ class Level {
             }
         }
     }
-
+    
     renderArrow(arrow) {
         let ctx = world.context;
         ctx.save();
@@ -107,7 +107,7 @@ class Level {
         ctx.closePath();
         ctx.restore();
     }
-
+    
     safeZones() {
         let sloc = this.maze.sloc;
         for (let i = 0; i < sloc.length; i++) {
