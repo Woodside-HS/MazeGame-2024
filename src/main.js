@@ -21,7 +21,9 @@ function init() {
     var data = urlParams.get('data');
     console.log("THIS IS DATAAA " + data)
 
-    data = "2medium+3hard+1easy.300"
+    world.levelData = data
+
+    // data = "2medium+3hard+1easy.300"
     
     let justLevels = data.split(".")
 
@@ -37,12 +39,25 @@ function init() {
     if(wDiff!=1 && wDiff!=2&&wDiff!=3&&wDiff!=4&&wDiff!=10){
         wDiff=2;
     }
-    world.difficulty=wDiff;
+
+    console.log("DIFICULTUY " + justLevels[3])
+    world.cultyString = justLevels[3]
+    // wDiff = justLevels[4]
+
+    world.difficulty= Number(justLevels[3]);
 
     console.log("WDIFF " + wDiff)
 
+    console.log("USERNAME = " + justLevels[2].replace(/["]/g, ''))
+
+    this.username = justLevels[2].replace(/["]/g, '')
+
+    console.log("I DID IT")
+
     let splitLevels = j.split("+")
 
+
+    world.username = this.username
     let diffString
 
     if(wDiff == 1){
@@ -56,6 +71,8 @@ function init() {
     } else if(wDiff == 10){
         diffString = "impossible"
     }
+    // world.cultyString = diffString
+
 
     for(let i = 0; i < splitLevels.length; i++){
         let firstChar = splitLevels[i].charAt(0);

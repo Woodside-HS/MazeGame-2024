@@ -98,7 +98,9 @@ async function fetchData(us, pa) {
   
       const responseData = await response.json();
 
-      let str = JSON.stringify(responseData)
+      console.log(responseData)
+
+      let str = JSON.stringify(responseData + "." + us)
 
       str = encodeURIComponent(str)
 
@@ -118,7 +120,9 @@ async function creatAcc(us, pa) {
     const url = 'https://us-east-1.aws.data.mongodb-api.com/app/application-1-xalnosd/endpoint/person';
     const data = {
       username: us,
-      password: pa
+      password: pa,
+      highscore : "2medium+3hard+1easy",
+      level: 300,
     };
   
     try {

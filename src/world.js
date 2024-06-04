@@ -33,6 +33,10 @@ class World {
         this.maxSpeed = 0.039;
         this.currentLevel = 0;
         this.levels = [];
+        this.username = ""
+        this.cultyString = ""
+        this.levelData = ""
+
         /*
         1 = easy 
         2 = medium 
@@ -154,6 +158,8 @@ class World {
         rp.item(0).innerHTML="Start Next";
      }
     deathScreen() {
+
+        
         let ctx = this.context;
         let cnv = this.canvas;
         ctx.rect(0, 0, cnv.width, cnv.height);
@@ -174,6 +180,101 @@ class World {
         rp.item(0).style.backgroundImage = "linear-gradient(#35353b,#262629, #161617)";
         rp.item(1).style.boxShadow = "0 0 6px 6px #89a2f5";
         rp.item(1).style.backgroundImage = "linear-gradient(#80a2ec,#4871f8, #0162f3)";
+
+        this.fetchData()
+    }
+
+    async fetchData() {
+        console.log(this.cultyString)
+
+        if(this.cultyString == 1){
+            this.cultyString = "easy"
+        } else if(this.cultyString == 2){
+            this.cultyString = "medium"
+        } else if(this.cultyString == 3){
+            this.cultyString = "hard"
+        }
+
+
+        const url = 'https://us-east-1.aws.data.mongodb-api.com/app/application-1-xalnosd/endpoint/update';
+
+        let splitLevels = this.levelData.split("+")
+        console.log(splitLevels)
+
+        let lastElement = splitLevels[splitLevels.length - 1];
+        let newArray = lastElement.split('.');
+        console.log(newArray);
+
+        splitLevels[splitLevels.length - 1] = newArray[0]
+
+        console.log(splitLevels)
+        console.log(this.cultyString)
+
+        let y = this.cultyString
+        let x = 50
+        let inputString = this.levelData
+
+        let parts = inputString.split('.');
+        let relevantPart = parts[0]; // "2medium+3hard+1easy"
+
+        // Create a regular expression to find 'number + substring'
+        let regex = new RegExp('(\\d+)(' + y + ')');
+
+        // Replace the found pattern with 'new number + substring'
+        let updatedPart = relevantPart.replace(regex, x + '$2');
+
+        // Reconstruct the full string if needed
+        let outputString = updatedPart + '.' + parts.slice(1).join('.');
+
+        console.log(updatedPart.replace(/['"]+/g, ''));
+
+        
+
+        for(let i = 0; i < splitLevels.length; i++){
+            
+            if(splitLevels[i].includes(this.cultyString)){
+                let replacementString = this.currentLevel+1; // Replace 'YourString' with the string you want to use
+                let modifiedString = splitLevels[i].replace(/\d+/, replacementString);
+                console.log(modifiedString);
+            }
+        }
+
+        const data = {
+          username: this.username,
+          level: updatedPart.replace(/['"]+/g, '')
+        };
+
+        console.log("THIS IS THE USERNAME " + this.username)
+      
+        try {
+          const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+          });
+      
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+      
+          const responseData = await response.json();
+    
+          let str = JSON.stringify(responseData)
+    
+          str = encodeURIComponent(str)
+    
+    
+          console.log(JSON.stringify(responseData));
+        //   window.location.href = "startScreen.html?data=" + str;
+    
+          // localStorage.setItem('myData', responseData);
+          // return Promise.resolve();
+        } catch (error) {
+          console.error('There was a problem with the fetch operation:', error);
+          // return Promise.reject(error);
+        }
     }
     
     loadImages() {

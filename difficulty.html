@@ -28,6 +28,8 @@
     <div class="button" id="hard"> 
       Play:<br>Hard Difficulty
     </div>
+   
+    
     <div class="button" id="vhard"> 
       Play:<br>Very Hard Difficulty
     </div>
@@ -41,12 +43,15 @@
       function d2e(){
         worldDiff=1;
         let s=worldDiff.toString();
+        localStorage.setItem("gameDiff",s);
+
         var urlParams = new URLSearchParams(window.location.search);
         var data = urlParams.get('data');
+        data = data + ".1"
+
         // console.log(data); 
         let str = encodeURIComponent(data)
         window.location.href = "index.html?data=" + str;
-        localStorage.setItem("gameDiff",s);
       }
       function d2m(){
         worldDiff=2;
@@ -55,6 +60,8 @@
 
         var urlParams = new URLSearchParams(window.location.search);
         var data = urlParams.get('data');
+        data = data + ".2"
+
         console.log(data); 
 
         let str = encodeURIComponent(data)
@@ -64,13 +71,12 @@
       function d2h(){
         worldDiff=3;
         let s=worldDiff.toString();
-        localStorage.setItem("gameDiff",s);
 
         var urlParams = new URLSearchParams(window.location.search);
         var data = urlParams.get('data');
-        console.log(data); 
+        let data2 = data + ".3"
 
-        let str = encodeURIComponent(data)
+        let str = encodeURIComponent(data2)
 
         window.location.href = "index.html?data=" + str;
         // window.location.href = "index.html";
@@ -85,6 +91,8 @@
         var urlParams = new URLSearchParams(window.location.search);
         var data = urlParams.get('data');
         console.log(data); 
+        data = data + ".4"
+
 
         let str = encodeURIComponent(data)
 
@@ -98,6 +106,8 @@
         var urlParams = new URLSearchParams(window.location.search);
         var data = urlParams.get('data');
         console.log(data); 
+        data = data + ".10"
+
 
         let str = encodeURIComponent(data)
 
